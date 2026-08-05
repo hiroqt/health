@@ -7,8 +7,9 @@ import {
   PiTiktokLogo, PiYoutubeLogo,
   PiArrowRight, PiArrowUpRight,
   PiMapPin, PiPhone, PiEnvelopeSimple,
-  PiSyringe,
+  PiSyringe, PiSyringeFill
 } from "react-icons/pi";
+import { motion, AnimatePresence } from "framer-motion";
 
 // ─── DATA ────────────────────────────────────────────────────────────────────
 
@@ -36,7 +37,7 @@ const COLUMNS = [
   {
     heading: "Company",
     links: [
-      { label: "About tearsize",  href: "#" },
+      { label: "About by tearsize",  href: "#" },
       { label: "Medical Team",    href: "#" },
       { label: "Our Pharmacies",  href: "#" },
       { label: "Careers",         href: "#" },
@@ -67,7 +68,11 @@ function Newsletter() {
   }
 
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
       className="pb-14 pt-10 px-5 md:px-10 lg:px-16"
       style={{ borderBottom: "1px solid #F5DADA", background: "#FFF5F5" }}
     >
@@ -81,14 +86,26 @@ function Newsletter() {
           </p>
         </div>
         <div className="w-full md:w-[400px]">
+          <AnimatePresence mode="wait">
           {sent ? (
-            <p className="font-medium text-[15px] py-3" style={{ color: "#F07070" }}>
+            <motion.p 
+              key="success"
+              initial={{ opacity: 0, scale: 0.95, filter: "blur(2px)" }}
+              animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+              transition={{ type: "spring", stiffness: 300, damping: 25 }}
+              className="font-medium text-[15px] py-3" style={{ color: "#F07070" }}
+            >
               ✓ You&apos;re on the list. Check your inbox!
-            </p>
+            </motion.p>
           ) : (
-            <form onSubmit={submit} noValidate>
+            <motion.form 
+              key="form"
+              exit={{ opacity: 0, y: -10, filter: "blur(2px)" }}
+              transition={{ duration: 0.2 }}
+              onSubmit={submit} noValidate
+            >
               <div
-                className="flex pb-2 focus-within:border-[#F07070] transition-colors"
+                className="flex items-center pb-2 focus-within:border-[#F07070] transition-colors"
                 style={{ borderBottom: "1px solid #E8BFBF" }}
               >
                 <input
@@ -96,12 +113,15 @@ function Newsletter() {
                   value={email}
                   onChange={(e) => { setEmail(e.target.value); setError(""); }}
                   placeholder="Enter your email address"
-                  className="flex-1 bg-transparent px-2 text-[15px] text-[#1A0A0A] placeholder:text-[#9A7878] outline-none border-none min-w-0"
+                  className="flex-1 bg-transparent px-2 py-3 text-[15px] text-[#1A0A0A] placeholder:text-[#9A7878] outline-none border-none min-w-0"
                   aria-label="Email address"
+                  maxLength={255}
+                  required
+                  aria-invalid={!!error}
                 />
                 <button
                   type="submit"
-                  className="shrink-0 font-bold text-[13px] uppercase tracking-wider px-2 flex items-center gap-1.5 transition-colors"
+                  className="shrink-0 font-bold text-[13px] uppercase tracking-wider px-2 flex items-center justify-center gap-1.5 transition-colors min-h-[44px]"
                   style={{ color: "#F07070" }}
                   onMouseEnter={(e) => (e.currentTarget.style.color = "#D94040")}
                   onMouseLeave={(e) => (e.currentTarget.style.color = "#F07070")}
@@ -109,12 +129,15 @@ function Newsletter() {
                   Subscribe <PiArrowRight size={16} />
                 </button>
               </div>
-              {error && <p className="text-[13px] mt-2 px-2" style={{ color: "#F07070" }}>{error}</p>}
-            </form>
+              <div className="min-h-[24px] mt-1 px-2">
+                {error && <p className="text-[13px]" style={{ color: "#F07070" }}>{error}</p>}
+              </div>
+            </motion.form>
           )}
+          </AnimatePresence>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -128,7 +151,13 @@ export function Footer() {
 
       <Newsletter />
 
-      <div className="w-full pt-16 pb-8" style={{ background: "#FFF5F5" }}>
+      <motion.div 
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+        className="w-full pt-16 pb-8" style={{ background: "#FFF5F5" }}
+      >
         <div className="max-w-[1280px] mx-auto px-5 md:px-10 lg:px-16">
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8 mb-16">
@@ -136,11 +165,30 @@ export function Footer() {
             <div className="lg:col-span-5 flex flex-col gap-6">
               <Link href="/" className="inline-flex items-center gap-1.5 w-fit">
                 <span
-                  className="font-display italic text-[1.9rem] leading-none select-none"
-                  style={{ color: "#F07070" }}
+                  className="font-display font-medium leading-none select-none"
+                  style={{ color: "#9A7878", fontSize: "1.1rem" }}
                 >
-                  tearsize
+                  by
                 </span>
+                <div className="flex items-center">
+                  <span
+                    className="font-display font-black italic text-[1.9rem] leading-none select-none"
+                    style={{ color: "#F07070" }}
+                  >
+                    tears
+                  </span>
+                  <PiSyringeFill
+                    size={30}
+                    style={{ color: "#F07070", transform: "rotate(-25deg)", margin: "0 -2px" }}
+                    aria-hidden="true"
+                  />
+                  <span
+                    className="font-display font-black italic text-[1.9rem] leading-none select-none"
+                    style={{ color: "#F07070" }}
+                  >
+                    ze
+                  </span>
+                </div>
               </Link>
               <p className="text-[#4A3333] text-[14.5px] leading-relaxed max-w-[320px]">
                 Redefining modern healthcare. Expert medical care, prescription treatments, and ongoing support — entirely online.
@@ -148,7 +196,7 @@ export function Footer() {
               <div className="flex flex-col gap-3 mt-2">
                 {[
                   { icon: <PiPhone size={16} />,          text: "1-800-TEARSIZE"       },
-                  { icon: <PiEnvelopeSimple size={16} />, text: "care@tearsize.com"    },
+                  { icon: <PiEnvelopeSimple size={16} />, text: "care@bytearsize.com"    },
                   { icon: <PiMapPin size={16} />,         text: "Available in all 50 states" },
                 ].map(({ icon, text }) => (
                   <div key={text} className="flex items-center gap-3 text-[13.5px] text-[#4A3333]">
@@ -199,14 +247,14 @@ export function Footer() {
                 color: "#F5DADA",
               }}
             >
-              tearsize
+              by tearsize
             </span>
           </div>
 
           {/* Bottom bar */}
           <div className="pt-8 flex flex-col lg:flex-row items-center justify-between gap-6" style={{ borderTop: "1px solid #F5DADA" }}>
             <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-8 text-[13px] text-[#9A7878]">
-              <span>© {new Date().getFullYear()} tearsize Inc.</span>
+              <span>© {new Date().getFullYear()} by tearsize Inc.</span>
               <div className="flex items-center gap-4">
                 {["Privacy", "Terms", "Accessibility"].map((item) => (
                   <Link
@@ -219,13 +267,13 @@ export function Footer() {
                 ))}
               </div>
             </div>
-            <div className="flex items-center gap-5 text-[#4A3333]">
+            <div className="flex items-center gap-2 text-[#4A3333]">
               {SOCIALS.map(({ icon, label, href }) => (
                 <a
                   key={label}
                   href={href}
                   aria-label={label}
-                  className="transition-colors"
+                  className="transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full hover:bg-black/5"
                   onMouseEnter={(e) => (e.currentTarget.style.color = "#F07070")}
                   onMouseLeave={(e) => (e.currentTarget.style.color = "#4A3333")}
                 >
@@ -236,11 +284,11 @@ export function Footer() {
           </div>
 
           <div className="mt-8 text-[11px] text-[#9A7878] leading-relaxed max-w-[900px] text-center lg:text-left">
-            Prescription products require an online consultation with a licensed healthcare provider who will determine if a prescription is appropriate. tearsize does not provide medical advice, diagnosis, or treatment. Medications are dispensed by partner pharmacies. Individual results may vary.
+            Prescription products require an online consultation with a licensed healthcare provider who will determine if a prescription is appropriate. by tearsize does not provide medical advice, diagnosis, or treatment. Medications are dispensed by partner pharmacies. Individual results may vary.
           </div>
 
         </div>
-      </div>
+      </motion.div>
     </footer>
   );
 }

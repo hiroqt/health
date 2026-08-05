@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { PiArrowRight, PiArrowLeft, PiCheckFat, PiSyringe, PiX, PiLightbulbFilament } from "react-icons/pi";
+import { PiArrowRight, PiArrowLeft, PiCheckFat, PiSyringe, PiSyringeFill, PiX, PiLightbulbFilament } from "react-icons/pi";
 
 // ─── Animation ────────────────────────────────────────────────────────────────
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -725,12 +725,12 @@ export default function QuizPage() {
 
       {/* Header */}
       <header className="relative z-10 w-full px-5 py-5 flex items-center justify-between max-w-[600px] mx-auto w-full">
-        <Link href="/" aria-label="tearsize home" className="flex items-center gap-1.5">
+        <Link href="/" aria-label="by tearsize home" className="flex items-center gap-1.5">
           <span className="font-display font-medium leading-none select-none" style={{ color: "#9A7878", fontSize: "0.9rem" }}>by</span>
           <span className="font-display font-black italic leading-none select-none" style={{ color: "#F07070", fontSize: "1.4rem" }}>
             tears
           </span>
-          <PiSyringe size={17} style={{ color: "#F07070", transform: "rotate(-45deg)", marginTop: "-2px" }} aria-hidden="true" />
+          <PiSyringeFill size={24} style={{ color: "#F07070", transform: "rotate(-25deg)", margin: "0 -2px" }} aria-hidden="true" />
           <span className="font-display font-black italic leading-none select-none" style={{ color: "#F07070", fontSize: "1.4rem" }}>
             ze
           </span>

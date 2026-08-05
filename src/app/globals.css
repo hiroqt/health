@@ -1,39 +1,39 @@
 @import "tailwindcss";
 
 @theme {
-  /* ─── Palette — tearsize ─────────────────────────────────────────────────── */
+  /* ─── Palette — by tearsize ─────────────────────────────────────────────────── */
   --color-bg:            #FFFFFF;
-  --color-surface:       #FFF5F5;   /* blush tint panels                        */
+  --color-surface:       #FFF8F7;   /* very subtle blush tint                   */
   --color-surface-warm:  #FFE8E8;   /* deeper blush                             */
-  --color-ink:           #1A0A0A;   /* near-black headings & body               */
-  --color-ink-2:         #4A3333;   /* secondary text                           */
-  --color-ink-3:         #9A7878;   /* muted / captions                         */
+  --color-ink:           #0F0F0F;   /* near-black headings & body               */
+  --color-ink-2:         #2B2B2B;   /* secondary text                           */
+  --color-ink-3:         #6E6E6E;   /* muted / captions                         */
 
-  /* Accent — tearsize coral/salmon */
-  --color-accent:        #F07070;   /* primary coral                            */
-  --color-accent-mid:    #E85555;   /* slightly deeper coral for hover          */
-  --color-accent-hover:  #D94040;   /* dark coral hover                         */
-  --color-accent-light:  #FADADD;   /* pale blush — for backgrounds             */
+  /* Accent — by tearsize coral/salmon */
+  --color-accent:        #FF5A5F;   /* primary coral                            */
+  --color-accent-mid:    #FF8FA3;   /* slightly deeper coral for hover          */
+  --color-accent-hover:  #E04A4F;   /* dark coral hover                         */
+  --color-accent-light:  #FFE8EA;   /* pale blush — for backgrounds             */
   --color-accent-subtle: #FFF0F0;   /* very light tint                          */
 
   /* Trust bar */
-  --color-trust-bar:     #FADADD;
+  --color-trust-bar:     #FFE8EA;
 
   /* Dark campaign section */
-  --color-dark-bg:       #1A0A0A;
+  --color-dark-bg:       #0F0F0F;
   --color-dark-bg-2:     #2E1010;
 
   /* Borders */
-  --color-border:        #F5DADA;
-  --color-border-strong: #E8BFBF;
+  --color-border:        #FFE8EA;
+  --color-border-strong: #FF8FA3;
 
   /* Nav */
   --color-nav-bg:        #FFFFFF;
-  --color-nav-text:      #1A0A0A;
+  --color-nav-text:      #0F0F0F;
 
-  /* ─── Typography — Satoshi ───────────────────────────────────────────────── */
-  --font-display: "Satoshi", system-ui, sans-serif;
-  --font-sans:    "Satoshi", system-ui, sans-serif;
+  /* ─── Typography — Outfit ───────────────────────────────────────────────── */
+  --font-display: var(--font-outfit), system-ui, sans-serif;
+  --font-sans:    var(--font-outfit), system-ui, sans-serif;
 
   /* ─── Radius ──────────────────────────────────────────────────────────────── */
   --radius-xs:   2px;
@@ -47,12 +47,12 @@
   --radius-card: 18px;
 
   /* ─── Shadows ─────────────────────────────────────────────────────────────── */
-  --shadow-xs:         0 1px 2px rgba(240,112,112,0.06);
-  --shadow-sm:         0 1px 4px rgba(240,112,112,0.09);
-  --shadow-md:         0 4px 16px rgba(240,112,112,0.12);
-  --shadow-lg:         0 8px 32px rgba(240,112,112,0.15);
-  --shadow-card-rest:  0 1px 3px rgba(240,112,112,0.08);
-  --shadow-card-hover: 0 8px 24px rgba(240,112,112,0.16);
+  --shadow-xs:         0 1px 2px rgba(255,90,95,0.06);
+  --shadow-sm:         0 1px 4px rgba(255,90,95,0.09);
+  --shadow-md:         0 4px 16px rgba(255,90,95,0.12);
+  --shadow-lg:         0 8px 32px rgba(255,90,95,0.15);
+  --shadow-card-rest:  0 1px 3px rgba(255,90,95,0.08);
+  --shadow-card-hover: 0 8px 24px rgba(255,90,95,0.16);
 }
 
 /* ─── Resets ──────────────────────────────────────────────────────────────── */
@@ -63,9 +63,13 @@ html { scroll-behavior: smooth; }
 body {
   background-color: var(--color-bg);
   color: var(--color-ink);
-  font-family: "Satoshi", system-ui, sans-serif;
+  font-family: var(--font-outfit), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
 }
 
 :focus-visible {
@@ -100,7 +104,7 @@ body {
   animation-play-state: paused;
 }
 
-/* ─── Diagonal slash motif (tearsize brand element) ──────────────────────── */
+/* ─── Diagonal slash motif (by tearsize brand element) ──────────────────────── */
 .slash-bg {
   position: relative;
   overflow: hidden;
@@ -113,10 +117,28 @@ body {
   top: -20%;
   width: 6px;
   height: 140%;
-  background: rgba(240,112,112,0.12);
+  background: rgba(255,90,95,0.12);
   transform: rotate(-18deg);
   pointer-events: none;
 }
 
 .slash-bg::before { left: 18%; }
 .slash-bg::after  { left: 22%; }
+
+/* ─── Harden Utilities ────────────────────────────────────────────────────── */
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.line-clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.wrap {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}

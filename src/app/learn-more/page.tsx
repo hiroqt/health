@@ -18,27 +18,35 @@ import {
   PiCheckCircleFill,
   PiTimerFill,
   PiUsers,
-  PiArrowUpRight,
   PiSealCheckFill,
   PiHeartbeat,
-  PiPulse,
-  PiSparkleFill,
-  PiFlask,
 } from "react-icons/pi";
 
 // ─── Animation presets ────────────────────────────────────────────────────────
-const ease = [0.22, 1, 0.36, 1] as const;
+const ease = [0.16, 1, 0.3, 1] as const;
 const fadeUp = {
-  hidden:  { opacity: 0, y: 28 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease } },
+  hidden:  { opacity: 0, y: 24, filter: "blur(4px)" },
+  visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.7, ease } },
 };
 const fadeIn = {
-  hidden:  { opacity: 0 },
-  visible: { opacity: 1, transition: { duration: 0.5 } },
+  hidden:  { opacity: 0, filter: "blur(4px)" },
+  visible: { opacity: 1, filter: "blur(0px)", transition: { duration: 0.6, ease } },
 };
 const stagger = {
   hidden:  {},
-  visible: { transition: { staggerChildren: 0.1 } },
+  visible: { transition: { staggerChildren: 0.12 } },
+};
+const slashAnim = {
+  hidden: { opacity: 0, scaleY: 0, transformOrigin: "top" },
+  visible: { opacity: 1, scaleY: 1, transition: { duration: 0.9, ease } }
+};
+const blockAnim = {
+  hidden: { opacity: 0, scale: 0.8, filter: "blur(10px)" },
+  visible: { opacity: 1, scale: 1, filter: "blur(0px)", transition: { duration: 0.9, ease } }
+};
+const wordAnim = {
+  hidden: { opacity: 0, y: 12, filter: "blur(4px)" },
+  visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.6, ease } }
 };
 const inView = {
   initial: "hidden",
@@ -82,61 +90,49 @@ function AnimatedCounter({ end, suffix = "" }: { end: number; suffix?: string })
 function Hero() {
   return (
     <section
-      className="w-full relative overflow-hidden"
-      style={{
-        background: "linear-gradient(165deg, #FFF5F5 0%, #FADADD 40%, #FFF0F0 75%, #FFFFFF 100%)",
-        paddingTop: "clamp(5rem, 10vw, 8rem)",
-        paddingBottom: "clamp(3rem, 6vw, 5rem)",
-      }}
+      className="w-full pb-10 md:pb-16 relative overflow-hidden bg-gradient-to-b from-surface from-0% to-bg to-60% pt-[clamp(2rem,5vw,3.5rem)]"
     >
       {/* Brand slash motif */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-        <div style={{ position: "absolute", top: "-10%", left: "4%", width: "6px", height: "130%", background: "rgba(240,112,112,0.12)", transform: "rotate(-16deg)" }} />
-        <div style={{ position: "absolute", top: "-10%", left: "7.5%", width: "6px", height: "130%", background: "rgba(240,112,112,0.07)", transform: "rotate(-16deg)" }} />
-        <div style={{ position: "absolute", top: "8%", right: "5%", width: "110px", height: "110px", background: "rgba(240,112,112,0.06)", transform: "rotate(45deg)", borderRadius: "14px" }} />
-        <div style={{ position: "absolute", bottom: "12%", right: "12%", width: "65px", height: "65px", background: "rgba(240,112,112,0.05)", transform: "rotate(45deg)", borderRadius: "9px" }} />
-        <div style={{ position: "absolute", top: "20%", left: "18%", width: "40px", height: "40px", background: "rgba(240,112,112,0.04)", transform: "rotate(45deg)", borderRadius: "6px" }} />
-      </div>
+      <motion.div initial="hidden" animate="visible" variants={stagger} className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
+        <motion.div variants={slashAnim} className="absolute -top-[10%] left-[5%] w-[7px] h-[120%] bg-accent/10 -rotate-16" />
+        <motion.div variants={slashAnim} className="absolute -top-[10%] left-[8.5%] w-[7px] h-[120%] bg-accent/5 -rotate-16" />
+        <motion.div variants={blockAnim} className="absolute -top-[10%] right-[6%] w-[100px] h-[100px] bg-accent/5 rotate-45 rounded-[10px]" />
+        <motion.div variants={blockAnim} className="absolute bottom-[10%] right-[10%] w-[70px] h-[70px] bg-accent/5 rotate-45 rounded-[8px]" />
+        <motion.div variants={blockAnim} className="absolute top-[20%] left-[18%] w-[40px] h-[40px] bg-accent/5 rotate-45 rounded-[6px]" />
+      </motion.div>
 
-      <div className="max-w-[1280px] mx-auto px-4 md:px-8 lg:px-12 relative z-10">
+      <div className="max-w-[1280px] mx-auto px-4 md:px-8 lg:px-12 relative z-10 pt-8 md:pt-12">
         <motion.div {...inView} variants={stagger} className="flex flex-col items-center text-center gap-6 max-w-3xl mx-auto mb-16 md:mb-20">
           <motion.p
             variants={fadeUp}
-            className="text-[11.5px] font-bold tracking-[0.25em] uppercase"
-            style={{ color: "#F07070" }}
+            className="text-[12px] font-bold tracking-[0.22em] uppercase text-accent mb-2"
           >
             Your journey · starts here
           </motion.p>
           <motion.h1
-            variants={fadeUp}
-            className="font-display font-black tracking-tight text-[#1A0A0A] leading-[1.02]"
-            style={{ fontSize: "clamp(3rem, 6.5vw, 6rem)" }}
+            variants={stagger}
+            className="font-display font-black tracking-tight text-ink leading-[1.05] flex flex-col items-center text-[clamp(3.5rem,7vw,7rem)]"
           >
-            Start your
-            <br />
-            <em className="not-italic" style={{ color: "#F07070" }}>journey</em>
+            <span className="flex overflow-hidden pb-4 -mb-4"><motion.span variants={wordAnim} className="font-medium">Start your</motion.span></span>
+            <span className="flex overflow-hidden pb-8 pt-2 px-4 -mb-8 -mx-4"><motion.span variants={wordAnim} className="italic font-light text-accent tracking-normal">journey</motion.span></span>
           </motion.h1>
           <motion.p
             variants={fadeUp}
-            className="text-[16px] leading-relaxed max-w-xl"
-            style={{ color: "#4A3333" }}
+            className="text-[16px] leading-relaxed max-w-xl text-ink-2 mt-4"
           >
             A personalized, doctor-guided program built around you — your goals, your pace, your life. No clinic visits, no guesswork.
           </motion.p>
 
           {/* Quiz CTA pill */}
-          <motion.div variants={fadeUp} className="flex flex-col items-center gap-3">
+          <motion.div variants={fadeUp} className="flex flex-col items-center gap-4 mt-6">
             <Link
               href="/quiz"
-              className="inline-flex items-center justify-center rounded-full font-semibold whitespace-nowrap transition-all duration-200 gap-2 text-white shadow-lg hover:shadow-xl"
-              style={{ background: "#F07070", fontSize: "15px", minHeight: "62px", padding: "0 44px" }}
-              onMouseEnter={(e) => (e.currentTarget.style.background = "#D94040")}
-              onMouseLeave={(e) => (e.currentTarget.style.background = "#F07070")}
+              className="inline-flex items-center justify-center rounded-full font-semibold whitespace-nowrap transition-all duration-200 gap-2 text-white shadow-md hover:shadow-lg bg-accent hover:bg-accent-hover text-[15px] min-h-[60px] px-10 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
             >
               Take the free quiz <PiArrowRight size={18} />
             </Link>
-            <div className="flex items-center gap-2 text-[13px] font-medium" style={{ color: "#9A7878" }}>
-              <PiTimerFill size={15} style={{ color: "#F07070" }} />
+            <div className="flex items-center gap-2 text-[13.5px] font-medium text-ink-3">
+              <PiTimerFill size={15} className="text-accent" />
               Quiz takes under 3 minutes
             </div>
           </motion.div>
@@ -154,7 +150,6 @@ const JOURNEY_CARDS = [
     title: "Guidance",
     subtitle: "Anti-aging & metabolic reset",
     desc: "Doctor-prescribed weight loss programs combining lifestyle coaching with clinically proven treatments. Designed for lasting results.",
-    accent: "#F07070",
     href: "/#guidance",
     badge: "Most popular",
   },
@@ -164,7 +159,6 @@ const JOURNEY_CARDS = [
     title: "NAD+",
     subtitle: "Cellular energy & clarity",
     desc: "Replenish your body's most essential coenzyme. NAD+ therapy restores energy metabolism, mental sharpness, and cellular resilience.",
-    accent: "#E85555",
     href: "/#nad-plus",
     badge: null,
   },
@@ -174,7 +168,6 @@ const JOURNEY_CARDS = [
     title: "GHK-CU",
     subtitle: "Collagen renewal & healing",
     desc: "A copper peptide complex that stimulates skin regeneration, reduces inflammation, and accelerates tissue repair from within.",
-    accent: "#D94040",
     href: "/#ghk-cu",
     badge: null,
   },
@@ -182,43 +175,42 @@ const JOURNEY_CARDS = [
 
 function JourneyCards() {
   return (
-    <section className="w-full py-14 md:py-20" style={{ background: "#FFFFFF" }}>
+    <section className="w-full py-14 md:py-20 bg-bg">
       <div className="max-w-[1280px] mx-auto px-4 md:px-8 lg:px-12">
         <motion.div {...inView} variants={stagger} className="flex flex-col gap-10">
           <motion.div variants={fadeUp} className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <div>
-              <p className="text-[11px] font-bold tracking-[0.22em] uppercase mb-3" style={{ color: "#9A7878" }}>
+              <p className="text-[11px] font-bold tracking-[0.22em] uppercase mb-3 text-ink-3">
                 Our programs
               </p>
-              <h2 className="font-display text-[#1A0A0A] leading-tight" style={{ fontSize: "clamp(1.75rem, 3.5vw, 2.75rem)" }}>
+              <h2 className="font-display text-ink leading-tight text-[clamp(1.75rem,3.5vw,2.75rem)]">
                 Choose your path forward.
               </h2>
             </div>
-            <p className="text-[14px] max-w-xs text-right" style={{ color: "#9A7878" }}>
+            <p className="text-[14px] max-w-xs sm:text-right text-ink-3">
               Every program is personalized by a licensed doctor — not an algorithm.
             </p>
           </motion.div>
 
-          <motion.div variants={stagger} className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <motion.div variants={stagger} className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {JOURNEY_CARDS.map((card) => (
               <motion.a
                 key={card.title}
                 href={card.href}
                 variants={fadeUp}
-                className="group relative rounded-[28px] bg-white border border-[#F5DADA] flex flex-col overflow-hidden"
-                style={{ boxShadow: "0 4px 20px rgba(240,112,112,0.07)", minHeight: "420px", textDecoration: "none" }}
-                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.boxShadow = "0 12px 40px rgba(240,112,112,0.16)"; }}
-                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 20px rgba(240,112,112,0.07)"; }}
+                whileHover={{ y: -6, scale: 1.01 }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                className="group relative rounded-[32px] bg-white border border-border flex flex-col p-2.5 hover:shadow-card-hover transition-all duration-300 min-h-[420px] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 outline-none"
               >
                 {/* Badge */}
                 {card.badge && (
-                  <div className="absolute top-4 left-4 z-10 text-[10.5px] font-bold tracking-[0.18em] uppercase px-3 py-1.5 rounded-full text-white" style={{ background: "#F07070" }}>
+                  <div className="absolute top-6 left-6 z-10 text-[10.5px] font-bold tracking-[0.18em] uppercase px-3 py-1.5 rounded-full text-white bg-accent">
                     {card.badge}
                   </div>
                 )}
 
                 {/* Image */}
-                <div className="relative w-full overflow-hidden" style={{ height: "240px", background: "#FFF5F5" }}>
+                <div className="relative flex-1 min-h-[220px] overflow-hidden rounded-[24px] bg-surface">
                   <Image
                     src={card.img}
                     alt={card.title}
@@ -226,24 +218,24 @@ function JourneyCards() {
                     className="object-contain transition-transform duration-700 ease-out group-hover:scale-[1.06]"
                     sizes="(max-width: 768px) 100vw, 33vw"
                   />
-                  <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(255,245,245,0.6) 0%, transparent 50%)" }} />
+                  <div className="absolute inset-0 bg-gradient-to-t from-surface/60 to-transparent" />
                 </div>
 
                 {/* Body */}
-                <div className="flex flex-col flex-1 p-6 gap-3">
-                  <span className="text-[10.5px] font-bold tracking-[0.2em] uppercase" style={{ color: card.accent }}>
+                <div className="flex flex-col shrink-0 px-5 py-6 gap-3">
+                  <span className="text-[10.5px] font-bold tracking-[0.2em] uppercase text-accent">
                     {card.tag}
                   </span>
                   <div className="flex items-start justify-between gap-2">
                     <div>
-                      <h3 className="font-display text-[#1A0A0A] leading-none" style={{ fontSize: "1.6rem" }}>{card.title}</h3>
-                      <p className="text-[12.5px] font-medium mt-1" style={{ color: "#9A7878" }}>{card.subtitle}</p>
+                      <h3 className="font-display text-ink leading-none text-[1.6rem]">{card.title}</h3>
+                      <p className="text-[13px] font-medium mt-1.5 text-ink-3">{card.subtitle}</p>
                     </div>
-                    <div className="w-10 h-10 shrink-0 rounded-full border border-[#F5DADA] flex items-center justify-center transition-all duration-300 group-hover:border-[#F07070] group-hover:bg-[#F07070]" style={{ color: "#F07070" }}>
-                      <PiArrowRight size={18} className="transition-colors duration-300 group-hover:text-white" />
+                    <div className="w-11 h-11 shrink-0 rounded-full border border-border flex items-center justify-center text-accent group-hover:bg-accent group-hover:text-white group-hover:border-accent transition-colors duration-300">
+                      <PiArrowRight size={20} />
                     </div>
                   </div>
-                  <p className="text-[13.5px] leading-relaxed flex-1" style={{ color: "#4A3333" }}>{card.desc}</p>
+                  <p className="text-[13.5px] leading-relaxed text-ink-2 mt-2">{card.desc}</p>
                 </div>
               </motion.a>
             ))}
@@ -258,66 +250,65 @@ function JourneyCards() {
 function StatsBand() {
   return (
     <section
-      className="w-full py-14 md:py-18 relative overflow-hidden"
-      style={{ background: "linear-gradient(160deg, #2E1010 0%, #1A0808 55%, #0F0404 100%)" }}
+      className="w-full py-14 md:py-20 relative overflow-hidden bg-dark-bg"
     >
       {/* Slash motifs on dark */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-        <div style={{ position: "absolute", top: "-20%", left: "10%", width: "7px", height: "140%", background: "rgba(240,112,112,0.15)", transform: "rotate(-16deg)" }} />
-        <div style={{ position: "absolute", top: "-20%", left: "14%", width: "7px", height: "140%", background: "rgba(240,112,112,0.08)", transform: "rotate(-16deg)" }} />
+        <div className="absolute -top-[20%] left-[10%] w-[7px] h-[140%] bg-accent/10 -rotate-16" />
+        <div className="absolute -top-[20%] left-[14%] w-[7px] h-[140%] bg-accent/5 -rotate-16" />
       </div>
 
       <div className="max-w-[1280px] mx-auto px-4 md:px-8 lg:px-12 relative z-10">
         <motion.div {...inView} variants={stagger} className="flex flex-col items-center text-center gap-4 mb-12 md:mb-16">
-          <motion.p variants={fadeUp} className="text-[11px] font-bold tracking-[0.22em] uppercase" style={{ color: "rgba(240,112,112,0.6)" }}>
+          <motion.p variants={fadeUp} className="text-[11px] font-bold tracking-[0.22em] uppercase text-accent/80">
             By the numbers
           </motion.p>
-          <motion.h2 variants={fadeUp} className="font-display text-white leading-tight" style={{ fontSize: "clamp(1.8rem, 4vw, 3rem)" }}>
+          <motion.h2 variants={fadeUp} className="font-display text-white leading-tight text-[clamp(1.8rem,4vw,3rem)]">
             Thousands of Filipinos
             <br />
-            <em className="not-italic" style={{ color: "#F07070" }}>already on their way.</em>
+            <em className="not-italic text-accent">already on their way.</em>
           </motion.h2>
         </motion.div>
 
         <motion.div {...inView} variants={stagger} className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6">
           {/* Stat 1 */}
-          <motion.div variants={fadeUp} className="rounded-[18px] p-7 flex flex-col gap-3 text-center" style={{ background: "rgba(240,112,112,0.07)", border: "1px solid rgba(240,112,112,0.15)" }}>
-            <div className="w-10 h-10 rounded-full mx-auto flex items-center justify-center" style={{ background: "rgba(240,112,112,0.15)" }}>
-              <PiUsers size={20} style={{ color: "#F07070" }} />
+          <motion.div variants={fadeUp} className="rounded-[24px] p-8 flex flex-col gap-3 text-center bg-accent/5 border border-accent/15 backdrop-blur-sm">
+            <div className="w-12 h-12 rounded-full mx-auto flex items-center justify-center bg-accent/10 text-accent">
+              <PiUsers size={22} />
             </div>
-            <div className="font-display text-white" style={{ fontSize: "clamp(2.5rem, 5vw, 3.5rem)", lineHeight: 1 }}>
+            <div className="font-display text-white leading-none mt-2 text-[clamp(2.5rem,5vw,3.5rem)]">
               <AnimatedCounter end={50000} suffix="+" />
             </div>
-            <p className="text-[13.5px] font-medium" style={{ color: "rgba(255,255,255,0.55)" }}>Filipinos served</p>
-            <p className="text-[12px] leading-relaxed" style={{ color: "rgba(255,255,255,0.35)" }}>
+            <p className="text-[14px] font-medium text-white/70">Filipinos served</p>
+            <p className="text-[12.5px] leading-relaxed text-white/40 mt-1">
               From Metro Manila to the provinces — real people, real results.
             </p>
           </motion.div>
 
           {/* Stat 2 — Quiz time */}
-          <motion.div variants={fadeUp} className="rounded-[18px] p-7 flex flex-col gap-3 text-center" style={{ background: "rgba(240,112,112,0.07)", border: "1px solid rgba(240,112,112,0.15)" }}>
-            <div className="w-10 h-10 rounded-full mx-auto flex items-center justify-center" style={{ background: "rgba(240,112,112,0.15)" }}>
-              <PiTimerFill size={20} style={{ color: "#F07070" }} />
+          <motion.div variants={fadeUp} className="rounded-[24px] p-8 flex flex-col gap-3 text-center bg-accent/5 border border-accent/15 backdrop-blur-sm">
+            <div className="w-12 h-12 rounded-full mx-auto flex items-center justify-center bg-accent/10 text-accent">
+              <PiTimerFill size={22} />
             </div>
-            <div className="font-display text-white" style={{ fontSize: "clamp(2.5rem, 5vw, 3.5rem)", lineHeight: 1 }}>
+            <div className="font-display text-white leading-none mt-2 text-[clamp(2.5rem,5vw,3.5rem)]">
               3 min
             </div>
-            <p className="text-[13.5px] font-medium" style={{ color: "rgba(255,255,255,0.55)" }}>Quiz takes only 3 minutes</p>
-            <p className="text-[12px] leading-relaxed" style={{ color: "rgba(255,255,255,0.35)" }}>
+            <p className="text-[14px] font-medium text-white/70">Quiz takes only 3 minutes</p>
+            <p className="text-[12.5px] leading-relaxed text-white/40 mt-1">
               No lengthy forms. Answer a few key questions and get matched instantly.
             </p>
           </motion.div>
 
           {/* Stat 3 */}
-          <motion.div variants={fadeUp} className="rounded-[18px] p-7 flex flex-col gap-3 text-center" style={{ background: "rgba(240,112,112,0.07)", border: "1px solid rgba(240,112,112,0.15)" }}>
-            <div className="w-10 h-10 rounded-full mx-auto flex items-center justify-center" style={{ background: "rgba(240,112,112,0.15)" }}>
-              <PiStarFill size={20} style={{ color: "#F07070" }} />
+          <motion.div variants={fadeUp} className="rounded-[24px] p-8 flex flex-col gap-3 text-center bg-accent/5 border border-accent/15 backdrop-blur-sm">
+            <div className="w-12 h-12 rounded-full mx-auto flex items-center justify-center bg-accent/10 text-accent">
+              <PiStarFill size={22} />
             </div>
-            <div className="font-display text-white" style={{ fontSize: "clamp(2.5rem, 5vw, 3.5rem)", lineHeight: 1 }}>
+            <div className="font-display text-white leading-none mt-2 text-[clamp(2.5rem,5vw,3.5rem)]">
               4.9
             </div>
-            <p className="text-[13.5px] font-medium" style={{ color: "rgba(255,255,255,0.55)" }}>Average rating</p>
-            <p className="text-[12px] leading-relaxed" style={{ color: "rgba(255,255,255,0.35)" }}>
+            <p className="text-[14px] font-medium text-white/70">Average rating</p>
+            <p className="text-[12.5px] leading-relaxed text-white/40 mt-1">
               Based on thousands of verified patient reviews across all programs.
             </p>
           </motion.div>
@@ -331,25 +322,25 @@ function StatsBand() {
 const STEPS = [
   {
     number: "01",
-    icon: <PiClipboardText size={22} />,
+    icon: <PiClipboardText size={24} />,
     title: "Take the 3-minute quiz",
     desc: "Tell us about your health, goals, and lifestyle. No long forms — just a few focused questions to help us understand what you need.",
   },
   {
     number: "02",
-    icon: <PiUserCircleCheck size={22} />,
+    icon: <PiUserCircleCheck size={24} />,
     title: "Get matched with a doctor",
     desc: "A licensed Filipino physician reviews your answers within 24 hours and builds a treatment plan tailored specifically for you.",
   },
   {
     number: "03",
-    icon: <PiPackage size={22} />,
+    icon: <PiPackage size={24} />,
     title: "Receive your treatment",
     desc: "Your prescription is dispensed from an FDA-registered pharmacy and delivered free — discreetly packaged, right to your door.",
   },
   {
     number: "04",
-    icon: <PiHandHeart size={22} />,
+    icon: <PiHandHeart size={24} />,
     title: "Ongoing doctor support",
     desc: "Unlimited consultations, dose adjustments, and check-ins throughout your program. Your doctor stays with you the entire journey.",
   },
@@ -357,46 +348,45 @@ const STEPS = [
 
 function HowItWorks() {
   return (
-    <section className="w-full py-14 md:py-20" style={{ background: "#FFF5F5" }}>
+    <section className="w-full py-14 md:py-20 bg-surface">
       <div className="max-w-[1280px] mx-auto px-4 md:px-8 lg:px-12">
         <motion.div {...inView} variants={stagger} className="flex flex-col gap-10">
-          <motion.div variants={fadeUp} className="flex flex-col items-center text-center gap-3 max-w-xl mx-auto">
-            <p className="text-[11px] font-bold tracking-[0.22em] uppercase" style={{ color: "#9A7878" }}>
+          <motion.div variants={fadeUp} className="flex flex-col items-center text-center gap-4 max-w-xl mx-auto">
+            <p className="text-[11px] font-bold tracking-[0.22em] uppercase text-ink-3">
               The process
             </p>
-            <h2 className="font-display text-[#1A0A0A] leading-tight" style={{ fontSize: "clamp(1.75rem, 3.5vw, 2.75rem)" }}>
+            <h2 className="font-display text-ink leading-tight text-[clamp(1.75rem,3.5vw,2.75rem)]">
               Simple from start to finish.
             </h2>
-            <p className="text-[15px] leading-relaxed" style={{ color: "#4A3333" }}>
+            <p className="text-[15px] leading-relaxed text-ink-2">
               Four steps between you and the healthiest version of yourself.
             </p>
           </motion.div>
 
           {/* Steps grid */}
-          <motion.div variants={stagger} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <motion.div variants={stagger} className="grid grid-cols-1 md:grid-cols-2 gap-5">
             {STEPS.map((step, i) => (
               <motion.div
                 key={step.number}
                 variants={fadeUp}
-                className="rounded-[20px] p-7 flex gap-5 items-start"
-                style={{ background: "white", border: "1px solid #F5DADA" }}
+                className="rounded-[24px] p-8 flex gap-6 items-start bg-white border border-border shadow-sm"
               >
-                <div className="shrink-0 flex flex-col items-center gap-3">
-                  <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ background: "#FADADD", color: "#F07070" }}>
+                <div className="shrink-0 flex flex-col items-center gap-4">
+                  <div className="w-14 h-14 rounded-full flex items-center justify-center bg-accent-light text-accent">
                     {step.icon}
                   </div>
                   {i < STEPS.length - 1 && (
-                    <div className="w-px flex-1" style={{ background: "#F5DADA", minHeight: "20px" }} />
+                    <div className="w-px flex-1 bg-border min-h-[24px]" />
                   )}
                 </div>
                 <div className="flex flex-col gap-2 pt-1">
-                  <span className="text-[10.5px] font-bold tracking-[0.2em] uppercase" style={{ color: "#F07070" }}>
+                  <span className="text-[10.5px] font-bold tracking-[0.2em] uppercase text-accent">
                     Step {step.number}
                   </span>
-                  <h3 className="font-display text-[#1A0A0A]" style={{ fontSize: "1.25rem", lineHeight: 1.15 }}>
+                  <h3 className="font-display text-ink text-[1.35rem] leading-[1.15]">
                     {step.title}
                   </h3>
-                  <p className="text-[14px] leading-relaxed" style={{ color: "#4A3333" }}>
+                  <p className="text-[14px] leading-relaxed text-ink-2 mt-1">
                     {step.desc}
                   </p>
                 </div>
@@ -411,68 +401,65 @@ function HowItWorks() {
 
 // ─── QUIZ SECTION ─────────────────────────────────────────────────────────────
 const QUIZ_BENEFITS = [
-  { icon: <PiCheckCircleFill size={16} />, text: "Matched to the right program for your body" },
-  { icon: <PiCheckCircleFill size={16} />, text: "Reviewed by a licensed Filipino doctor" },
-  { icon: <PiCheckCircleFill size={16} />, text: "Completely free — no commitment required" },
-  { icon: <PiCheckCircleFill size={16} />, text: "Results in under 24 hours" },
+  { icon: <PiCheckCircleFill size={18} />, text: "Matched to the right program for your body" },
+  { icon: <PiCheckCircleFill size={18} />, text: "Reviewed by a licensed Filipino doctor" },
+  { icon: <PiCheckCircleFill size={18} />, text: "Completely free — no commitment required" },
+  { icon: <PiCheckCircleFill size={18} />, text: "Results in under 24 hours" },
 ];
 
 function QuizSection() {
   return (
-    <section id="quiz" className="w-full py-14 md:py-20 relative overflow-hidden" style={{ background: "white" }}>
+    <section id="quiz" className="w-full py-14 md:py-20 relative overflow-hidden bg-bg">
       {/* Decorative slashes */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div style={{ position: "absolute", top: 0, right: "3%", width: "5px", height: "100%", background: "rgba(240,112,112,0.07)", transform: "rotate(-16deg)", transformOrigin: "top center" }} />
+        <div className="absolute top-0 right-[3%] w-[5px] h-[100%] bg-accent/5 -rotate-16 origin-top" />
       </div>
 
       <div className="max-w-[1280px] mx-auto px-4 md:px-8 lg:px-12 relative z-10">
-        <div className="rounded-[28px] overflow-hidden" style={{ background: "linear-gradient(140deg, #FFF5F5 0%, #FADADD 60%, #FFE8E8 100%)", border: "1px solid #F5DADA" }}>
-          <div className="flex flex-col lg:flex-row items-center gap-0">
+        <div className="rounded-[32px] overflow-hidden bg-gradient-to-br from-surface to-accent-light border border-border">
+          <div className="flex flex-col lg:flex-row items-stretch gap-0">
 
             {/* Left — copy */}
-            <motion.div {...inView} variants={stagger} className="flex flex-col gap-6 p-8 md:p-12 lg:p-14 flex-1">
-              <motion.p variants={fadeUp} className="text-[11px] font-bold tracking-[0.22em] uppercase" style={{ color: "#F07070" }}>
+            <motion.div {...inView} variants={stagger} className="flex flex-col justify-center gap-7 p-8 md:p-12 lg:p-16 flex-1">
+              <motion.p variants={fadeUp} className="text-[11px] font-bold tracking-[0.22em] uppercase text-accent">
                 Free · No commitment
               </motion.p>
-              <motion.h2 variants={fadeUp} className="font-display text-[#1A0A0A] leading-tight" style={{ fontSize: "clamp(1.8rem, 4vw, 3rem)" }}>
+              <motion.h2 variants={fadeUp} className="font-display text-ink leading-tight text-[clamp(1.8rem,4vw,3rem)]">
                 The quiz only takes
                 <br />
-                <em className="not-italic" style={{ color: "#F07070" }}>3 minutes.</em>
+                <em className="not-italic text-accent">3 minutes.</em>
               </motion.h2>
-              <motion.p variants={fadeUp} className="text-[15px] leading-relaxed" style={{ color: "#4A3333" }}>
+              <motion.p variants={fadeUp} className="text-[15px] leading-relaxed text-ink-2 max-w-lg">
                 A few questions. No guesswork. We use your answers to match you with the right program — then a real doctor builds your personal plan.
               </motion.p>
-              <motion.ul variants={stagger} className="flex flex-col gap-2.5 list-none p-0 m-0">
+              <motion.ul variants={stagger} className="flex flex-col gap-3.5 list-none p-0 m-0 mt-2">
                 {QUIZ_BENEFITS.map((b) => (
                   <motion.li key={b.text} variants={fadeUp} className="flex items-center gap-3">
-                    <span style={{ color: "#F07070" }} className="shrink-0">{b.icon}</span>
-                    <span className="text-[14px] font-medium" style={{ color: "#4A3333" }}>{b.text}</span>
+                    <span className="shrink-0 text-accent">{b.icon}</span>
+                    <span className="text-[14.5px] font-medium text-ink-2">{b.text}</span>
                   </motion.li>
                 ))}
               </motion.ul>
-              <motion.div variants={fadeUp}>
+              <motion.div variants={fadeUp} className="mt-4">
                 <Link
                   href="/quiz"
-                  className="inline-flex items-center justify-center rounded-full font-semibold whitespace-nowrap transition-all duration-200 gap-2 text-white"
-                  style={{ background: "#F07070", fontSize: "14px", minHeight: "52px", padding: "0 36px" }}
-                  onMouseEnter={(e) => (e.currentTarget.style.background = "#D94040")}
-                  onMouseLeave={(e) => (e.currentTarget.style.background = "#F07070")}
+                  className="inline-flex items-center justify-center rounded-full font-semibold whitespace-nowrap transition-all duration-200 gap-2 text-white bg-accent hover:bg-accent-hover text-[14.5px] min-h-[56px] px-8 shadow-sm hover:shadow-md"
                 >
-                  Start free quiz <PiArrowRight size={16} />
+                  Start free quiz <PiArrowRight size={18} />
                 </Link>
               </motion.div>
             </motion.div>
 
             {/* Right — feature image */}
-            <div className="relative w-full lg:w-[440px] shrink-0" style={{ minHeight: "340px" }}>
+            <div className="relative w-full lg:w-[480px] shrink-0 min-h-[340px] bg-accent/5">
               <Image
                 src="/feature-doctor.png"
                 alt="Doctor reviewing patient intake"
                 fill
                 className="object-cover object-center"
-                sizes="(max-width: 1024px) 100vw, 440px"
+                sizes="(max-width: 1024px) 100vw, 480px"
               />
-              <div className="absolute inset-0 lg:hidden" style={{ background: "linear-gradient(to top, rgba(255,245,245,0.7) 0%, transparent 40%)" }} />
+              <div className="absolute inset-0 lg:hidden bg-gradient-to-t from-surface/80 to-transparent" />
             </div>
           </div>
         </div>
@@ -484,22 +471,22 @@ function QuizSection() {
 // ─── TRUST PILLARS ────────────────────────────────────────────────────────────
 const PILLARS = [
   {
-    icon: <PiSealCheckFill size={24} />,
+    icon: <PiSealCheckFill size={26} />,
     title: "Licensed Filipino doctors",
     desc: "Every treatment plan is written and supervised by a licensed physician — no bots, no shortcuts.",
   },
   {
-    icon: <PiShieldCheckFill size={24} />,
+    icon: <PiShieldCheckFill size={26} />,
     title: "FDA-registered pharmacy",
     desc: "Your medications are dispensed from an accredited pharmacy under strict quality controls.",
   },
   {
-    icon: <PiTruck size={24} />,
+    icon: <PiTruck size={26} />,
     title: "Free & discreet delivery",
     desc: "Ships in plain packaging anywhere in the Philippines, completely free of charge.",
   },
   {
-    icon: <PiHeartbeat size={24} />,
+    icon: <PiHeartbeat size={26} />,
     title: "Continuous care",
     desc: "Your doctor is always reachable. Dose adjustments, check-ins, and support — included.",
   },
@@ -507,33 +494,32 @@ const PILLARS = [
 
 function TrustPillars() {
   return (
-    <section className="w-full py-14 md:py-20" style={{ background: "#FFFFFF", borderTop: "1px solid #F5DADA" }}>
+    <section className="w-full py-14 md:py-20 bg-bg border-t border-border">
       <div className="max-w-[1280px] mx-auto px-4 md:px-8 lg:px-12">
-        <motion.div {...inView} variants={stagger} className="flex flex-col gap-10">
-          <motion.div variants={fadeUp} className="flex flex-col items-center text-center gap-3 max-w-lg mx-auto">
-            <p className="text-[11px] font-bold tracking-[0.22em] uppercase" style={{ color: "#9A7878" }}>
-              Why tearsize
+        <motion.div {...inView} variants={stagger} className="flex flex-col gap-12">
+          <motion.div variants={fadeUp} className="flex flex-col items-center text-center gap-4 max-w-lg mx-auto">
+            <p className="text-[11px] font-bold tracking-[0.22em] uppercase text-ink-3">
+              Why by tearsize
             </p>
-            <h2 className="font-display text-[#1A0A0A] leading-tight" style={{ fontSize: "clamp(1.75rem, 3.5vw, 2.75rem)" }}>
+            <h2 className="font-display text-ink leading-tight text-[clamp(1.75rem,3.5vw,2.75rem)]">
               Built on trust.
               <br />
-              <em className="not-italic" style={{ color: "#F07070" }}>Proven by results.</em>
+              <em className="not-italic text-accent">Proven by results.</em>
             </h2>
           </motion.div>
 
-          <motion.div variants={stagger} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <motion.div variants={stagger} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {PILLARS.map((p) => (
               <motion.div
                 key={p.title}
                 variants={fadeUp}
-                className="rounded-[18px] p-7 flex flex-col gap-4"
-                style={{ background: "#FFF5F5", border: "1px solid #F5DADA" }}
+                className="rounded-[24px] p-8 flex flex-col gap-4 bg-surface border border-border hover:shadow-card-hover transition-shadow duration-300"
               >
-                <div className="w-11 h-11 rounded-full flex items-center justify-center" style={{ background: "#FADADD", color: "#F07070" }}>
+                <div className="w-12 h-12 rounded-full flex items-center justify-center bg-accent-light text-accent">
                   {p.icon}
                 </div>
-                <h3 className="font-display text-[#1A0A0A] leading-snug" style={{ fontSize: "1.1rem" }}>{p.title}</h3>
-                <p className="text-[13.5px] leading-relaxed" style={{ color: "#4A3333" }}>{p.desc}</p>
+                <h3 className="font-display text-ink leading-snug text-[1.2rem]">{p.title}</h3>
+                <p className="text-[14px] leading-relaxed text-ink-2">{p.desc}</p>
               </motion.div>
             ))}
           </motion.div>
@@ -546,42 +532,36 @@ function TrustPillars() {
 // ─── CTA CLOSER ───────────────────────────────────────────────────────────────
 function CtaCloser() {
   return (
-    <section className="w-full py-16 md:py-24 relative overflow-hidden" style={{ background: "#1A0A0A" }}>
+    <section className="w-full py-16 md:py-24 relative overflow-hidden bg-ink">
       <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-        <div style={{ position: "absolute", top: "-10%", left: "7%", width: "8px", height: "120%", background: "rgba(240,112,112,0.18)", transform: "rotate(-16deg)" }} />
-        <div style={{ position: "absolute", top: "-10%", left: "11.5%", width: "8px", height: "120%", background: "rgba(240,112,112,0.10)", transform: "rotate(-16deg)" }} />
-        <div style={{ position: "absolute", top: "10%", right: "7%", width: "90px", height: "90px", background: "rgba(240,112,112,0.07)", transform: "rotate(45deg)", borderRadius: "12px" }} />
-        <div style={{ position: "absolute", bottom: "14%", right: "13%", width: "55px", height: "55px", background: "rgba(240,112,112,0.05)", transform: "rotate(45deg)", borderRadius: "8px" }} />
+        <div className="absolute -top-[10%] left-[7%] w-[8px] h-[120%] bg-accent/10 -rotate-16" />
+        <div className="absolute -top-[10%] left-[11.5%] w-[8px] h-[120%] bg-accent/5 -rotate-16" />
+        <div className="absolute top-[10%] right-[7%] w-[90px] h-[90px] bg-accent/10 rotate-45 rounded-[12px]" />
+        <div className="absolute bottom-[14%] right-[13%] w-[55px] h-[55px] bg-accent/5 rotate-45 rounded-[8px]" />
       </div>
 
       <motion.div {...inView} variants={stagger} className="max-w-[620px] mx-auto px-4 text-center relative z-10">
-        <motion.p variants={fadeUp} className="text-[11px] font-bold tracking-[0.22em] uppercase mb-4" style={{ color: "rgba(240,112,112,0.6)" }}>
+        <motion.p variants={fadeUp} className="text-[11px] font-bold tracking-[0.22em] uppercase mb-5 text-accent/80">
           Ready to begin?
         </motion.p>
-        <motion.h2 variants={fadeUp} className="font-display text-white leading-[1.05] mb-4" style={{ fontSize: "clamp(2rem, 4.5vw, 3rem)" }}>
+        <motion.h2 variants={fadeUp} className="font-display text-white leading-[1.05] mb-5 text-[clamp(2rem,4.5vw,3rem)]">
           Your transformation
           <br />
-          <em className="not-italic" style={{ color: "#F07070" }}>starts with one step.</em>
+          <em className="not-italic text-accent">starts with one step.</em>
         </motion.h2>
-        <motion.p variants={fadeUp} className="text-[15px] leading-relaxed mb-8" style={{ color: "rgba(255,255,255,0.5)" }}>
+        <motion.p variants={fadeUp} className="text-[15.5px] leading-relaxed mb-10 text-white/60">
           Take the free 3-minute quiz. Get matched with a licensed doctor. Start feeling like yourself again — entirely online.
         </motion.p>
-        <motion.div variants={fadeUp} className="flex flex-wrap gap-3 justify-center">
+        <motion.div variants={fadeUp} className="flex flex-wrap gap-4 justify-center">
           <Link
             href="/quiz"
-            className="inline-flex items-center justify-center rounded-full font-semibold whitespace-nowrap transition-all duration-200 gap-2 text-white"
-            style={{ background: "#F07070", fontSize: "14.5px", minHeight: "52px", padding: "0 40px" }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = "#D94040")}
-            onMouseLeave={(e) => (e.currentTarget.style.background = "#F07070")}
+            className="inline-flex items-center justify-center rounded-full font-semibold whitespace-nowrap transition-all duration-200 gap-2 text-white bg-accent hover:bg-accent-hover text-[15px] min-h-[56px] px-9 shadow-lg"
           >
-            Take the quiz <PiArrowRight size={16} />
+            Take the quiz <PiArrowRight size={18} />
           </Link>
           <Link
             href="/"
-            className="inline-flex items-center justify-center rounded-full font-semibold whitespace-nowrap transition-colors duration-200 text-white"
-            style={{ fontSize: "14.5px", minHeight: "52px", padding: "0 40px", border: "1.5px solid rgba(240,112,112,0.35)" }}
-            onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.borderColor = "rgba(240,112,112,0.85)")}
-            onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.borderColor = "rgba(240,112,112,0.35)")}
+            className="inline-flex items-center justify-center rounded-full font-semibold whitespace-nowrap transition-colors duration-200 text-white text-[15px] min-h-[56px] px-9 border-[1.5px] border-accent/40 hover:border-accent/90"
           >
             Back to home
           </Link>

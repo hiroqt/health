@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { PiList, PiX, PiArrowRight, PiCaretDown, PiSyringe } from "react-icons/pi";
+import { PiList, PiX, PiArrowRight, PiCaretDown, PiSyringe, PiSyringeFill } from "react-icons/pi";
 
 const NAV_LINKS = [
   {
@@ -54,9 +54,12 @@ export function Header() {
 
   return (
     <>
-      <header
+      <motion.header
+        initial={{ y: "-100%" }}
+        animate={{ y: 0 }}
+        transition={{ type: "spring", stiffness: 300, damping: 30, duration: 0.6 }}
         className="fixed top-0 inset-x-0 z-50 w-full bg-white transition-all duration-200"
-        style={{ boxShadow: scrolled ? "0 1px 0 #F5DADA" : "none" }}
+        style={{ boxShadow: scrolled ? "0 1px 0 #FFE8EA" : "none" }}
       >
         <div className="max-w-[1280px] mx-auto px-4 md:px-8 lg:px-12 h-14 md:h-20 flex items-center justify-between gap-4 relative">
 
@@ -64,24 +67,24 @@ export function Header() {
           <Link href="/" aria-label="tearsize home" className="shrink-0 flex items-center gap-2">
             <span
               className="font-display font-medium leading-none select-none"
-              style={{ color: "#9A7878", fontSize: "1rem" }}
+              style={{ color: "#6E6E6E", fontSize: "1rem" }}
             >
               by
             </span>
             <span
               className="font-display font-black italic leading-none select-none"
-              style={{ color: "#F07070", fontSize: "1.6rem" }}
+              style={{ color: "#FF5A5F", fontSize: "1.6rem" }}
             >
               tears
             </span>
-            <PiSyringe
-              size={20}
-              style={{ color: "#F07070", transform: "rotate(-45deg)", marginTop: "-2px" }}
+            <PiSyringeFill
+              size={26}
+              style={{ color: "#FF5A5F", transform: "rotate(-25deg)", margin: "0 -2px" }}
               aria-hidden="true"
             />
             <span
               className="font-display font-black italic leading-none select-none"
-              style={{ color: "#F07070", fontSize: "1.6rem" }}
+              style={{ color: "#FF5A5F", fontSize: "1.6rem" }}
             >
               ze
             </span>
@@ -98,7 +101,7 @@ export function Header() {
               >
                 {link.megaMenu ? (
                   <>
-                    <button className="flex items-center gap-1.5 text-[14px] font-medium text-[#4A3333] hover:text-[#F07070] transition-colors h-full cursor-default">
+                    <button className="flex items-center gap-1.5 text-[14px] font-medium text-[#2B2B2B] hover:text-[#FF5A5F] transition-colors h-full cursor-default">
                       {link.label}
                       <PiCaretDown
                         size={12}
@@ -108,17 +111,17 @@ export function Header() {
                     <AnimatePresence>
                       {hoveredMenu === link.label && (
                         <motion.div
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: 5 }}
-                          transition={{ duration: 0.15 }}
-                          className="absolute top-full left-0 w-full bg-white shadow-[0_12px_24px_rgba(240,112,112,0.10)] border-t border-[#F5DADA] overflow-hidden"
+                          initial={{ opacity: 0, y: 10, scale: 0.98, filter: "blur(4px)" }}
+                          animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+                          exit={{ opacity: 0, y: 5, scale: 0.98, filter: "blur(4px)" }}
+                          transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                          className="absolute top-full left-0 w-full bg-white shadow-[0_12px_24px_rgba(255,90,95,0.10)] border-t border-[#FFE8EA] overflow-y-auto max-h-[80vh]"
                           style={{ borderBottomLeftRadius: "16px", borderBottomRightRadius: "16px" }}
                         >
                           <div className="max-w-[1280px] mx-auto px-12 py-10 grid grid-cols-3 gap-12">
                             {link.megaMenu.map((group) => (
                               <div key={group.category} className="flex flex-col gap-4">
-                                <h3 className="text-[11px] font-bold tracking-[0.15em] uppercase text-[#9A7878]">
+                                <h3 className="text-[11px] font-bold tracking-[0.15em] uppercase text-[#6E6E6E]">
                                   {group.category}
                                 </h3>
                                 <ul className="flex flex-col gap-3">
@@ -127,7 +130,7 @@ export function Header() {
                                       <Link
                                         href={subLink.href}
                                         onClick={() => setHoveredMenu(null)}
-                                        className="text-[15px] font-medium text-[#1A0A0A] hover:text-[#F07070] transition-colors flex items-center justify-between group"
+                                        className="text-[15px] font-medium text-[#0F0F0F] hover:text-[#FF5A5F] transition-colors flex items-center justify-between group"
                                       >
                                         {subLink.label}
                                         <PiArrowRight
@@ -148,7 +151,7 @@ export function Header() {
                 ) : (
                   <Link
                     href={link.href!}
-                    className="text-[14px] font-medium text-[#4A3333] hover:text-[#F07070] transition-colors"
+                    className="text-[14px] font-medium text-[#2B2B2B] hover:text-[#FF5A5F] transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -161,16 +164,16 @@ export function Header() {
           <div className="flex items-center gap-3 md:gap-4">
             <Link
               href="#"
-              className="hidden sm:inline-flex items-center h-10 md:h-11 px-4 md:px-5 rounded-full border border-[#F5DADA] text-[13px] font-medium text-[#1A0A0A] whitespace-nowrap hover:border-[#F07070] hover:text-[#F07070] transition-colors"
+              className="hidden sm:inline-flex items-center h-10 md:h-11 px-4 md:px-5 rounded-full border border-[#FFE8EA] text-[13px] font-medium text-[#0F0F0F] whitespace-nowrap hover:border-[#FF5A5F] hover:text-[#FF5A5F] transition-colors"
             >
               Sign in
             </Link>
             <Link
-              href="/quiz"
+              href="/learn-more"
               className="inline-flex items-center h-10 md:h-11 px-5 md:px-6 rounded-full text-[13px] font-semibold text-white whitespace-nowrap transition-colors"
-              style={{ background: "#F07070" }}
-              onMouseEnter={(e) => (e.currentTarget.style.background = "#D94040")}
-              onMouseLeave={(e) => (e.currentTarget.style.background = "#F07070")}
+              style={{ background: "#FF5A5F" }}
+              onMouseEnter={(e) => (e.currentTarget.style.background = "#E04A4F")}
+              onMouseLeave={(e) => (e.currentTarget.style.background = "#FF5A5F")}
             >
               Get started
             </Link>
@@ -179,13 +182,13 @@ export function Header() {
               type="button"
               onClick={() => setOpen(true)}
               aria-label="Open menu"
-              className="lg:hidden p-2 -mr-2 text-[#4A3333] hover:text-[#F07070] transition-colors cursor-pointer"
+              className="lg:hidden p-2 -mr-2 text-[#2B2B2B] hover:text-[#FF5A5F] transition-colors cursor-pointer min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full"
             >
               <PiList size={24} />
             </button>
           </div>
         </div>
-      </header>
+      </motion.header>
 
       {/* Spacer */}
       <div className="h-14 md:h-20" aria-hidden="true" />
@@ -211,19 +214,27 @@ export function Header() {
               transition={{ type: "spring", stiffness: 340, damping: 36 }}
               className="fixed top-0 right-0 bottom-0 z-[70] w-full max-w-[360px] bg-white flex flex-col overflow-y-auto lg:hidden"
             >
-              <div className="flex items-center justify-between px-6 h-14 md:h-16 border-b border-[#F5DADA] shrink-0">
+              <div className="flex items-center justify-between px-6 h-14 md:h-16 border-b border-[#FFE8EA] shrink-0">
                 <Link
                   href="/"
                   onClick={() => setOpen(false)}
                   className="flex items-center gap-1.5 select-none"
                 >
-                  <span className="font-display font-medium leading-none" style={{ color: "#9A7878", fontSize: "0.9rem" }}>by</span>
-                  <span className="font-display font-black italic text-[1.4rem] leading-none" style={{ color: "#F07070" }}>tearsize</span>
+                  <span className="font-display font-medium leading-none" style={{ color: "#6E6E6E", fontSize: "0.9rem" }}>by</span>
+                  <div className="flex items-center">
+                    <span className="font-display font-black italic text-[1.4rem] leading-none" style={{ color: "#FF5A5F" }}>tears</span>
+                    <PiSyringeFill
+                      size={24}
+                      style={{ color: "#FF5A5F", transform: "rotate(-25deg)", margin: "0 -2px" }}
+                      aria-hidden="true"
+                    />
+                    <span className="font-display font-black italic text-[1.4rem] leading-none" style={{ color: "#FF5A5F" }}>ze</span>
+                  </div>
                 </Link>
                 <button
                   onClick={() => setOpen(false)}
                   aria-label="Close menu"
-                  className="p-1 text-[#4A3333] hover:text-[#F07070] transition-colors cursor-pointer"
+                  className="p-1 text-[#2B2B2B] hover:text-[#FF5A5F] transition-colors cursor-pointer min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full hover:bg-black/5"
                 >
                   <PiX size={22} />
                 </button>
@@ -234,7 +245,7 @@ export function Header() {
                     <li key={link.label}>
                       {link.megaMenu ? (
                         <div className="flex flex-col gap-4">
-                          <span className="text-[11px] font-bold tracking-[0.12em] uppercase text-[#9A7878]">
+                          <span className="text-[11px] font-bold tracking-[0.12em] uppercase text-[#6E6E6E]">
                             {link.label}
                           </span>
                           <ul className="flex flex-col gap-3 pl-2">
@@ -243,7 +254,7 @@ export function Header() {
                                 <Link
                                   href={subLink.href}
                                   onClick={() => setOpen(false)}
-                                  className="text-[15px] font-medium text-[#1A0A0A] hover:text-[#F07070] transition-colors"
+                                  className="text-[15px] font-medium text-[#0F0F0F] hover:text-[#FF5A5F] transition-colors py-2 min-h-[44px] flex items-center"
                                 >
                                   {subLink.label}
                                 </Link>
@@ -255,7 +266,7 @@ export function Header() {
                         <Link
                           href={link.href!}
                           onClick={() => setOpen(false)}
-                          className="text-[15px] font-semibold text-[#1A0A0A] hover:text-[#F07070] transition-colors"
+                          className="text-[15px] font-semibold text-[#0F0F0F] hover:text-[#FF5A5F] transition-colors py-2 min-h-[44px] flex items-center"
                         >
                           {link.label}
                         </Link>
@@ -266,10 +277,10 @@ export function Header() {
               </nav>
               <div className="px-6 pb-8 shrink-0">
                 <Link
-                  href="/quiz"
+                  href="/learn-more"
                   onClick={() => setOpen(false)}
                   className="flex items-center justify-center w-full h-12 rounded-full text-[14px] font-semibold text-white transition-colors"
-                  style={{ background: "#F07070" }}
+                  style={{ background: "#FF5A5F" }}
                 >
                   Get started
                 </Link>
