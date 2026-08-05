@@ -1,42 +1,39 @@
 @import "tailwindcss";
 
 @theme {
-  /* ─── Palette ─────────────────────────────────────────────────────────────── */
-  --color-bg:            #FFFFFF;   /* pure white page bg                       */
-  --color-surface:       #F5EFE6;   /* warm off-white panels                    */
-  --color-surface-warm:  #F2EDE5;   /* deeper warm tint                         */
-  --color-ink:           #0F1210;   /* near-black headings & body               */
-  --color-ink-2:         #4B4843;   /* secondary text                           */
-  --color-ink-3:         #8A8782;   /* muted / captions                         */
+  /* ─── Palette — tearsize ─────────────────────────────────────────────────── */
+  --color-bg:            #FFFFFF;
+  --color-surface:       #FFF5F5;   /* blush tint panels                        */
+  --color-surface-warm:  #FFE8E8;   /* deeper blush                             */
+  --color-ink:           #1A0A0A;   /* near-black headings & body               */
+  --color-ink-2:         #4A3333;   /* secondary text                           */
+  --color-ink-3:         #9A7878;   /* muted / captions                         */
 
-  /* Accent — warm bronze (andyou.ph primary) */
-  --color-accent:        #C2A68C;
-  --color-accent-hover:  #7D5020;
-  --color-accent-light:  #FAE3AE;   /* gold — used on dark sections             */
-  --color-accent-subtle: #FBF4E4;
+  /* Accent — tearsize coral/salmon */
+  --color-accent:        #F07070;   /* primary coral                            */
+  --color-accent-mid:    #E85555;   /* slightly deeper coral for hover          */
+  --color-accent-hover:  #D94040;   /* dark coral hover                         */
+  --color-accent-light:  #FADADD;   /* pale blush — for backgrounds             */
+  --color-accent-subtle: #FFF0F0;   /* very light tint                          */
 
   /* Trust bar */
-  --color-trust-bar:     #E6D8C3;
+  --color-trust-bar:     #FADADD;
 
   /* Dark campaign section */
-  --color-dark-bg:       #0F0804;
-  --color-dark-bg-2:     #2A1A0A;
-
-  /* Amber — badges, stars */
-  --color-amber:         #C2A68C;
-  --color-amber-light:   #FEF3C7;
+  --color-dark-bg:       #1A0A0A;
+  --color-dark-bg-2:     #2E1010;
 
   /* Borders */
-  --color-border:        #E6D8C3;
-  --color-border-strong: #C8BEB5;
+  --color-border:        #F5DADA;
+  --color-border-strong: #E8BFBF;
 
   /* Nav */
   --color-nav-bg:        #FFFFFF;
-  --color-nav-text:      #0F1210;
+  --color-nav-text:      #1A0A0A;
 
-  /* ─── Typography ─────────────────────────────────────────────────────────── */
-  --font-display: var(--font-dm-serif), Georgia, serif;
-  --font-sans:    var(--font-dm-sans), system-ui, sans-serif;
+  /* ─── Typography — Satoshi ───────────────────────────────────────────────── */
+  --font-display: "Satoshi", system-ui, sans-serif;
+  --font-sans:    "Satoshi", system-ui, sans-serif;
 
   /* ─── Radius ──────────────────────────────────────────────────────────────── */
   --radius-xs:   2px;
@@ -50,12 +47,12 @@
   --radius-card: 18px;
 
   /* ─── Shadows ─────────────────────────────────────────────────────────────── */
-  --shadow-xs:         0 1px 2px rgba(15,18,16,0.05);
-  --shadow-sm:         0 1px 4px rgba(15,18,16,0.07);
-  --shadow-md:         0 4px 16px rgba(15,18,16,0.09);
-  --shadow-lg:         0 8px 32px rgba(15,18,16,0.11);
-  --shadow-card-rest:  0 1px 3px rgba(15,18,16,0.07);
-  --shadow-card-hover: 0 8px 24px rgba(15,18,16,0.12);
+  --shadow-xs:         0 1px 2px rgba(240,112,112,0.06);
+  --shadow-sm:         0 1px 4px rgba(240,112,112,0.09);
+  --shadow-md:         0 4px 16px rgba(240,112,112,0.12);
+  --shadow-lg:         0 8px 32px rgba(240,112,112,0.15);
+  --shadow-card-rest:  0 1px 3px rgba(240,112,112,0.08);
+  --shadow-card-hover: 0 8px 24px rgba(240,112,112,0.16);
 }
 
 /* ─── Resets ──────────────────────────────────────────────────────────────── */
@@ -66,7 +63,7 @@ html { scroll-behavior: smooth; }
 body {
   background-color: var(--color-bg);
   color: var(--color-ink);
-  font-family: var(--font-sans);
+  font-family: "Satoshi", system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -84,7 +81,7 @@ body {
 
 ::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track { background: var(--color-surface); }
-::-webkit-scrollbar-thumb { background: var(--color-border-strong); border-radius: 3px; }
+::-webkit-scrollbar-thumb { background: var(--color-accent-light); border-radius: 3px; }
 
 /* ─── Marquee (infinite scroll ticker) ───────────────────────────────────── */
 @keyframes marquee {
@@ -102,3 +99,24 @@ body {
 .marquee-track:hover {
   animation-play-state: paused;
 }
+
+/* ─── Diagonal slash motif (tearsize brand element) ──────────────────────── */
+.slash-bg {
+  position: relative;
+  overflow: hidden;
+}
+
+.slash-bg::before,
+.slash-bg::after {
+  content: "";
+  position: absolute;
+  top: -20%;
+  width: 6px;
+  height: 140%;
+  background: rgba(240,112,112,0.12);
+  transform: rotate(-18deg);
+  pointer-events: none;
+}
+
+.slash-bg::before { left: 18%; }
+.slash-bg::after  { left: 22%; }
