@@ -1,10 +1,11 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { IntroSplash } from "@/components/animations/IntroSplash";
 import {
   PiArrowRight,
   PiStarFill,
@@ -60,13 +61,13 @@ const inView = {
 };
 
 // ─── HERO ─────────────────────────────────────────────────────────────────────
-function Hero() {
+function Hero({ splashDone }: { splashDone: boolean }) {
   return (
     <section
       className="w-full pb-10 md:pb-16 relative overflow-hidden bg-gradient-to-b from-surface from-0% to-bg to-60% pt-[clamp(2rem,5vw,3.5rem)]"
     >
       {/* Diagonal slash decorations — brand motif */}
-      <motion.div initial="hidden" animate="visible" variants={stagger} className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
+      <motion.div initial="hidden" animate={splashDone ? "visible" : "hidden"} variants={stagger} className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
         <motion.div variants={slashAnim} className="absolute -top-[10%] left-[5%] w-[7px] h-[120%] bg-accent/10 -rotate-16" />
         <motion.div variants={slashAnim} className="absolute -top-[10%] left-[8.5%] w-[7px] h-[120%] bg-accent/5 -rotate-16" />
         <motion.div variants={blockAnim} className="absolute -top-[10%] right-[6%] w-[100px] h-[100px] bg-accent/5 rotate-45 rounded-[10px]" />
@@ -75,7 +76,8 @@ function Hero() {
 
       <div className="max-w-[1280px] mx-auto px-4 md:px-8 lg:px-12 relative z-10 pt-4 md:pt-6">
         <motion.div
-          {...inView}
+          initial="hidden"
+          animate={splashDone ? "visible" : "hidden"}
           variants={stagger}
           className="flex flex-col gap-12 lg:gap-20"
         >
@@ -564,11 +566,32 @@ function CtaBanner() {
 
 // ─── PAGE ─────────────────────────────────────────────────────────────────────
 export default function HomePage() {
+  const [showSplash, setShowSplash] = useState(false);
+  const [splashDone, setSplashDone] = useState(true);
+
+  useEffect(() => {
+    if (!sessionStorage.getItem("splashShown")) {
+      setShowSplash(true);
+      setSplashDone(false);
+    }
+  }, []);
+
+  const handleSplashComplete = () => {
+    setShowSplash(false);
+    sessionStorage.setItem("splashShown", "true");
+    setTimeout(() => {
+      setSplashDone(true);
+    }, 400); // small buffer for fade out
+  };
+
   return (
     <>
-      <Header />
+      <AnimatePresence>
+        {showSplash && <IntroSplash onComplete={handleSplashComplete} />}
+      </AnimatePresence>
+      <Header splashDone={splashDone} />
       <main>
-        <Hero />
+        <Hero splashDone={splashDone} />
         <WaveDivider className="bg-bg" toColor="var(--color-trust-bar)" />
         <TrustBar />
         <WaveDivider className="bg-trust-bar" toColor="var(--color-bg)" />

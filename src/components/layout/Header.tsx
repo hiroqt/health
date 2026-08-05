@@ -36,7 +36,7 @@ const NAV_LINKS = [
   { label: "Our Doctors",  href: "#doctors"     },
 ];
 
-export function Header() {
+export function Header({ splashDone = true }: { splashDone?: boolean }) {
   const [scrolled,     setScrolled]     = useState(false);
   const [open,         setOpen]         = useState(false);
   const [hoveredMenu,  setHoveredMenu]  = useState<string | null>(null);
@@ -55,9 +55,12 @@ export function Header() {
   return (
     <>
       <motion.header
-        initial={{ y: "-100%" }}
-        animate={{ y: 0 }}
-        transition={{ type: "spring", stiffness: 300, damping: 30, duration: 0.6 }}
+        initial="hidden"
+        animate={splashDone ? "visible" : "hidden"}
+        variants={{
+          hidden: { y: "-100%" },
+          visible: { y: 0, transition: { type: "spring", stiffness: 300, damping: 30, duration: 0.6 } }
+        }}
         className="fixed top-0 inset-x-0 z-50 w-full bg-white transition-all duration-200"
         style={{ boxShadow: scrolled ? "0 1px 0 #FFE8EA" : "none" }}
       >
