@@ -80,8 +80,8 @@ const TRIVIA: Record<string, Trivia> = {
 
 const triviaVariants = {
   enter:  { opacity: 0, scale: 0.96, y: 24 },
-  center: { opacity: 1, scale: 1,    y: 0,  transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } },
-  exit:   { opacity: 0, scale: 0.96, y: -20, transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] } },
+  center: { opacity: 1, scale: 1,    y: 0,  transition: { duration: 0.5, ease } },
+  exit:   { opacity: 0, scale: 0.96, y: -20, transition: { duration: 0.3, ease } },
 };
 
 const wordVariants = {
@@ -89,7 +89,7 @@ const wordVariants = {
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1], delay: 0.1 + i * 0.04 },
+    transition: { duration: 0.35, ease, delay: 0.1 + i * 0.04 },
   }),
 };
 
@@ -366,7 +366,7 @@ function SingleChoice({
                 background: selected ? "#F07070" : "transparent",
               }}
             >
-              {selected && <PiCheckFat size={10} color="white" weight="bold" />}
+              {selected && <PiCheckFat size={10} color="white" />}
             </span>
           </motion.button>
         );
@@ -505,7 +505,7 @@ function ResultsScreen({ answers }: { answers: Answers }) {
         className="w-20 h-20 rounded-full flex items-center justify-center"
         style={{ background: "linear-gradient(135deg, #F07070, #D94040)" }}
       >
-        <PiCheckFat size={36} color="white" weight="bold" />
+        <PiCheckFat size={36} color="white" />
       </motion.div>
 
       <div className="flex flex-col gap-2">
@@ -513,7 +513,7 @@ function ResultsScreen({ answers }: { answers: Answers }) {
           className="font-display leading-tight"
           style={{ fontSize: "clamp(1.9rem, 4vw, 2.5rem)", color: "#1A0A0A" }}
         >
-          You're all set, {name}!
+          You&apos;re all set, {name}!
         </h2>
         <p className="text-[15px] leading-relaxed" style={{ color: "#4A3333" }}>
           A licensed doctor will review your answers within 24 hours and reach out with a personalized plan — entirely online.
@@ -594,7 +594,7 @@ export default function QuizPage() {
   };
 
   const goNext = () => {
-    if (!canAdvance) return;
+    if (!canAdvance || !question) return;
     const isLast = step === total - 1;
     if (isLast) { setDone(true); return; }
     // Show trivia if one exists for this question
@@ -679,7 +679,7 @@ export default function QuizPage() {
                     Leave the quiz?
                   </h2>
                   <p className="text-[14px] leading-relaxed" style={{ color: "#9A7878" }}>
-                    Your progress won't be saved. You'll need to start over if you come back.
+                    Your progress won&apos;t be saved. You&apos;ll need to start over if you come back.
                   </p>
                 </div>
 
@@ -752,7 +752,7 @@ export default function QuizPage() {
       <main className="relative z-10 flex-1 flex flex-col items-center justify-center px-5 py-8">
         <div className="w-full max-w-[520px] mx-auto flex flex-col gap-8">
 
-          {!done && (
+          {!done && question && (
             <>
               {/* Progress */}
               <ProgressBar step={step + 1} total={total} />
