@@ -28,18 +28,18 @@ import {
   PiShield,
 } from "react-icons/pi";
 
-import feedback1 from "../../public/feedbacks/Real Results from Real People (1).png";
-import feedback2 from "../../public/feedbacks/Real Results from Real People (2).png";
-import feedback3 from "../../public/feedbacks/Real Results from Real People (3).jpg";
-import feedback4 from "../../public/feedbacks/Real Results from Real People (4).png";
-import feedback5 from "../../public/feedbacks/Real Results from Real People (5).png";
-import feedback6 from "../../public/feedbacks/Real Results from Real People (6).png";
-import feedback7 from "../../public/feedbacks/Real Results from Real People (7).png";
-import feedback8 from "../../public/feedbacks/Real Results from Real People (8).png";
-import feedback9 from "../../public/feedbacks/Real Results from Real People (9).png";
+import feedback1 from "../../public/FEEDBACKS/Real Results from Real People (1).png";
+import feedback2 from "../../public/FEEDBACKS/Real Results from Real People (2).png";
+import feedback3 from "../../public/FEEDBACKS/Real Results from Real People (3).jpg";
+import feedback4 from "../../public/FEEDBACKS/Real Results from Real People (4).png";
+import feedback5 from "../../public/FEEDBACKS/Real Results from Real People (5).png";
+import feedback6 from "../../public/FEEDBACKS/Real Results from Real People (6).png";
+import feedback7 from "../../public/FEEDBACKS/Real Results from Real People (7).png";
+import feedback8 from "../../public/FEEDBACKS/Real Results from Real People (8).png";
+import feedback9 from "../../public/FEEDBACKS/Real Results from Real People (9).png";
 
 // ─── Animations ───────────────────────────────────────────────────────────────
-const ease = [0.16, 1, 0.3, 1] as const;
+const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
 const fadeUp = {
   hidden: { opacity: 0, y: 24, filter: "blur(4px)" },
   visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.7, ease } },

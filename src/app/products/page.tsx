@@ -20,7 +20,7 @@ const CATEGORY_MAP: Record<string, string[]> = {
 };
 
 // ─── Animations ───────────────────────────────────────────────────────────────
-const ease = [0.16, 1, 0.3, 1] as const;
+const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
 const fadeUp = {
   hidden: { opacity: 0, y: 24, filter: "blur(4px)" },
   visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.7, ease } },
