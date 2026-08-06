@@ -25,15 +25,15 @@ import {
 // ─── Animation presets ────────────────────────────────────────────────────────
 const ease = [0.16, 1, 0.3, 1] as const;
 const fadeUp = {
-  hidden:  { opacity: 0, y: 24, filter: "blur(4px)" },
+  hidden: { opacity: 0, y: 24, filter: "blur(4px)" },
   visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.7, ease } },
 };
 const fadeIn = {
-  hidden:  { opacity: 0, filter: "blur(4px)" },
+  hidden: { opacity: 0, filter: "blur(4px)" },
   visible: { opacity: 1, filter: "blur(0px)", transition: { duration: 0.6, ease } },
 };
 const stagger = {
-  hidden:  {},
+  hidden: {},
   visible: { transition: { staggerChildren: 0.12 } },
 };
 const slashAnim = {
@@ -145,30 +145,33 @@ function Hero() {
 // ─── JOURNEY CARDS ────────────────────────────────────────────────────────────
 const JOURNEY_CARDS = [
   {
-    img: "/guidance.jpg",
-    tag: "Weight Loss",
-    title: "Guidance",
-    subtitle: "Anti-aging & metabolic reset",
-    desc: "Doctor-prescribed weight loss programs combining lifestyle coaching with clinically proven treatments. Designed for lasting results.",
-    href: "/#guidance",
+    typographyTop: "Weight",
+    typographyBottom: "Management",
+    tag: "Weight Management",
+    title: "Weight Management",
+    subtitle: "Sustainable fat loss & metabolic reset",
+    desc: "Doctor-prescribed programs combining lifestyle coaching with clinically proven treatments like Tirzepatide and Retatrutide. Designed for lasting results.",
+    href: "/products",
     badge: "Most popular",
   },
   {
-    img: "/nad.jpg",
-    tag: "Energy & Focus",
-    title: "NAD+",
-    subtitle: "Cellular energy & clarity",
-    desc: "Replenish your body's most essential coenzyme. NAD+ therapy restores energy metabolism, mental sharpness, and cellular resilience.",
-    href: "/#nad-plus",
+    typographyTop: "Recovery",
+    typographyBottom: "& Healing",
+    tag: "Recovery & Healing",
+    title: "Recovery & Healing",
+    subtitle: "Accelerated repair & tissue regeneration",
+    desc: "Advanced peptide therapies like BPC-157 and GHK-Cu that stimulate collagen, reduce inflammation, and accelerate tissue repair from within.",
+    href: "/products",
     badge: null,
   },
   {
-    img: "/ghk.jpg",
-    tag: "Skin & Recovery",
-    title: "GHK-CU",
-    subtitle: "Collagen renewal & healing",
-    desc: "A copper peptide complex that stimulates skin regeneration, reduces inflammation, and accelerates tissue repair from within.",
-    href: "/#ghk-cu",
+    typographyTop: "Cellular",
+    typographyBottom: "Health",
+    tag: "Cellular Health",
+    title: "Cellular Health",
+    subtitle: "Cellular energy, clarity & detox",
+    desc: "Replenish your body's most essential functions with therapies like NAD+ and Glutathione. Restore energy metabolism, mental sharpness, and cellular resilience.",
+    href: "/products",
     badge: null,
   },
 ];
@@ -209,16 +212,23 @@ function JourneyCards() {
                   </div>
                 )}
 
-                {/* Image */}
-                <div className="relative flex-1 min-h-[220px] overflow-hidden rounded-[24px] bg-surface">
-                  <Image
-                    src={card.img}
-                    alt={card.title}
-                    fill
-                    className="object-contain transition-transform duration-700 ease-out group-hover:scale-[1.06]"
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-surface/60 to-transparent" />
+                {/* Typography Element */}
+                <div className="relative flex-1 min-h-[220px] overflow-hidden rounded-[24px] bg-bg flex flex-col items-center justify-center p-6 border-b border-border/50 group-hover:bg-surface transition-colors duration-500">
+                  <div className="absolute inset-0 bg-gradient-to-b from-surface to-bg pointer-events-none opacity-50" />
+
+                  {/* Elegant Typography */}
+                  <div className="relative z-10 flex flex-col items-center text-center group-hover:scale-[1.04] transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]">
+                    <span className="font-display text-[2.2rem] font-medium tracking-tight text-ink leading-[1]">
+                      {card.typographyTop}
+                    </span>
+                    <span className="font-display text-[2.4rem] italic font-light text-accent tracking-normal leading-[1] mt-1">
+                      {card.typographyBottom}
+                    </span>
+                  </div>
+
+                  {/* Subtle Motif */}
+                  <div className="absolute top-[10%] left-[20%] w-[4px] h-[80%] bg-accent/5 -rotate-16 pointer-events-none transition-transform duration-700 group-hover:scale-y-110" />
+                  <div className="absolute bottom-[20%] right-[15%] w-[40px] h-[40px] bg-accent/5 rotate-45 rounded-[6px] pointer-events-none transition-transform duration-700 group-hover:rotate-90 group-hover:scale-110" />
                 </div>
 
                 {/* Body */}
@@ -277,7 +287,7 @@ function StatsBand() {
               <PiUsers size={22} />
             </div>
             <div className="font-display text-white leading-none mt-2 text-[clamp(2.5rem,5vw,3.5rem)]">
-              <AnimatedCounter end={50000} suffix="+" />
+              <AnimatedCounter end={1000} suffix="+" />
             </div>
             <p className="text-[14px] font-medium text-white/70">Filipinos served</p>
             <p className="text-[12.5px] leading-relaxed text-white/40 mt-1">

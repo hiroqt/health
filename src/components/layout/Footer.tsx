@@ -17,17 +17,16 @@ const COLUMNS = [
   {
     heading: "Programs",
     links: [
-      { label: "Weight Management", href: "#" },
-      { label: "GLP-1 Medication",  href: "#" },
-      { label: "Skin Renewal",      href: "#" },
-      { label: "Men's Vitality",    href: "#" },
-      { label: "View all programs", href: "#", accent: true },
+      { label: "Weight Management", href: "/products" },
+      { label: "Recovery & Healing", href: "/products" },
+      { label: "Cellular Health", href: "/products" },
+      { label: "View all programs", href: "/products", accent: true },
     ],
   },
   {
     heading: "Support",
     links: [
-      { label: "How it Works",     href: "#" },
+      { label: "How it Works",     href: "/learn-more" },
       { label: "Pricing & Plans",  href: "#" },
       { label: "Help Center",      href: "#" },
       { label: "Track Your Order", href: "#" },

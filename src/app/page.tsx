@@ -28,18 +28,28 @@ import {
   PiShield,
 } from "react-icons/pi";
 
+import feedback1 from "../../public/feedbacks/Real Results from Real People (1).png";
+import feedback2 from "../../public/feedbacks/Real Results from Real People (2).png";
+import feedback3 from "../../public/feedbacks/Real Results from Real People (3).jpg";
+import feedback4 from "../../public/feedbacks/Real Results from Real People (4).png";
+import feedback5 from "../../public/feedbacks/Real Results from Real People (5).png";
+import feedback6 from "../../public/feedbacks/Real Results from Real People (6).png";
+import feedback7 from "../../public/feedbacks/Real Results from Real People (7).png";
+import feedback8 from "../../public/feedbacks/Real Results from Real People (8).png";
+import feedback9 from "../../public/feedbacks/Real Results from Real People (9).png";
+
 // ─── Animations ───────────────────────────────────────────────────────────────
 const ease = [0.16, 1, 0.3, 1] as const;
 const fadeUp = {
-  hidden:  { opacity: 0, y: 24, filter: "blur(4px)" },
+  hidden: { opacity: 0, y: 24, filter: "blur(4px)" },
   visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.7, ease } },
 };
 const fadeIn = {
-  hidden:  { opacity: 0, filter: "blur(4px)" },
+  hidden: { opacity: 0, filter: "blur(4px)" },
   visible: { opacity: 1, filter: "blur(0px)", transition: { duration: 0.6, ease } },
 };
 const stagger = {
-  hidden:  {},
+  hidden: {},
   visible: { transition: { staggerChildren: 0.12 } },
 };
 const slashAnim = {
@@ -109,9 +119,9 @@ function Hero({ splashDone }: { splashDone: boolean }) {
               </a>
               <div className="flex flex-wrap justify-center gap-3">
                 {[
-                  { icon: <PiUsers size={16} />,          label: "50,000+ patients" },
-                  { icon: <PiTruck size={16} />,           label: "Free delivery"    },
-                  { icon: <PiShieldCheckFill size={16} />, label: "100% discreet"   },
+                  { icon: <PiUsers size={16} />, label: "1,000+ patients" },
+                  { icon: <PiTruck size={16} />, label: "Free delivery" },
+                  { icon: <PiShieldCheckFill size={16} />, label: "100% discreet" },
                 ].map(({ icon, label }) => (
                   <span
                     key={label}
@@ -127,10 +137,10 @@ function Hero({ splashDone }: { splashDone: boolean }) {
 
           {/* Bottom Section: 3-Column Product Row */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            
-            {/* Card 1: The Right Guidance */}
+
+            {/* Card 1: Weight Management */}
             <motion.a
-              href="#guidance"
+              href="/products"
               variants={fadeUp}
               whileHover={{ y: -6, scale: 1.01 }}
               transition={{ type: "spring", stiffness: 300, damping: 20 }}
@@ -138,18 +148,18 @@ function Hero({ splashDone }: { splashDone: boolean }) {
             >
               <div className="relative flex-1 min-h-[220px] overflow-hidden rounded-[24px]">
                 <Image
-                  src="/guidance.jpg"
-                  alt="Start your journey to confidence"
+                  src="/card-metabolic.png"
+                  alt="Weight Management"
                   fill
-                  className="object-contain transition-transform duration-700 ease-out group-hover:scale-105"
+                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                   sizes="(max-width: 768px) 100vw, 33vw"
                   priority
                 />
               </div>
               <div className="px-5 py-6 bg-transparent shrink-0 flex items-center justify-between">
                 <div className="pr-2">
-                  <h2 className="font-display text-ink text-[1.5rem] leading-[1.1]">Guidance</h2>
-                  <p className="text-[13px] text-ink-3 mt-1.5 font-medium leading-relaxed">Anti-aging & weight loss</p>
+                  <h2 className="font-display text-ink text-[1.5rem] leading-[1.1]">Weight Management</h2>
+                  <p className="text-[13px] text-ink-3 mt-1.5 font-medium leading-relaxed">Advanced GLP-1 therapies</p>
                 </div>
                 <div className="w-11 h-11 shrink-0 rounded-full border border-border flex items-center justify-center text-accent group-hover:bg-accent group-hover:text-white group-hover:border-accent transition-colors duration-300">
                   <PiArrowRight size={20} />
@@ -157,37 +167,9 @@ function Hero({ splashDone }: { splashDone: boolean }) {
               </div>
             </motion.a>
 
-            {/* Card 2: NAD+ */}
+            {/* Card 2: Peptide Therapy */}
             <motion.a
-              href="#nad-plus"
-              variants={fadeUp}
-              whileHover={{ y: -6, scale: 1.01 }}
-              transition={{ type: "spring", stiffness: 300, damping: 20 }}
-              className="group relative rounded-[32px] bg-white/70 backdrop-blur-md border border-border flex flex-col p-2.5 hover:shadow-card-hover transition-all duration-300 min-h-[360px] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 outline-none"
-            >
-              <div className="relative flex-1 min-h-[220px] overflow-hidden rounded-[24px] bg-surface">
-                <Image
-                  src="/nad.jpg"
-                  alt="NAD+"
-                  fill
-                  className="object-contain transition-transform duration-700 ease-out group-hover:scale-105"
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                />
-              </div>
-              <div className="px-5 py-6 bg-transparent shrink-0 flex items-center justify-between">
-                <div className="pr-2">
-                  <h2 className="font-display text-ink text-[1.5rem] leading-[1.1]">NAD+</h2>
-                  <p className="text-[13px] text-ink-3 mt-1.5 font-medium leading-relaxed">Boosts energy & focus</p>
-                </div>
-                <div className="w-11 h-11 shrink-0 rounded-full border border-border flex items-center justify-center text-accent group-hover:bg-accent group-hover:text-white group-hover:border-accent transition-colors duration-300">
-                  <PiArrowRight size={20} />
-                </div>
-              </div>
-            </motion.a>
-
-            {/* Card 3: GHK-CU */}
-            <motion.a
-              href="#ghk-cu"
+              href="/products"
               variants={fadeUp}
               whileHover={{ y: -6, scale: 1.01 }}
               transition={{ type: "spring", stiffness: 300, damping: 20 }}
@@ -195,17 +177,45 @@ function Hero({ splashDone }: { splashDone: boolean }) {
             >
               <div className="relative flex-1 min-h-[220px] overflow-hidden rounded-[24px]">
                 <Image
-                  src="/ghk.jpg"
-                  alt="GHK-CU"
+                  src="/card-skin.png"
+                  alt="Peptide Therapy"
                   fill
-                  className="object-contain transition-transform duration-700 ease-out group-hover:scale-105"
+                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                   sizes="(max-width: 768px) 100vw, 33vw"
                 />
               </div>
               <div className="px-5 py-6 bg-transparent shrink-0 flex items-center justify-between">
                 <div className="pr-2">
-                  <h2 className="font-display text-ink text-[1.5rem] leading-[1.1]">GHK-CU</h2>
-                  <p className="text-[13px] text-ink-3 mt-1.5 font-medium leading-relaxed">Boosts collagen & healing</p>
+                  <h2 className="font-display text-ink text-[1.5rem] leading-[1.1]">Peptide Therapy</h2>
+                  <p className="text-[13px] text-ink-3 mt-1.5 font-medium leading-relaxed">Healing & rejuvenation</p>
+                </div>
+                <div className="w-11 h-11 shrink-0 rounded-full border border-border flex items-center justify-center text-accent group-hover:bg-accent group-hover:text-white group-hover:border-accent transition-colors duration-300">
+                  <PiArrowRight size={20} />
+                </div>
+              </div>
+            </motion.a>
+
+            {/* Card 3: Wellness & Longevity */}
+            <motion.a
+              href="/products"
+              variants={fadeUp}
+              whileHover={{ y: -6, scale: 1.01 }}
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
+              className="group relative rounded-[32px] bg-white/70 backdrop-blur-md border border-border flex flex-col p-2.5 hover:shadow-card-hover transition-all duration-300 min-h-[360px] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 outline-none"
+            >
+              <div className="relative flex-1 min-h-[220px] overflow-hidden rounded-[24px]">
+                <Image
+                  src="/card-vitality.png"
+                  alt="Wellness & Longevity"
+                  fill
+                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                />
+              </div>
+              <div className="px-5 py-6 bg-transparent shrink-0 flex items-center justify-between">
+                <div className="pr-2">
+                  <h2 className="font-display text-ink text-[1.5rem] leading-[1.1]">Wellness & Longevity</h2>
+                  <p className="text-[13px] text-ink-3 mt-1.5 font-medium leading-relaxed">Cellular energy & focus</p>
                 </div>
                 <div className="w-11 h-11 shrink-0 rounded-full border border-border flex items-center justify-center text-accent group-hover:bg-accent group-hover:text-white group-hover:border-accent transition-colors duration-300">
                   <PiArrowRight size={20} />
@@ -239,12 +249,12 @@ function WaveDivider({ fromColor, toColor, className }: { fromColor?: string; to
 
 // ─── TRUST BAR ────────────────────────────────────────────────────────────────
 const TRUST_ITEMS = [
-  { icon: <PiUsers size={17} />,           text: "50,000+ members"           },
-  { icon: <PiCurrencyDollar size={17} />,  text: "Transparent pricing"       },
-  { icon: <PiHeartStraight size={17} />,   text: "Personalized care"         },
-  { icon: <PiDesktop size={17} />,         text: "100% entirely online"      },
+  { icon: <PiUsers size={17} />, text: "50,000+ members" },
+  { icon: <PiCurrencyDollar size={17} />, text: "Transparent pricing" },
+  { icon: <PiHeartStraight size={17} />, text: "Personalized care" },
+  { icon: <PiDesktop size={17} />, text: "100% entirely online" },
   { icon: <PiShieldCheckFill size={17} />, text: "FDA-registered facilities" },
-  { icon: <PiTruck size={17} />,           text: "Free & discreet delivery"  },
+  { icon: <PiTruck size={17} />, text: "Free & discreet delivery" },
 ];
 
 function MarqueeDot() {
@@ -283,7 +293,7 @@ interface FeatureSectionProps {
   imgRight?: boolean;
   heading: React.ReactNode;
   bullets: Bullet[];
-  primaryCta:   { label: string; href: string };
+  primaryCta: { label: string; href: string };
   secondaryCta: { label: string; href: string };
   bgClass?: string;
 }
@@ -342,25 +352,25 @@ const HOW_IT_WORKS = [
     icon: <PiUsers size={20} />,
     step: "1",
     title: "Real results, real people",
-    desc:  "Built on authentic client experiences—because results you can see and feel matter most.",
+    desc: "Built on authentic client experiences—because results you can see and feel matter most.",
   },
   {
     icon: <PiDropHalfBottom size={20} />,
     step: "2",
     title: "Science-backed formulations",
-    desc:  "Carefully selected ingredients designed to support wellness, recovery, and overall vitality.",
+    desc: "Carefully selected ingredients designed to support wellness, recovery, and overall vitality.",
   },
   {
     icon: <PiHandHeart size={20} />,
     step: "3",
     title: "Client-centered care",
-    desc:  "We prioritize guidance, support, and education—so every client feels confident in their journey.",
+    desc: "We prioritize guidance, support, and education—so every client feels confident in their journey.",
   },
   {
     icon: <PiShieldCheckFill size={20} />,
     step: "4",
     title: "Consistency you can trust",
-    desc:  "From product quality to customer experience, by tearsize delivers reliability every step of the way.",
+    desc: "From product quality to customer experience, by tearsize delivers reliability every step of the way.",
   },
 ];
 
@@ -385,12 +395,12 @@ function BentoCampaign() {
           </motion.div>
 
           {/* Person image */}
-          <div className="w-full max-w-[320px] md:max-w-[420px] relative mx-auto mb-4 md:mb-6 pointer-events-none h-[240px]"
+          <div className="w-full relative mx-auto mb-4 md:mb-6 pointer-events-none h-[300px] md:h-[460px]"
             style={{
               WebkitMaskImage: "linear-gradient(to bottom, white 55%, transparent 100%)",
               maskImage: "linear-gradient(to bottom, white 55%, transparent 100%)",
             }}>
-            <Image src="/bento-campaign.png" alt="" fill className="object-cover object-top" sizes="420px" />
+            <Image src="/image.png" alt="" fill className="object-cover object-center rounded-2xl md:rounded-[24px]" sizes="(max-width: 768px) 100vw, 1280px" />
           </div>
 
           {/* Step cards */}
@@ -418,39 +428,107 @@ function BentoCampaign() {
   );
 }
 
-// ─── TESTIMONIALS ─────────────────────────────────────────────────────────────
-const REVIEWS = [
+// ─── HOW IT WORKS STEPS ─────────────────────────────────────────────────────────
+const PROCESS_STEPS = [
   {
-    name: "Sarah M.",
-    rating: 5,
-    text: "I've tried everything for my weight. After 60 days on my by tearsize plan, friends started asking what I changed. The difference was real — and fast.",
-    treatment: "Weight Loss Guidance",
+    step: "01",
+    title: "Take the 3-minute quiz",
+    desc: "Tell us about your health, goals, and lifestyle. No long forms — just a few focused questions to help us understand what you need.",
+    icon: <PiClipboardText size={24} />
   },
   {
-    name: "David L.",
-    rating: 5,
-    text: "The intake was seamless and my doctor was incredibly thorough. Four months in and my energy levels with NAD+ are completely transformed. Real results.",
-    treatment: "NAD+ Therapy",
+    step: "02",
+    title: "Get matched with a doctor",
+    desc: "A licensed Filipino physician reviews your answers within 24 hours and builds a treatment plan tailored specifically for you.",
+    icon: <PiUserCircleCheck size={24} />
   },
   {
-    name: "Michelle R.",
-    rating: 5,
-    text: "I was skeptical of peptides but GHK-CU changed everything. Fast, private, and genuinely effective. My skin feels incredible and the care team is always there.",
-    treatment: "GHK-CU Peptide",
+    step: "03",
+    title: "Receive your treatment",
+    desc: "Your prescription is dispensed from an FDA-registered pharmacy and delivered free — discreetly packaged, right to your door.",
+    icon: <PiPackage size={24} />
   },
   {
-    name: "James T.",
-    rating: 5,
-    text: "The guidance program helped me feel like myself again. The doctor was knowledgeable, the treatments arrived faster than expected. Couldn't recommend it more.",
-    treatment: "Weight Loss Guidance",
-  },
+    step: "04",
+    title: "Ongoing doctor support",
+    desc: "Unlimited consultations, dose adjustments, and check-ins throughout your program. Your doctor stays with you the entire journey.",
+    icon: <PiHeartStraight size={24} />
+  }
 ];
+
+function HowItWorksSteps() {
+  return (
+    <section className="w-full py-16 md:py-24 bg-surface relative overflow-hidden">
+      <div className="max-w-[1280px] mx-auto px-4 md:px-8 lg:px-12 relative z-10">
+        <motion.div {...inView} variants={stagger} className="flex flex-col items-center text-center mb-12 md:mb-16">
+          <motion.p variants={fadeUp} className="text-[11px] font-bold tracking-[0.22em] uppercase mb-4 text-accent">
+            How it works
+          </motion.p>
+          <motion.h2 variants={fadeUp} className="font-display text-ink leading-tight text-[clamp(2rem,4vw,3rem)] mb-4 max-w-2xl mx-auto">
+            Simple from start to finish.
+          </motion.h2>
+          <motion.p variants={fadeUp} className="text-[15px] text-ink-3 leading-relaxed max-w-2xl mx-auto">
+            Four steps between you and the healthiest version of yourself.
+          </motion.p>
+        </motion.div>
+
+        <motion.div {...inView} variants={stagger} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {PROCESS_STEPS.map((item, i) => (
+            <motion.div key={item.step} variants={fadeUp} className="relative bg-white rounded-[24px] p-8 border border-border hover:shadow-card-hover transition-all duration-300 flex flex-col group">
+              <div className="flex items-center justify-between mb-8">
+                <span className="w-12 h-12 rounded-full flex items-center justify-center bg-accent-subtle text-accent group-hover:bg-accent group-hover:text-white transition-colors duration-300">
+                  {item.icon}
+                </span>
+                <span className="text-[40px] font-display font-light text-border-strong opacity-30 select-none">
+                  {item.step}
+                </span>
+              </div>
+              <h3 className="font-display text-ink text-[1.25rem] leading-snug mb-3">
+                {item.title}
+              </h3>
+              <p className="text-[14px] text-ink-3 leading-relaxed">
+                {item.desc}
+              </p>
+            </motion.div>
+          ))}
+        </motion.div>
+        
+        <motion.div {...inView} variants={fadeUp} className="mt-12 flex justify-center">
+          <a
+            href="/learn-more"
+            className="inline-flex items-center justify-center rounded-full font-semibold whitespace-nowrap cursor-pointer transition-colors duration-200 gap-2 shrink-0 text-white bg-accent hover:bg-accent-hover text-[14.5px] min-h-[56px] px-8 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 outline-none shadow-sm"
+          >
+            Start your journey <PiArrowRight size={16} />
+          </a>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+// ─── TESTIMONIALS ─────────────────────────────────────────────────────────────
+const FEEDBACK_IMAGES = [
+  feedback1,
+  feedback2,
+  feedback3,
+  feedback4,
+  feedback5,
+  feedback6,
+  feedback7,
+  feedback8,
+  feedback9,
+];
+
+const ROW1 = FEEDBACK_IMAGES.slice(0, 5);
+const ROW2 = FEEDBACK_IMAGES.slice(5, 9);
+const ROW1_DOUBLED = [...ROW1, ...ROW1];
+const ROW2_DOUBLED = [...ROW2, ...ROW2];
 
 function Testimonials() {
   return (
-    <section className="w-full py-14 md:py-20 bg-surface">
+    <section className="w-full py-14 md:py-20 bg-surface overflow-hidden">
       <div className="max-w-[1280px] mx-auto px-4 md:px-8 lg:px-12">
-        <motion.div {...inView} variants={stagger} className="flex flex-col gap-10">
+        <motion.div {...inView} variants={stagger} className="flex flex-col gap-8 md:gap-12">
           <motion.div variants={fadeUp}
             className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <div>
@@ -466,33 +544,55 @@ function Testimonials() {
                 <PiStarFill key={i} size={15} className="text-accent" />
               ))}
               <span className="ml-1 text-[14px] font-semibold text-ink">4.9</span>
-              <span className="text-[13px] ml-1 text-ink-3">· 8,000+ reviews</span>
+              <span className="text-[13px] ml-1 text-ink-3">· 1,000+ reviews</span>
             </div>
-          </motion.div>
-
-          <motion.div variants={stagger} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
-            {REVIEWS.map((r) => (
-              <motion.div key={r.name} variants={fadeUp}
-                className="rounded-[16px] p-6 flex flex-col gap-4 bg-white border border-border shadow-sm hover:shadow-card-hover transition-shadow duration-300">
-                <div className="flex items-center gap-0.5">
-                  {[...Array(r.rating)].map((_, i) => (
-                    <PiStarFill key={i} size={13} className="text-accent" />
-                  ))}
-                </div>
-                <p className="text-[14px] text-ink-2 leading-relaxed flex-1">
-                  &ldquo;{r.text}&rdquo;
-                </p>
-                <div className="flex items-center justify-between mt-1 pt-4 border-t border-border">
-                  <span className="text-[13px] font-semibold text-ink">{r.name}</span>
-                  <span className="text-[11px] font-medium px-2.5 py-1 rounded-full bg-accent-light text-accent-hover">
-                    {r.treatment}
-                  </span>
-                </div>
-              </motion.div>
-            ))}
           </motion.div>
         </motion.div>
       </div>
+
+      <motion.div {...inView} variants={fadeUp} className="relative w-full overflow-hidden flex flex-col gap-2 md:gap-6 pt-10 pb-4">
+        {/* ROW 1 (Left Marquee) */}
+        <div className="w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)]">
+          <div className="marquee-track gap-6 md:gap-8 items-center py-4">
+            {ROW1_DOUBLED.map((img, i) => (
+              <div
+                key={`r1-${i}`}
+                className={`w-[260px] md:w-[320px] shrink-0 rounded-[20px] overflow-hidden shadow-sm border border-border bg-white transition-all duration-300 hover:scale-[1.03] hover:rotate-0 hover:z-10 hover:shadow-card-hover cursor-pointer ${i % 2 === 0 ? 'rotate-[-2deg] -translate-y-2' : 'rotate-[2deg] translate-y-2'
+                  }`}
+              >
+                <Image
+                  src={img}
+                  alt={`Patient feedback ${i + 1}`}
+                  className="w-full h-auto object-contain"
+                  placeholder="blur"
+                  quality={100}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ROW 2 (Right Marquee) */}
+        <div className="w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)]">
+          <div className="marquee-track-reverse gap-6 md:gap-8 items-center py-4">
+            {ROW2_DOUBLED.map((img, i) => (
+              <div
+                key={`r2-${i}`}
+                className={`w-[260px] md:w-[320px] shrink-0 rounded-[20px] overflow-hidden shadow-sm border border-border bg-white transition-all duration-300 hover:scale-[1.03] hover:rotate-0 hover:z-10 hover:shadow-card-hover cursor-pointer ${i % 2 === 0 ? 'rotate-[3deg] translate-y-2' : 'rotate-[-3deg] -translate-y-2'
+                  }`}
+              >
+                <Image
+                  src={img}
+                  alt={`Patient feedback row 2 ${i + 1}`}
+                  className="w-full h-auto object-contain"
+                  placeholder="blur"
+                  quality={100}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </motion.div>
     </section>
   );
 }
@@ -628,35 +728,7 @@ export default function HomePage() {
 
         <BentoCampaign />
 
-        <FeatureSection
-          id="ghk-cu"
-          imgSrc="/ghk.jpg"
-          imgAlt="GHK-CU Peptide"
-          heading={
-            <>
-              GHK-CU:
-              <br />
-              The Ultimate Peptide
-            </>
-          }
-          bullets={[
-            {
-              icon: <PiDropHalfBottom size={20} />,
-              text: "Boosts collagen firmness, speeds up wound healing, and enhances skin barrier.",
-            },
-            {
-              icon: <PiCheckCircleFill size={20} />,
-              text: "Improves skin texture, reduces fine lines & wrinkles, and fades hyperpigmentation.",
-            },
-            {
-              icon: <PiSealCheckFill size={20} />,
-              text: "Acts as a powerful antioxidant with strong anti-inflammatory effects, while supporting hair growth and cellular repair.",
-            },
-          ]}
-          primaryCta={{ label: "Start my peptide plan", href: "/learn-more" }}
-          secondaryCta={{ label: "Learn more", href: "/learn-more" }}
-          bgClass="bg-surface"
-        />
+        <HowItWorksSteps />
 
         <Testimonials />
         <Press />

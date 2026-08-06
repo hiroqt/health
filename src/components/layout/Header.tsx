@@ -7,27 +7,29 @@ import { PiList, PiX, PiArrowRight, PiCaretDown, PiSyringe, PiSyringeFill } from
 
 const NAV_LINKS = [
   {
-    label: "Programs",
+    label: "Products",
     megaMenu: [
       {
-        category: "Weight Loss",
+        category: "Weight Management",
         links: [
-          { label: "Metabolic Health", href: "#metabolic" },
-          { label: "GLP-1 Medication",  href: "#metabolic" },
+          { label: "Tirzepatide", href: "/products/tirzepatide" },
+          { label: "Retatrutide", href: "/products/retatrutide" },
+          { label: "Mots-C", href: "/products/mots-c" },
+          { label: "Tesamorelin", href: "/products/tesamorelin" },
         ],
       },
       {
-        category: "Skin Care",
+        category: "Peptide Therapy",
         links: [
-          { label: "Skin Renewal",  href: "#skin" },
-          { label: "Anti-Aging Rx", href: "#skin" },
+          { label: "BPC-157", href: "/products/bpc-157" },
+          { label: "GHK-CU", href: "/products/ghk-cu" },
         ],
       },
       {
-        category: "Men's Health",
+        category: "Wellness & Longevity",
         links: [
-          { label: "Men's Vitality",      href: "#vitality" },
-          { label: "Performance Support", href: "#vitality" },
+          { label: "NAD+", href: "/products/nad-plus" },
+          { label: "Glutathione", href: "/products/glutathione" },
         ],
       },
     ],
