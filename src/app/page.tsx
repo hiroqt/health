@@ -249,7 +249,7 @@ function WaveDivider({ fromColor, toColor, className }: { fromColor?: string; to
 
 // ─── TRUST BAR ────────────────────────────────────────────────────────────────
 const TRUST_ITEMS = [
-  { icon: <PiUsers size={17} />, text: "50,000+ members" },
+  { icon: <PiUsers size={17} />, text: "1,000+ members" },
   { icon: <PiCurrencyDollar size={17} />, text: "Transparent pricing" },
   { icon: <PiHeartStraight size={17} />, text: "Personalized care" },
   { icon: <PiDesktop size={17} />, text: "100% entirely online" },
@@ -492,7 +492,7 @@ function HowItWorksSteps() {
             </motion.div>
           ))}
         </motion.div>
-        
+
         <motion.div {...inView} variants={fadeUp} className="mt-12 flex justify-center">
           <a
             href="/learn-more"
