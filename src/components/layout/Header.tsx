@@ -14,7 +14,7 @@ const NAV_LINKS = [
         links: [
           { label: "Tirzepatide", href: "/products/tirzepatide" },
           { label: "Retatrutide", href: "/products/retatrutide" },
-          { label: "Mots-C", href: "/products/mots-c" },
+          { label: "Cagrilintide", href: "/products/cagrilintide" },
           { label: "Tesamorelin", href: "/products/tesamorelin" },
         ],
       },
@@ -22,13 +22,19 @@ const NAV_LINKS = [
         category: "Peptide Therapy",
         links: [
           { label: "BPC-157", href: "/products/bpc-157" },
-          { label: "GHK-CU", href: "/products/ghk-cu" },
+          { label: "MOTS-c", href: "/products/mots-c" },
+          { label: "TB-500", href: "/products/tb-500" },
+          { label: "Ipamorelin", href: "/products/ipamorelin" },
         ],
       },
       {
         category: "Wellness & Longevity",
         links: [
+          { label: "GHK-Cu", href: "/products/ghk-cu" },
           { label: "NAD+", href: "/products/nad-plus" },
+          { label: "KPV", href: "/products/kpv" },
+          { label: "Glow", href: "/products/glow" },
+          { label: "Klow", href: "/products/klow" },
           { label: "Glutathione", href: "/products/glutathione" },
         ],
       },

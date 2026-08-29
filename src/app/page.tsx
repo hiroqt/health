@@ -146,12 +146,12 @@ function Hero({ splashDone }: { splashDone: boolean }) {
               transition={{ type: "spring", stiffness: 300, damping: 20 }}
               className="group relative rounded-[32px] bg-white/70 backdrop-blur-md border border-border flex flex-col p-2.5 hover:shadow-card-hover transition-all duration-300 min-h-[360px] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 outline-none"
             >
-              <div className="relative flex-1 min-h-[220px] overflow-hidden rounded-[24px]">
+              <div className="relative flex-1 min-h-[220px] overflow-hidden rounded-[24px] bg-surface flex items-center justify-center p-6">
                 <Image
-                  src="/card-metabolic.png"
+                  src="/undraw_hamburger_falh.svg"
                   alt="Weight Management"
                   fill
-                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                  className="object-contain p-4 transition-transform duration-700 ease-out group-hover:scale-105"
                   sizes="(max-width: 768px) 100vw, 33vw"
                   priority
                 />
@@ -159,7 +159,7 @@ function Hero({ splashDone }: { splashDone: boolean }) {
               <div className="px-5 py-6 bg-transparent shrink-0 flex items-center justify-between">
                 <div className="pr-2">
                   <h2 className="font-display text-ink text-[1.5rem] leading-[1.1]">Weight Management</h2>
-                  <p className="text-[13px] text-ink-3 mt-1.5 font-medium leading-relaxed">Advanced GLP-1 therapies</p>
+                  <p className="text-[13px] text-ink-3 mt-1.5 font-medium leading-relaxed">Advanced GLP-1 & amylin therapies</p>
                 </div>
                 <div className="w-11 h-11 shrink-0 rounded-full border border-border flex items-center justify-center text-accent group-hover:bg-accent group-hover:text-white group-hover:border-accent transition-colors duration-300">
                   <PiArrowRight size={20} />
@@ -175,19 +175,19 @@ function Hero({ splashDone }: { splashDone: boolean }) {
               transition={{ type: "spring", stiffness: 300, damping: 20 }}
               className="group relative rounded-[32px] bg-white/70 backdrop-blur-md border border-border flex flex-col p-2.5 hover:shadow-card-hover transition-all duration-300 min-h-[360px] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 outline-none"
             >
-              <div className="relative flex-1 min-h-[220px] overflow-hidden rounded-[24px]">
+              <div className="relative flex-1 min-h-[220px] overflow-hidden rounded-[24px] bg-surface flex items-center justify-center p-6">
                 <Image
-                  src="/card-skin.png"
+                  src="/undraw_yoga_i399.svg"
                   alt="Peptide Therapy"
                   fill
-                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                  className="object-contain p-4 transition-transform duration-700 ease-out group-hover:scale-105"
                   sizes="(max-width: 768px) 100vw, 33vw"
                 />
               </div>
               <div className="px-5 py-6 bg-transparent shrink-0 flex items-center justify-between">
                 <div className="pr-2">
                   <h2 className="font-display text-ink text-[1.5rem] leading-[1.1]">Peptide Therapy</h2>
-                  <p className="text-[13px] text-ink-3 mt-1.5 font-medium leading-relaxed">Healing & rejuvenation</p>
+                  <p className="text-[13px] text-ink-3 mt-1.5 font-medium leading-relaxed">Tissue healing & cellular repair</p>
                 </div>
                 <div className="w-11 h-11 shrink-0 rounded-full border border-border flex items-center justify-center text-accent group-hover:bg-accent group-hover:text-white group-hover:border-accent transition-colors duration-300">
                   <PiArrowRight size={20} />
@@ -203,19 +203,19 @@ function Hero({ splashDone }: { splashDone: boolean }) {
               transition={{ type: "spring", stiffness: 300, damping: 20 }}
               className="group relative rounded-[32px] bg-white/70 backdrop-blur-md border border-border flex flex-col p-2.5 hover:shadow-card-hover transition-all duration-300 min-h-[360px] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 outline-none"
             >
-              <div className="relative flex-1 min-h-[220px] overflow-hidden rounded-[24px]">
+              <div className="relative flex-1 min-h-[220px] overflow-hidden rounded-[24px] bg-surface flex items-center justify-center p-6">
                 <Image
-                  src="/card-vitality.png"
+                  src="/undraw_meditation_k4oa.svg"
                   alt="Wellness & Longevity"
                   fill
-                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                  className="object-contain p-4 transition-transform duration-700 ease-out group-hover:scale-105"
                   sizes="(max-width: 768px) 100vw, 33vw"
                 />
               </div>
               <div className="px-5 py-6 bg-transparent shrink-0 flex items-center justify-between">
                 <div className="pr-2">
                   <h2 className="font-display text-ink text-[1.5rem] leading-[1.1]">Wellness & Longevity</h2>
-                  <p className="text-[13px] text-ink-3 mt-1.5 font-medium leading-relaxed">Cellular energy & focus</p>
+                  <p className="text-[13px] text-ink-3 mt-1.5 font-medium leading-relaxed">Cellular vitality & skin radiance</p>
                 </div>
                 <div className="w-11 h-11 shrink-0 rounded-full border border-border flex items-center justify-center text-accent group-hover:bg-accent group-hover:text-white group-hover:border-accent transition-colors duration-300">
                   <PiArrowRight size={20} />

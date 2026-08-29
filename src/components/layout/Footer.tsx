@@ -18,8 +18,8 @@ const COLUMNS = [
     heading: "Programs",
     links: [
       { label: "Weight Management", href: "/products" },
-      { label: "Recovery & Healing", href: "/products" },
-      { label: "Cellular Health", href: "/products" },
+      { label: "Peptide Therapy", href: "/products" },
+      { label: "Wellness & Longevity", href: "/products" },
       { label: "View all programs", href: "/products", accent: true },
     ],
   },
@@ -27,10 +27,10 @@ const COLUMNS = [
     heading: "Support",
     links: [
       { label: "How it Works",     href: "/learn-more" },
-      { label: "Pricing & Plans",  href: "#" },
-      { label: "Help Center",      href: "#" },
-      { label: "Track Your Order", href: "#" },
-      { label: "Contact Us",       href: "#" },
+      { label: "Pricing & Plans",  href: "/products" },
+      { label: "Help Center",      href: "mailto:tearsize@gmail.com" },
+      { label: "Track Your Order", href: "/products" },
+      { label: "Contact Us",       href: "mailto:tearsize@gmail.com" },
     ],
   },
   {
@@ -193,16 +193,24 @@ export function Footer() {
                 Redefining modern healthcare. Expert medical care, prescription treatments, and ongoing support — entirely online.
               </p>
               <div className="flex flex-col gap-3 mt-2">
-                {[
-                  { icon: <PiPhone size={16} />,          text: "1-800-TEARSIZE"       },
-                  { icon: <PiEnvelopeSimple size={16} />, text: "care@bytearsize.com"    },
-                  { icon: <PiMapPin size={16} />,         text: "Available in all 50 states" },
-                ].map(({ icon, text }) => (
-                  <div key={text} className="flex items-center gap-3 text-[13.5px] text-[#4A3333]">
-                    <span style={{ color: "#F07070" }}>{icon}</span>
-                    {text}
-                  </div>
-                ))}
+                <a
+                  href="tel:+639613236199"
+                  className="flex items-center gap-3 text-[13.5px] text-[#4A3333] hover:text-[#F07070] transition-colors"
+                >
+                  <span style={{ color: "#F07070" }}><PiPhone size={16} /></span>
+                  +63 961 323 6199
+                </a>
+                <a
+                  href="mailto:tearsize@gmail.com"
+                  className="flex items-center gap-3 text-[13.5px] text-[#4A3333] hover:text-[#F07070] transition-colors"
+                >
+                  <span style={{ color: "#F07070" }}><PiEnvelopeSimple size={16} /></span>
+                  tearsize@gmail.com
+                </a>
+                <div className="flex items-center gap-3 text-[13.5px] text-[#4A3333]">
+                  <span style={{ color: "#F07070" }}><PiMapPin size={16} /></span>
+                  Available Nationwide
+                </div>
               </div>
             </div>
 

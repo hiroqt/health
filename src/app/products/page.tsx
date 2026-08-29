@@ -6,17 +6,17 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { IntroSplash } from "@/components/animations/IntroSplash";
-import { PRODUCTS } from "@/data/products";
+import { PRODUCTS, Product, Benefit } from "@/data/products";
 import { PiArrowRight, PiCheckCircleFill } from "react-icons/pi";
 import Link from "next/link";
 
 // ─── Categories & Mapping ─────────────────────────────────────────────────────
-const CATEGORIES = ["All", "Weight Management", "Recovery & Healing", "Cellular Health"];
+const CATEGORIES = ["All", "Weight Management", "Peptide Therapy", "Wellness & Longevity"];
 
 const CATEGORY_MAP: Record<string, string[]> = {
-  "Weight Management": ["retatrutide", "tirzepatide", "tesamorelin", "mots-c"],
-  "Recovery & Healing": ["bpc-157", "ghk-cu"],
-  "Cellular Health": ["glutathione", "nad-plus"],
+  "Weight Management": ["tirzepatide", "retatrutide", "cagrilintide", "tesamorelin"],
+  "Peptide Therapy": ["bpc-157", "mots-c", "tb-500", "ipamorelin"],
+  "Wellness & Longevity": ["ghk-cu", "nad-plus", "kpv", "glow", "klow", "glutathione"],
 };
 
 // ─── Animations ───────────────────────────────────────────────────────────────
@@ -51,7 +51,7 @@ export default function ProductsCatalogPage() {
   };
 
   // Filter logic
-  const filteredProducts = PRODUCTS.filter((product) => {
+  const filteredProducts = PRODUCTS.filter((product: Product) => {
     if (activeCategory === "All") return true;
     const slugs = CATEGORY_MAP[activeCategory] || [];
     return slugs.includes(product.slug);
@@ -119,7 +119,7 @@ export default function ProductsCatalogPage() {
               {/* Premium Grid */}
               <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 relative z-10">
                 <AnimatePresence mode="popLayout">
-                  {filteredProducts.map((product) => (
+                  {filteredProducts.map((product: Product) => (
                     <motion.div
                       key={product.slug}
                       layout
@@ -150,11 +150,14 @@ export default function ProductsCatalogPage() {
                           
                           {/* Card Content */}
                           <div className="px-4 pb-4 flex-grow flex flex-col">
-                            {/* Benefit Tags */}
-                            <div className="flex flex-wrap gap-2 mb-3">
-                              {product.benefits.slice(0, 2).map((benefit, idx) => (
-                                <span key={idx} className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-surface text-accent text-[11px] font-bold tracking-wide uppercase">
-                                  <PiCheckCircleFill className="text-[12px]" />
+                            {/* Category & Benefit Tags */}
+                            <div className="flex flex-wrap items-center gap-2 mb-3">
+                              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full bg-accent/10 text-accent text-[10.5px] font-bold tracking-wider uppercase">
+                                {product.category}
+                              </span>
+                              {product.benefits.slice(0, 1).map((benefit: Benefit, idx: number) => (
+                                <span key={idx} className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-surface text-ink-2 text-[11px] font-medium">
+                                  <PiCheckCircleFill className="text-accent text-[12px]" />
                                   {benefit.title}
                                 </span>
                               ))}

@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { IntroSplash } from "@/components/animations/IntroSplash";
-import { PRODUCTS, getProductBySlug } from "@/data/products";
+import { PRODUCTS, getProductBySlug, Product, Benefit } from "@/data/products";
 import { notFound } from "next/navigation";
 import { PiArrowRight, PiCheckCircleFill, PiInfo, PiWarningCircle } from "react-icons/pi";
 import Link from "next/link";
@@ -29,7 +29,7 @@ const inView = {
 
 export default function ProductDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const resolvedParams = use(params);
-  const product = getProductBySlug(resolvedParams.slug);
+  const product: Product | undefined = getProductBySlug(resolvedParams.slug);
 
   if (!product) {
     notFound();
@@ -67,13 +67,18 @@ export default function ProductDetailPage({ params }: { params: Promise<{ slug: 
           <motion.div initial="hidden" animate="visible" variants={fadeUp} className="mb-8 flex items-center gap-2 text-[13px] font-medium text-ink-3">
             <Link href="/products" className="hover:text-accent transition-colors">Products</Link>
             <span>/</span>
-            <span className="text-ink">{product.name}</span>
+            <span className="text-ink-3">{product.category}</span>
+            <span>/</span>
+            <span className="text-ink font-semibold">{product.name}</span>
           </motion.div>
 
           <motion.div initial="hidden" animate="visible" variants={stagger} className="flex flex-col gap-16 md:gap-24">
             
             {/* Header Area */}
             <motion.div variants={fadeUp} className="flex flex-col gap-6">
+              <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-accent/20 text-[11px] font-bold tracking-[0.15em] uppercase text-accent w-fit shadow-xs">
+                {product.category}
+              </span>
               <h1 className="font-display text-ink leading-[1.1] text-[clamp(3rem,6vw,5rem)]">
                 {product.name}
               </h1>
@@ -122,7 +127,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ slug: 
                 <motion.section variants={stagger} className="flex flex-col gap-6">
                   <h2 className="font-display text-[1.75rem] text-ink">Key Benefits</h2>
                   <div className="flex flex-col gap-4">
-                    {product.benefits.map((benefit, i) => (
+                    {product.benefits.map((benefit: Benefit, i: number) => (
                       <motion.div key={i} variants={fadeUp} className="flex items-start gap-4">
                         <div className="mt-1 text-accent shrink-0">
                           <PiCheckCircleFill size={20} />
@@ -173,7 +178,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ slug: 
                   </h3>
                   
                   <ul className="flex flex-col gap-4">
-                    {product.tips.map((tip, i) => (
+                    {product.tips.map((tip: string, i: number) => (
                       <li key={i} className="flex gap-3 text-[14px] leading-relaxed text-white/70">
                         <span className="w-1.5 h-1.5 rounded-full bg-accent shrink-0 mt-2"></span>
                         {tip}
