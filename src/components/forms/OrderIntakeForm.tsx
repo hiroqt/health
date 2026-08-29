@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
@@ -29,6 +29,10 @@ import {
   PiLockKeyFill,
   PiChatCircleDotsFill,
   PiSparkleFill,
+  PiArrowsOutSimpleBold,
+  PiMagnifyingGlassPlusFill,
+  PiQrCodeFill,
+  PiDownloadSimpleBold,
 } from "react-icons/pi";
 
 // ─── PRODUCTS & DOSAGES ───────────────────────────────────────────────────────
@@ -215,6 +219,7 @@ export const PAYMENT_METHODS = [
     accountNumber: "0961 323 6199",
     instructions: "Send exact amount via GCash Express Send or scan QR.",
     badge: "Instant Verification",
+    qrImage: "/Qr/gcash.jpg",
   },
   {
     id: "paymaya",
@@ -224,6 +229,7 @@ export const PAYMENT_METHODS = [
     accountNumber: "0961 323 6199",
     instructions: "Transfer to Maya Wallet or scan merchant QR code.",
     badge: "Instant Verification",
+    qrImage: "/Qr/maya.jpg",
   },
   {
     id: "bdo",
@@ -233,6 +239,7 @@ export const PAYMENT_METHODS = [
     accountNumber: "0065 4801 9283",
     instructions: "Online Banking, InstaPay transfer, or OTC deposit.",
     badge: "Same-Day",
+    qrImage: "/Qr/bdo.jpg",
   },
   {
     id: "bpi",
@@ -242,6 +249,7 @@ export const PAYMENT_METHODS = [
     accountNumber: "3892 1094 82",
     instructions: "Transfer via BPI App, InstaPay, or branch deposit.",
     badge: "Same-Day",
+    qrImage: "/Qr/bpi.jpg",
   },
   {
     id: "paypal",
@@ -251,6 +259,7 @@ export const PAYMENT_METHODS = [
     accountNumber: "tearsize@gmail.com",
     instructions: "Send as Friends & Family to prevent transaction holds.",
     badge: "Online",
+    qrImage: "/Qr/paypal.jpg",
   },
 ];
 
@@ -282,12 +291,27 @@ export function OrderIntakeForm({
   const [file, setFile] = useState<File | null>(null);
   const [filePreview, setFilePreview] = useState<string | null>(null);
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
+  const [qrModalOpen, setQrModalOpen] = useState(false);
 
   // Submission
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [orderSubmitted, setOrderSubmitted] = useState(false);
   const [orderRef, setOrderRef] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+
+  // Warn before browser tab close / refresh if form has unsaved user inputs
+  useEffect(() => {
+    if (orderSubmitted) return;
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (fullName || contactNumber || completeAddress || file || Object.keys(selectedItems).length > 0) {
+        e.preventDefault();
+        e.returnValue = "";
+        return "";
+      }
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [orderSubmitted, fullName, contactNumber, completeAddress, file, selectedItems]);
 
   // Filtered Products
   const filteredProducts = ORDER_PRODUCTS.filter((p) => {
@@ -815,17 +839,6 @@ export function OrderIntakeForm({
                   );
                 })}
               </div>
-
-              {/* Step 1 Next Action */}
-              <div className="flex justify-end pt-4">
-                <button
-                  type="button"
-                  onClick={goToNextStep}
-                  className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full font-bold text-white bg-[#FF5A5F] hover:bg-[#E04A4F] transition-all shadow-md hover:shadow-lg text-[15px] cursor-pointer"
-                >
-                  Continue to Delivery & Info <PiArrowRight size={17} />
-                </button>
-              </div>
             </motion.div>
           )}
 
@@ -968,21 +981,14 @@ export function OrderIntakeForm({
                 </div>
               </div>
 
-              {/* Step 2 Actions */}
-              <div className="flex items-center justify-between pt-2">
+              {/* Step 2 Back Navigation */}
+              <div className="flex items-center justify-start pt-2">
                 <button
                   type="button"
                   onClick={() => setCurrentStep(1)}
-                  className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full font-semibold text-[#6E6E6E] hover:text-[#0F0F0F] border border-[#FFE8EA] hover:border-[#FF5A5F] bg-white transition-all text-[14.5px] cursor-pointer"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-semibold text-[#6E6E6E] hover:text-[#0F0F0F] border border-[#FFE8EA] hover:border-[#FF5A5F] bg-white transition-all text-[13.5px] cursor-pointer"
                 >
                   <PiArrowLeft size={16} /> Back to Formulations
-                </button>
-                <button
-                  type="button"
-                  onClick={goToNextStep}
-                  className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full font-bold text-white bg-[#FF5A5F] hover:bg-[#E04A4F] transition-all shadow-md hover:shadow-lg text-[15px] cursor-pointer"
-                >
-                  Continue to Payment <PiArrowRight size={17} />
                 </button>
               </div>
             </motion.div>
@@ -1029,56 +1035,117 @@ export function OrderIntakeForm({
                   })}
                 </div>
 
-                {/* Digital Account Card */}
+                {/* Digital Account Card & Dynamic QR Code */}
                 {activePaymentObj && (
-                  <div className="rounded-[22px] p-6 bg-gradient-to-br from-[#FFF8F7] to-[#FFF0F0] border border-[#FFE8EA] flex flex-col gap-4">
-                    <div className="flex items-center justify-between">
-                      <span className="text-[11.5px] font-bold uppercase tracking-wider text-[#FF5A5F]">
-                        {activePaymentObj.name} Account Information
+                  <div className="rounded-[24px] p-6 bg-gradient-to-br from-[#FFF8F7] to-[#FFF0F0] border border-[#FFE8EA] flex flex-col gap-5 shadow-xs">
+                    <div className="flex items-center justify-between border-b border-[#FFE8EA] pb-3">
+                      <span className="text-[12px] font-bold uppercase tracking-wider text-[#FF5A5F] flex items-center gap-1.5">
+                        <PiSparkleFill size={14} />
+                        {activePaymentObj.name} Payment Instructions
                       </span>
-                      <span className="text-[12px] font-bold text-[#0F0F0F]">
-                        Total to Send: ₱{total.toLocaleString()}
+                      <span className="text-[13px] font-bold text-[#0F0F0F]">
+                        Total to Send: <span className="font-display font-black text-[#FF5A5F] text-[16px]">₱{total.toLocaleString()}</span>
                       </span>
                     </div>
 
-                    <div className="bg-white p-4.5 rounded-[18px] border border-[#FFE8EA] flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs">
-                      <div>
-                        <span className="text-[11px] uppercase font-bold text-[#6E6E6E] block mb-0.5">
-                          Account Name
-                        </span>
-                        <span className="text-[15px] font-black text-[#0F0F0F]">
-                          {activePaymentObj.accountName}
-                        </span>
-                      </div>
+                    <div className="grid grid-cols-1 md:grid-cols-12 gap-5 items-center">
+                      {/* Left: Account Details */}
+                      <div className="md:col-span-7 flex flex-col gap-3.5">
+                        <div className="bg-white p-4.5 rounded-[18px] border border-[#FFE8EA] shadow-xs flex flex-col gap-3">
+                          <div>
+                            <span className="text-[11px] uppercase font-bold text-[#6E6E6E] block mb-0.5">
+                              Account Name
+                            </span>
+                            <span className="text-[15px] font-black text-[#0F0F0F]">
+                              {activePaymentObj.accountName}
+                            </span>
+                          </div>
 
-                      <div className="flex items-center gap-3">
-                        <div>
-                          <span className="text-[11px] uppercase font-bold text-[#6E6E6E] block mb-0.5">
-                            Account / Mobile Number
-                          </span>
-                          <span className="font-mono font-bold text-[16px] text-[#FF5A5F]">
-                            {activePaymentObj.accountNumber}
-                          </span>
+                          <div className="flex items-center justify-between pt-2.5 border-t border-[#FFE8EA]">
+                            <div>
+                              <span className="text-[11px] uppercase font-bold text-[#6E6E6E] block mb-0.5">
+                                Account / Mobile Number
+                              </span>
+                              <span className="font-mono font-bold text-[16.5px] text-[#FF5A5F]">
+                                {activePaymentObj.accountNumber}
+                              </span>
+                            </div>
+
+                            <button
+                              type="button"
+                              onClick={() => handleCopy(activePaymentObj.accountNumber, activePaymentObj.id)}
+                              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full border border-[#FFE8EA] hover:bg-[#FFF0F0] text-[#6E6E6E] hover:text-[#FF5A5F] transition-all bg-white text-[12px] font-bold shadow-xs cursor-pointer"
+                              title="Copy Account Number"
+                            >
+                              {copiedKey === activePaymentObj.id ? (
+                                <>
+                                  <PiCheckFat size={14} className="text-[#2E7D32]" />
+                                  <span className="text-[#2E7D32]">Copied!</span>
+                                </>
+                              ) : (
+                                <>
+                                  <PiCopySimple size={14} />
+                                  <span>Copy</span>
+                                </>
+                              )}
+                            </button>
+                          </div>
                         </div>
 
-                        <button
-                          type="button"
-                          onClick={() => handleCopy(activePaymentObj.accountNumber, activePaymentObj.id)}
-                          className="p-2.5 rounded-full border border-[#FFE8EA] hover:bg-[#FFF0F0] text-[#6E6E6E] hover:text-[#FF5A5F] transition-all bg-white"
-                          title="Copy Account Number"
-                        >
-                          {copiedKey === activePaymentObj.id ? (
-                            <PiCheckFat size={16} className="text-[#2E7D32]" />
-                          ) : (
-                            <PiCopySimple size={16} />
-                          )}
-                        </button>
+                        <p className="text-[12.5px] text-[#4A3333] leading-relaxed bg-white/70 p-3 rounded-[14px] border border-[#FFE8EA]/60">
+                          💡 <strong>Instructions:</strong> {activePaymentObj.instructions} Please capture your confirmation receipt screenshot to upload below.
+                        </p>
                       </div>
-                    </div>
 
-                    <p className="text-[13px] text-[#4A3333] leading-relaxed">
-                      💡 <strong>Note:</strong> {activePaymentObj.instructions} Please capture your confirmation receipt screenshot to upload below.
-                    </p>
+                      {/* Right: Dynamic QR Code with Expand Trigger */}
+                      {activePaymentObj.qrImage && (
+                        <div className="md:col-span-5 flex flex-col items-center justify-center text-center bg-white p-4.5 rounded-[20px] border border-[#FFE8EA] shadow-sm">
+                          <span className="text-[11px] font-bold uppercase tracking-wider text-[#7A5555] mb-2">
+                            Scan {activePaymentObj.name} QR Code
+                          </span>
+
+                          <button
+                            type="button"
+                            onClick={() => setQrModalOpen(true)}
+                            className="w-36 h-36 relative rounded-[14px] overflow-hidden border border-[#FFE8EA] bg-[#FFF8F7] shadow-inner group cursor-pointer block"
+                            title="Click to expand QR Code"
+                          >
+                            <Image
+                              src={activePaymentObj.qrImage}
+                              alt={`${activePaymentObj.name} QR Code`}
+                              fill
+                              sizes="144px"
+                              className="object-contain p-1 group-hover:scale-105 transition-transform duration-300"
+                            />
+                            {/* Hover Overlay */}
+                            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-1 text-white text-[11px] font-bold">
+                              <PiArrowsOutSimpleBold size={20} />
+                              <span>Enlarge QR</span>
+                            </div>
+                          </button>
+
+                          <div className="flex flex-wrap items-center justify-center gap-2 mt-2.5">
+                            <button
+                              type="button"
+                              onClick={() => setQrModalOpen(true)}
+                              className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-[11px] font-bold bg-[#FFF0F0] text-[#FF5A5F] hover:bg-[#FF5A5F] hover:text-white transition-all cursor-pointer shadow-xs"
+                            >
+                              <PiMagnifyingGlassPlusFill size={13} /> Enlarge QR
+                            </button>
+                            <a
+                              href={activePaymentObj.qrImage}
+                              download={`Tearsize_${activePaymentObj.name}_QR.jpg`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1 px-3.5 py-1.5 rounded-full text-[11px] font-bold bg-[#0F0F0F] text-white hover:bg-[#FF5A5F] transition-all cursor-pointer shadow-xs"
+                              title="Download QR to device"
+                            >
+                              <PiDownloadSimpleBold size={13} /> Download QR
+                            </a>
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 )}
               </div>
@@ -1145,31 +1212,14 @@ export function OrderIntakeForm({
                 )}
               </div>
 
-              {/* Step 3 Actions */}
-              <div className="flex items-center justify-between pt-2">
+              {/* Step 3 Back Navigation */}
+              <div className="flex items-center justify-start pt-2">
                 <button
                   type="button"
                   onClick={() => setCurrentStep(2)}
-                  className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full font-semibold text-[#6E6E6E] hover:text-[#0F0F0F] border border-[#FFE8EA] hover:border-[#FF5A5F] bg-white transition-all text-[14.5px] cursor-pointer"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-semibold text-[#6E6E6E] hover:text-[#0F0F0F] border border-[#FFE8EA] hover:border-[#FF5A5F] bg-white transition-all text-[13.5px] cursor-pointer"
                 >
-                  <PiArrowLeft size={16} /> Back to Delivery
-                </button>
-                <button
-                  type="button"
-                  onClick={handleSubmitOrder}
-                  disabled={isSubmitting}
-                  className="inline-flex items-center justify-center gap-2 px-9 py-4 rounded-full font-bold text-white bg-[#FF5A5F] hover:bg-[#E04A4F] transition-all shadow-md hover:shadow-lg text-[15.5px] cursor-pointer disabled:opacity-50"
-                >
-                  {isSubmitting ? (
-                    <span className="inline-flex items-center gap-2">
-                      <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                      Verifying order...
-                    </span>
-                  ) : (
-                    <span className="inline-flex items-center gap-2">
-                      Confirm & Submit Order · ₱{total.toLocaleString()} <PiArrowRight size={17} />
-                    </span>
-                  )}
+                  <PiArrowLeft size={16} /> Back to Delivery Details
                 </button>
               </div>
             </motion.div>
@@ -1201,33 +1251,48 @@ export function OrderIntakeForm({
               </span>
             </div>
 
-            {/* Selected Items Scroll Area */}
-            {selectedProductList.length === 0 ? (
-              <div className="py-8 text-center text-[#6E6E6E] text-[13.5px]">
-                No formulations selected yet. Please pick your items.
-              </div>
-            ) : (
-              <div className="flex flex-col gap-3 max-h-[260px] overflow-y-auto pr-1">
-                {selectedProductList.map((item) => {
+            {/* Selected Items List */}
+            <div className="flex flex-col gap-3 max-h-56 overflow-y-auto pr-1">
+              {selectedProductList.length === 0 ? (
+                <div className="text-center py-6 text-[#6E6E6E] text-[13px]">
+                  No formulations selected. Please choose at least one formulation to proceed.
+                </div>
+              ) : (
+                selectedProductList.map((item) => {
                   const qty = selectedItems[item.id] || 1;
                   return (
-                    <div key={item.id} className="flex items-center justify-between text-[13px] gap-2">
-                      <div className="flex items-center gap-2 min-w-0">
-                        <span className="w-5 h-5 rounded-full bg-[#FFF0F0] text-[#FF5A5F] font-bold text-[11px] flex items-center justify-center shrink-0">
-                          {qty}
-                        </span>
-                        <span className="font-semibold text-[#0F0F0F] truncate">
-                          {item.name} <span className="text-[#6E6E6E] font-normal">({item.dosage})</span>
-                        </span>
+                    <div
+                      key={item.id}
+                      className="flex items-center justify-between gap-3 p-3 rounded-[16px] bg-[#FFF8F7] border border-[#FFE8EA]"
+                    >
+                      <div className="flex items-center gap-3 min-w-0">
+                        <div className="w-10 h-10 rounded-[10px] bg-white border border-[#FFE8EA] flex items-center justify-center shrink-0 relative overflow-hidden">
+                          <Image
+                            src={item.coverImage}
+                            alt={item.name}
+                            fill
+                            sizes="40px"
+                            className="object-cover"
+                          />
+                        </div>
+                        <div className="min-w-0">
+                          <span className="font-bold text-[13px] text-[#0F0F0F] block truncate">
+                            {item.name}
+                          </span>
+                          <span className="text-[11px] text-[#6E6E6E] block">
+                            {item.dosage} · Qty: {qty}
+                          </span>
+                        </div>
                       </div>
-                      <span className="font-bold text-[#0F0F0F] shrink-0">
+
+                      <span className="font-bold text-[13.5px] text-[#FF5A5F] shrink-0">
                         ₱{(item.price * qty).toLocaleString()}
                       </span>
                     </div>
                   );
-                })}
-              </div>
-            )}
+                })
+              )}
+            </div>
 
             <hr className="border-[#FFE8EA]" />
 
@@ -1257,22 +1322,43 @@ export function OrderIntakeForm({
             </div>
 
             {/* Primary Action Button (mirrors step flow) */}
-            {currentStep < 3 ? (
+            {currentStep === 1 && (
               <button
                 type="button"
                 onClick={goToNextStep}
                 className="w-full flex items-center justify-center gap-2 py-4 rounded-full font-bold text-white bg-[#FF5A5F] hover:bg-[#E04A4F] transition-all shadow-md text-[15px] cursor-pointer"
               >
-                Continue to Step {currentStep + 1} <PiArrowRight size={16} />
+                Continue to Delivery & Info <PiArrowRight size={17} />
               </button>
-            ) : (
+            )}
+
+            {currentStep === 2 && (
+              <button
+                type="button"
+                onClick={goToNextStep}
+                className="w-full flex items-center justify-center gap-2 py-4 rounded-full font-bold text-white bg-[#FF5A5F] hover:bg-[#E04A4F] transition-all shadow-md text-[15px] cursor-pointer"
+              >
+                Continue to Payment & Verification <PiArrowRight size={17} />
+              </button>
+            )}
+
+            {currentStep === 3 && (
               <button
                 type="button"
                 onClick={handleSubmitOrder}
                 disabled={isSubmitting}
                 className="w-full flex items-center justify-center gap-2 py-4 rounded-full font-bold text-white bg-[#FF5A5F] hover:bg-[#E04A4F] transition-all shadow-md text-[15px] cursor-pointer disabled:opacity-50"
               >
-                {isSubmitting ? "Processing..." : `Complete Order · ₱${total.toLocaleString()}`}
+                {isSubmitting ? (
+                  <span className="inline-flex items-center gap-2">
+                    <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    Submitting order...
+                  </span>
+                ) : (
+                  <span className="inline-flex items-center gap-2">
+                    Confirm & Submit Order · ₱{total.toLocaleString()} <PiArrowRight size={17} />
+                  </span>
+                )}
               </button>
             )}
           </div>
@@ -1301,8 +1387,115 @@ export function OrderIntakeForm({
             </div>
           </div>
         </div>
-
       </div>
+
+      {/* ─── FULLSCREEN EXPANDED LARGE QR MODAL (MAX SIZE) ─── */}
+      <AnimatePresence>
+        {qrModalOpen && activePaymentObj?.qrImage && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setQrModalOpen(false)}
+            className="fixed inset-0 z-[100] bg-black/85 backdrop-blur-lg flex items-center justify-center p-2 sm:p-4 md:p-6 overflow-y-auto"
+          >
+            <motion.div
+              initial={{ scale: 0.94, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.94, opacity: 0 }}
+              transition={{ type: "spring", stiffness: 350, damping: 28 }}
+              onClick={(e) => e.stopPropagation()}
+              className="w-full max-w-[560px] bg-white rounded-[32px] border border-[#FFE8EA] p-4 sm:p-6 shadow-2xl flex flex-col items-center text-center relative overflow-hidden my-auto"
+            >
+              {/* Floating Close Button */}
+              <button
+                type="button"
+                onClick={() => setQrModalOpen(false)}
+                className="absolute top-3.5 right-3.5 w-10 h-10 rounded-full bg-white/90 border border-[#FFE8EA] text-[#6E6E6E] hover:text-[#FF5A5F] hover:bg-[#FFF0F0] transition-colors flex items-center justify-center cursor-pointer z-20 shadow-md"
+                title="Close Fullscreen QR"
+              >
+                <PiX size={20} />
+              </button>
+
+              {/* Provider Header Tag */}
+              <div className="flex items-center gap-2 px-4 py-1 rounded-full bg-[#FFF0F0] text-[#FF5A5F] text-[11.5px] font-bold uppercase tracking-wider mb-3">
+                <PiQrCodeFill size={15} />
+                {activePaymentObj.name} Official Payment QR
+              </div>
+
+              {/* ─── FULL-CONTAINER GIANT QR CODE ─── */}
+              <div className="w-full aspect-square relative rounded-[24px] overflow-hidden border-2 border-[#FFE8EA] bg-white shadow-inner flex items-center justify-center mb-3">
+                <Image
+                  src={activePaymentObj.qrImage}
+                  alt={`${activePaymentObj.name} Full QR Code`}
+                  fill
+                  sizes="(max-width: 640px) 90vw, 540px"
+                  priority
+                  className="object-contain p-1"
+                />
+              </div>
+
+              {/* ─── COMPACT DETAILS BAR DIRECTLY BELOW QR ─── */}
+              <div className="w-full flex flex-col gap-2.5">
+                <div className="w-full bg-[#FFF8F7] rounded-[18px] p-3.5 border border-[#FFE8EA] flex flex-col sm:flex-row sm:items-center justify-between text-left gap-2.5">
+                  <div className="min-w-0">
+                    <span className="text-[10.5px] uppercase font-bold text-[#7A5555] block truncate">
+                      {activePaymentObj.accountName}
+                    </span>
+                    <span className="font-mono font-black text-[17px] text-[#0F0F0F] tracking-wide">
+                      {activePaymentObj.accountNumber}
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-2 shrink-0">
+                    <button
+                      type="button"
+                      onClick={() => handleCopy(activePaymentObj.accountNumber, "modal-qr")}
+                      className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-[#FFE8EA] hover:bg-[#FFF0F0] text-[#6E6E6E] hover:text-[#FF5A5F] transition-all bg-white text-[12px] font-bold shadow-xs cursor-pointer"
+                    >
+                      {copiedKey === "modal-qr" ? (
+                        <>
+                          <PiCheckFat size={13} className="text-[#2E7D32]" />
+                          <span className="text-[#2E7D32]">Copied!</span>
+                        </>
+                      ) : (
+                        <>
+                          <PiCopySimple size={13} />
+                          <span>Copy</span>
+                        </>
+                      )}
+                    </button>
+
+                    <span className="font-display font-black text-[#FF5A5F] text-[17px] bg-[#FFF0F0] px-3 py-1 rounded-full border border-[#FFE8EA]">
+                      ₱{total.toLocaleString()}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex flex-col sm:flex-row items-center gap-2.5 w-full mt-1">
+                  <a
+                    href={activePaymentObj.qrImage}
+                    download={`Tearsize_${activePaymentObj.name}_QR.jpg`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full sm:flex-1 py-3 rounded-full font-bold text-[#0F0F0F] bg-[#FFF0F0] hover:bg-[#FFE8EA] border border-[#FFE8EA] transition-all text-[13.5px] flex items-center justify-center gap-2 shadow-xs cursor-pointer"
+                  >
+                    <PiDownloadSimpleBold size={16} className="text-[#FF5A5F]" /> Save QR to Device
+                  </a>
+
+                  <button
+                    type="button"
+                    onClick={() => setQrModalOpen(false)}
+                    className="w-full sm:flex-1 py-3 rounded-full font-bold text-white bg-[#0F0F0F] hover:bg-[#FF5A5F] transition-all text-[13.5px] cursor-pointer shadow-sm"
+                  >
+                    Done Scanning
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

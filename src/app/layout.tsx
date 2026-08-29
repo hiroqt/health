@@ -6,7 +6,10 @@ import "./globals.css";
 const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
 
 export const metadata: Metadata = {
-  title: "by tearsize — Doctor-prescribed weight loss, entirely online.",
+  title: {
+    default: "by tearsize — Doctor-prescribed weight loss, entirely online.",
+    template: "%s | by tearsize",
+  },
   description:
     "Personalized GLP-1 programs, metabolic health plans, and prescription skincare. Consult licensed doctors, get custom treatments, and receive free discreet delivery.",
 };

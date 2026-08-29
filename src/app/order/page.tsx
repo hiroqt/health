@@ -1,10 +1,14 @@
-"use client";
-
+import type { Metadata } from "next";
 import React from "react";
-import Link from "next/link";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { OrderIntakeForm } from "@/components/forms/OrderIntakeForm";
+
+export const metadata: Metadata = {
+  title: "Start Medical Intake & Order",
+  description:
+    "Complete your confidential medical intake form to begin your doctor-prescribed treatment program.",
+};
 
 export default function OrderPage() {
   return (
