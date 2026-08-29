@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { PiArrowRight, PiArrowLeft, PiCheckFat, PiSyringe, PiSyringeFill, PiX, PiLightbulbFilament } from "react-icons/pi";
+import { OrderIntakeForm } from "@/components/forms/OrderIntakeForm";
 
 // ─── Animation ────────────────────────────────────────────────────────────────
 const ease: [number, number, number, number] = [0.22, 1, 0.36, 1];
@@ -749,8 +750,8 @@ export default function QuizPage() {
       </header>
 
       {/* Main */}
-      <main className="relative z-10 flex-1 flex flex-col items-center justify-center px-5 py-8">
-        <div className="w-full max-w-[520px] mx-auto flex flex-col gap-8">
+      <main className="relative z-10 flex-1 flex flex-col items-center justify-center px-4 md:px-8 py-8">
+        <div className={`w-full ${done ? "max-w-6xl" : "max-w-[520px]"} mx-auto flex flex-col gap-8 transition-all duration-500`}>
 
           {!done && question && (
             <>
@@ -886,9 +887,14 @@ export default function QuizPage() {
             </>
           )}
 
-          {/* Results */}
+          {/* Order Intake Form directly following quiz */}
           <AnimatePresence>
-            {done && <ResultsScreen answers={answers} />}
+            {done && (
+              <OrderIntakeForm
+                initialName={(answers["name"] as string) || ""}
+                initialEmail={(answers["email"] as string) || ""}
+              />
+            )}
           </AnimatePresence>
         </div>
       </main>
