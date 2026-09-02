@@ -261,7 +261,7 @@ export function Footer() {
           {/* Bottom bar */}
           <div className="pt-8 flex flex-col lg:flex-row items-center justify-between gap-6" style={{ borderTop: "1px solid #F5DADA" }}>
             <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-8 text-[13px] text-[#9A7878]">
-              <span>© {new Date().getFullYear()} by tearsize Inc.</span>
+              <span>© 2025 by tearsize Inc.</span>
               <div className="flex items-center gap-4">
                 {["Privacy", "Terms", "Accessibility"].map((item) => (
                   <Link
