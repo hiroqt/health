@@ -260,13 +260,17 @@ export function Footer() {
             <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-8 text-[13px] text-[#9A7878]">
               <span>© 2025 by tearsize Inc.</span>
               <div className="flex items-center gap-4">
-                {["Privacy", "Terms", "Accessibility"].map((item) => (
+                {[
+                  { label: "Privacy", href: "/privacy" },
+                  { label: "Terms", href: "/terms" },
+                  { label: "Accessibility", href: "/accessibility" },
+                ].map(({ label, href }) => (
                   <Link
-                    key={item}
-                    href="#"
+                    key={label}
+                    href={href}
                     className="hover:text-[#1A0A0A] transition-colors"
                   >
-                    {item}
+                    {label}
                   </Link>
                 ))}
               </div>
