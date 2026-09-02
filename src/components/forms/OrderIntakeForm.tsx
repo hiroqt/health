@@ -99,7 +99,7 @@ export const ORDER_PRODUCTS: OrderItemOption[] = [
     dosage: "5mg",
     price: 3000,
     category: "Weight Management",
-    coverImage: "/CAGRILINTIDE/Cagrilintide-Benefits.jpg",
+    coverImage: "/CAGRILINTIDE/Cagrilintide 10mg.jpg",
     shortDesc: "Long-acting amylin analogue for appetite control",
   },
   {
@@ -108,7 +108,7 @@ export const ORDER_PRODUCTS: OrderItemOption[] = [
     dosage: "10mg",
     price: 5000,
     category: "Weight Management",
-    coverImage: "/CAGRILINTIDE/Cagrilintide-Benefits.jpg",
+    coverImage: "/CAGRILINTIDE/Cagrilintide 10mg.jpg",
     shortDesc: "Long-acting amylin analogue (10mg Protocol)",
   },
   {

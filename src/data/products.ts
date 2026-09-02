@@ -83,7 +83,7 @@ export const PRODUCTS: Product[] = [
     category: "Weight Management",
     shortDescription: "Long-acting amylin analogue for enhanced satiety, delayed gastric emptying, and appetite control.",
     about: "Cagrilintide is a novel, long-acting synthetic amylin analogue designed for metabolic support and chronic weight management. By acting on calcitonin and amylin receptors in the brain's appetite control centers, Cagrilintide promotes early satiety, prolongs fullness after meals, and works effectively on its own or synergistically in multi-target weight loss protocols.",
-    coverImage: "/CAGRILINTIDE/Cagrilintide-Benefits.jpg",
+    coverImage: "/CAGRILINTIDE/Cagrilintide 10mg.jpg",
     benefits: [
       { title: "Potent Satiety Enhancement", description: "Acts on central amylin receptors to signal profound post-meal fullness." },
       { title: "Delayed Gastric Emptying", description: "Slows digestion to reduce postprandial glucose spikes and hunger." },

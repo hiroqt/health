@@ -3,8 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import {
-  PiInstagramLogo, PiFacebookLogo, PiXLogo,
-  PiTiktokLogo, PiYoutubeLogo,
+  PiInstagramLogo, PiFacebookLogo,
   PiArrowRight, PiArrowUpRight,
   PiMapPin, PiPhone, PiEnvelopeSimple,
   PiSyringe, PiSyringeFill
@@ -46,11 +45,9 @@ const COLUMNS = [
 ];
 
 const SOCIALS = [
-  { icon: <PiInstagramLogo size={20} />, label: "Instagram", href: "#" },
-  { icon: <PiFacebookLogo size={20} />,  label: "Facebook",  href: "https://www.facebook.com/bytearsizeph" },
-  { icon: <PiXLogo size={20} />,         label: "X",         href: "#" },
-  { icon: <PiTiktokLogo size={20} />,    label: "TikTok",    href: "#" },
-  { icon: <PiYoutubeLogo size={20} />,   label: "YouTube",   href: "#" },
+  { icon: <PiInstagramLogo size={20} />, label: "Instagram", href: "https://www.instagram.com/bytearsizeph/" },
+  { icon: <PiFacebookLogo size={20} />,  label: "Facebook",  href: "https://www.facebook.com/peptidesbytearsize" },
+  { icon: <PiEnvelopeSimple size={20} />, label: "Email",     href: "mailto:tearsize@gmail.com" },
 ];
 
 // ─── NEWSLETTER ──────────────────────────────────────────────────────────────
@@ -280,6 +277,8 @@ export function Footer() {
                   key={label}
                   href={href}
                   aria-label={label}
+                  target={href.startsWith("http") ? "_blank" : undefined}
+                  rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
                   className="transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full hover:bg-black/5"
                   onMouseEnter={(e) => (e.currentTarget.style.color = "#F07070")}
                   onMouseLeave={(e) => (e.currentTarget.style.color = "#4A3333")}
