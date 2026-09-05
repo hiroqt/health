@@ -150,7 +150,7 @@ export default function PrivacyClient() {
                       Order & Payment Records
                     </h4>
                     <p className="text-xs text-[#6E6E6E] leading-relaxed">
-                      Payment transaction references, selected treatment protocols, dosage schedules, delivery preferences (Lalamove / J&T Express), and delivery receipts.
+                      Payment transaction references, selected treatment protocols, dosage schedules, delivery preferences (Lalamove Express), and delivery receipts.
                     </p>
                   </div>
                   <div className="p-4 rounded-xl border border-[#FFE8EA] bg-[#FFF8F7]">
@@ -216,7 +216,7 @@ export default function PrivacyClient() {
                     <strong>Licensed Partner Pharmacies:</strong> Regulated compounding and dispensing pharmacies packaging your medication.
                   </div>
                   <div className="p-3.5 rounded-xl bg-[#FFF8F7] border border-[#FFE8EA] text-sm">
-                    <strong>Logistics Partners (Lalamove / J&T Express):</strong> Name, delivery address, and contact number only to execute parcel delivery.
+                    <strong>Logistics Partners (Lalamove Express):</strong> Name, delivery address, and contact number only to execute parcel delivery.
                   </div>
                 </div>
               </section>

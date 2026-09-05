@@ -43,7 +43,7 @@ export const PRODUCTS: Product[] = [
     dosing: {
       dosage: "2.5mg (Starting dose)",
       frequency: "Once weekly (SubQ)",
-      duration: "Titrate up monthly as directed"
+      duration: "Titrate up every 4 weeks as tolerated"
     },
     tips: [
       "Administer on the same day each week; can be taken with or without food.",
@@ -71,9 +71,9 @@ export const PRODUCTS: Product[] = [
       duration: "Titrate up every 4 weeks as tolerated"
     },
     tips: [
-      "Start low and titrate gradually to ensure optimal tolerance and comfort.",
-      "Maintain adequate hydration with electrolytes and incorporate resistance training.",
-      "Store reconstituted peptide in the refrigerator at all times."
+      "Administer on the same day each week; can be taken with or without food.",
+      "Prioritize high-protein intake and daily hydration to preserve lean muscle mass.",
+      "Eat smaller, frequent portions to prevent mild early gastrointestinal adjustment symptoms."
     ]
   },
   {
@@ -91,7 +91,7 @@ export const PRODUCTS: Product[] = [
       { title: "Craving Reduction", description: "Diminishes hedonic eating behaviors and cravings for calorie-dense foods." }
     ],
     dosing: {
-      dosage: "0.3mg - 2.4mg (Titrated)",
+      dosage: "1mg (Starting dose)",
       frequency: "Once weekly (SubQ)",
       duration: "Ongoing maintenance protocol"
     },
@@ -116,7 +116,7 @@ export const PRODUCTS: Product[] = [
       { title: "Lipid Profile Support", description: "Supports improvements in triglycerides and cardiovascular markers." }
     ],
     dosing: {
-      dosage: "1mg - 2mg",
+      dosage: "0.5mg (Starting dose)",
       frequency: "Once daily (5-7 days per week, before bed)",
       duration: "8 to 12 weeks"
     },
@@ -143,9 +143,9 @@ export const PRODUCTS: Product[] = [
       { title: "Angiogenesis & Circulation", description: "Promotes new microvascular development for enhanced nutrient delivery to injured areas." }
     ],
     dosing: {
-      dosage: "250mcg - 500mcg",
-      frequency: "1-2 times daily (SubQ)",
-      duration: "4 to 8 weeks"
+      dosage: "1mg (Starting dose)",
+      frequency: "Once daily (SubQ)",
+      duration: "Depends on prescription"
     },
     tips: [
       "For localized injuries, administer near the affected area if instructed by your physician.",
@@ -168,9 +168,9 @@ export const PRODUCTS: Product[] = [
       { title: "Mitochondrial Function", description: "Optimizes mitochondrial ATP production for sustained energy." }
     ],
     dosing: {
-      dosage: "5mg - 10mg",
+      dosage: "1mg (Starting dose)",
       frequency: "1-3 times per week (SubQ)",
-      duration: "4 to 6 weeks"
+      duration: "4 to 8 weeks (Depends on prescription)"
     },
     tips: [
       "Administer prior to exercise or in the morning to maximize energy and fat oxidation.",
@@ -193,9 +193,9 @@ export const PRODUCTS: Product[] = [
       { title: "Endurance & Recovery", description: "Promotes healthy microcirculation and shortens recovery times between workouts." }
     ],
     dosing: {
-      dosage: "2mg - 5mg",
-      frequency: "1-2 times weekly (SubQ)",
-      duration: "4 to 6 weeks (Loading phase), then monthly maintenance"
+      dosage: "1mg (Starting dose)",
+      frequency: "1-3 times weekly (SubQ)",
+      duration: "4 to 8 weeks (Loading phase), then monthly maintenance"
     },
     tips: [
       "Can be injected subcutaneously anywhere due to its systemic distribution.",
@@ -218,9 +218,9 @@ export const PRODUCTS: Product[] = [
       { title: "Skin Elasticity & Collagen", description: "Supports healthy collagen renewal for firmer skin and stronger hair/nails." }
     ],
     dosing: {
-      dosage: "200mcg - 300mcg",
-      frequency: "1-2 times daily (SubQ, at bedtime)",
-      duration: "8 to 12 weeks"
+      dosage: "1mg (Starting dose)",
+      frequency: "Once daily (SubQ, at bedtime)",
+      duration: "4 to 8 weeks (Based on prescription)"
     },
     tips: [
       "Inject on an empty stomach at bedtime (or post-workout) without carbohydrates to avoid blunting GH release.",
@@ -245,9 +245,9 @@ export const PRODUCTS: Product[] = [
       { title: "Anti-Inflammatory", description: "Reduces oxidative stress and calms chronic inflammatory pathways in the body." }
     ],
     dosing: {
-      dosage: "1mg - 2mg",
-      frequency: "Once daily (SubQ, 5-7 days per week)",
-      duration: "4 to 8 weeks"
+      dosage: "0.5mg - 1mg (Starting dose)",
+      frequency: "Once daily (SubQ)",
+      duration: "Lifetime (No need to cycle off)"
     },
     tips: [
       "Diluting with additional bacteriostatic water can help reduce temporary injection site tenderness.",
@@ -270,9 +270,9 @@ export const PRODUCTS: Product[] = [
       { title: "Neuroprotection", description: "Protects neuronal networks and supports healthy cellular resilience." }
     ],
     dosing: {
-      dosage: "50mg - 100mg (SubQ)",
-      frequency: "2-3 times per week",
-      duration: "Ongoing wellness protocol"
+      dosage: "1mg (Starting dose)",
+      frequency: "1-3 times per week (SubQ)",
+      duration: "Lifetime protocol"
     },
     tips: [
       "Best administered in the morning as it increases energy levels and may disrupt sleep if taken late.",
@@ -295,9 +295,9 @@ export const PRODUCTS: Product[] = [
       { title: "Dermatological Calming", description: "Calms systemic histamine reactions, inflammatory eczema, and skin redness." }
     ],
     dosing: {
-      dosage: "200mcg - 500mcg",
-      frequency: "1-2 times daily (SubQ)",
-      duration: "4 to 8 weeks"
+      dosage: "0.5mg - 1mg (Starting dose)",
+      frequency: "Once daily (SubQ)",
+      duration: "Depends on prescription and case"
     },
     tips: [
       "Synergizes powerfully with BPC-157 for a comprehensive gut-lining rejuvenation protocol.",
@@ -320,9 +320,9 @@ export const PRODUCTS: Product[] = [
       { title: "Tone & Texture Refinement", description: "Assists in evening out skin tone and smoothing micro-texture." }
     ],
     dosing: {
-      dosage: "1ml - 2ml",
-      frequency: "2-3 times per week (SubQ)",
-      duration: "6 to 8 weeks"
+      dosage: "1mg (Starting dose)",
+      frequency: "Once daily (SubQ)",
+      duration: "Lifetime protocol"
     },
     tips: [
       "Pair with adequate daily water intake and SPF protection for best aesthetic outcomes.",
@@ -345,9 +345,9 @@ export const PRODUCTS: Product[] = [
       { title: "Comprehensive Longevity", description: "Enhances overall energy, cellular resistance, and biological vitality." }
     ],
     dosing: {
-      dosage: "1ml - 2ml",
-      frequency: "2-3 times per week (SubQ)",
-      duration: "6 to 10 weeks"
+      dosage: "1mg (Starting dose)",
+      frequency: "Once daily (SubQ)",
+      duration: "Lifetime protocol"
     },
     tips: [
       "Administer subcutaneously consistently on scheduled protocol days.",
@@ -370,9 +370,9 @@ export const PRODUCTS: Product[] = [
       { title: "Skin Brightening", description: "Improves overall skin tone, clarity, and reduces hyperpigmentation." }
     ],
     dosing: {
-      dosage: "200mg - 500mg",
-      frequency: "1-3 times per week (IM or SubQ)",
-      duration: "Ongoing wellness protocol"
+      dosage: "5mg (Starting dose)",
+      frequency: "1-2 times per week (IM or SubQ)",
+      duration: "Lifetime protocol"
     },
     tips: [
       "Take alongside Vitamin C to enhance absorption, cellular recycling, and effectiveness.",

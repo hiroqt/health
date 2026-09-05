@@ -170,7 +170,7 @@ export default function TermsClient() {
                 <ul className="space-y-2.5 list-disc pl-5 text-sm text-[#4A3333] mb-4">
                   <li><strong>Transparent Pricing:</strong> All program prices are clearly quoted in Philippine Pesos (PHP).</li>
                   <li><strong>Accepted Payment Methods:</strong> We accept verified electronic payments via Maya, GCash, BPI, BDO, and PayPal.</li>
-                  <li><strong>Nationwide Dispatch:</strong> Standard orders are dispatched via J&T Express (3–7 days nationwide, free of charge) or express same-day courier via Lalamove (where delivery fee is handled upon drop-off).</li>
+                  <li><strong>Express Dispatch:</strong> Orders are dispatched via express courier with Lalamove (where delivery fee is handled upon drop-off).</li>
                   <li><strong>Cold-Chain & Discreet Packaging:</strong> Temperature-sensitive peptides are shipped with thermal protection and unmarked packaging to ensure privacy and product integrity.</li>
                 </ul>
               </section>

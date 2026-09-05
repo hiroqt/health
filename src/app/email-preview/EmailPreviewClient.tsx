@@ -20,8 +20,8 @@ export default function EmailPreviewClient() {
       { name: "BPC-157", dosage: "10mg", quantity: 2, price: 4000 },
       { name: "NAD+", dosage: "500mg", quantity: 1, price: 3000 },
     ],
-    deliveryMode: "J&T Express Nationwide (3–7 Days)",
-    paymentMethod: "GCash (0961 323 6199)",
+    deliveryMode: "Lalamove Express Delivery",
+    paymentMethod: "GCash (0995 729 6738)",
     totalAmount: 13500,
   };
 

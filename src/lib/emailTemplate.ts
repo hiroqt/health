@@ -167,6 +167,19 @@ export function buildOrderEmailHtml(data: OrderEmailData): string {
           </table>
         </div>
 
+        <!-- Lalamove Delivery Details Link Banner -->
+        <div style="background-color: #FFF0F0; border: 1px solid #FFCCD3; border-radius: 16px; padding: 20px; margin-bottom: 24px; text-align: center;">
+          <div style="font-size: 14px; font-weight: 700; color: #0F0F0F; margin-bottom: 6px;">
+            Hi, please fill out your delivery details with this link for a smooth delivery:
+          </div>
+          <p style="margin: 0 0 14px 0; font-size: 12.5px; color: #555555;">
+            Click the button below to direct to the official Lalamove form.
+          </p>
+          <a href="https://delivery.lalamove.com/forms/PH7c9ea77fa46d4dea8e8f35c85c0bbf4a" target="_blank" style="display: inline-block; background-color: #FF5A5F; color: #FFFFFF; font-size: 13px; font-weight: 700; text-decoration: none; padding: 12px 28px; border-radius: 50px; box-shadow: 0 4px 12px rgba(255, 90, 95, 0.25);">
+            Open Lalamove Delivery Form &rarr;
+          </a>
+        </div>
+
         <!-- Next Steps Timeline -->
         <div style="background-color: #FAFAFA; border: 1px solid #EEEEEE; border-radius: 16px; padding: 20px; margin-bottom: 24px;">
           <div style="font-size: 13px; font-weight: 700; color: #0F0F0F; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px;">

@@ -33,6 +33,7 @@ import {
   PiMagnifyingGlassPlusFill,
   PiQrCodeFill,
   PiDownloadSimpleBold,
+  PiArrowSquareOutBold,
 } from "react-icons/pi";
 
 // ─── PRODUCTS & DOSAGES ───────────────────────────────────────────────────────
@@ -183,30 +184,13 @@ export const ORDER_PRODUCTS: OrderItemOption[] = [
 export const DELIVERY_OPTIONS = [
   {
     id: "lalamove",
-    title: "Lalamove (Instant / Same-Day)",
-    badge: "Fast Dispatch",
-    description: "Delivered via express courier. Delivery fee shouldered by client upon drop-off.",
+    title: "Lalamove Express Delivery",
+    link: "https://delivery.lalamove.com/forms/PH7c9ea77fa46d4dea8e8f35c85c0bbf4a",
+    badge: "Same-Day Dispatch",
+    description: "Door-to-door express courier with cold-chain packaging. Delivery fee is shouldered by the client upon rider drop-off.",
     feeText: "Client shoulders fee",
     free: false,
-    icon: <PiTruck size={22} className="text-[#F07070]" />,
-  },
-  {
-    id: "jnt",
-    title: "J&T Express Nationwide",
-    badge: "3 – 7 Days",
-    description: "Insured door-to-door delivery across all provinces & cities.",
-    feeText: "FREE",
-    free: true,
-    icon: <PiTruck size={22} className="text-[#2E7D32]" />,
-  },
-  {
-    id: "lbc",
-    title: "LBC Express Nationwide",
-    badge: "3 – 7 Days",
-    description: "Reliable courier service with full tracking updates.",
-    feeText: "FREE",
-    free: true,
-    icon: <PiTruck size={22} className="text-[#2E7D32]" />,
+    icon: <PiTruck size={22} className="text-[#FF5A5F]" />,
   },
 ];
 
@@ -215,8 +199,8 @@ export const PAYMENT_METHODS = [
     id: "gcash",
     name: "GCash",
     tag: "E-Wallet",
-    accountName: "Tearsize Health",
-    accountNumber: "0961 323 6199",
+    accountName: "Angelo Mercaida",
+    accountNumber: "0995 729 6738",
     instructions: "Send exact amount via GCash Express Send or scan QR.",
     badge: "Instant Verification",
     qrImage: "/Qr/gcash.jpg",
@@ -225,8 +209,8 @@ export const PAYMENT_METHODS = [
     id: "paymaya",
     name: "Maya",
     tag: "E-Wallet",
-    accountName: "Tearsize Health",
-    accountNumber: "0961 323 6199",
+    accountName: "Michael Angelo Marcelo",
+    accountNumber: "0939 124 1211",
     instructions: "Transfer to Maya Wallet or scan merchant QR code.",
     badge: "Instant Verification",
     qrImage: "/Qr/maya.jpg",
@@ -235,8 +219,8 @@ export const PAYMENT_METHODS = [
     id: "bdo",
     name: "BDO Unibank",
     tag: "Bank Transfer",
-    accountName: "Tearsize Health Care",
-    accountNumber: "0065 4801 9283",
+    accountName: "Michael Angelo Marcelo",
+    accountNumber: "0111 0020 7595",
     instructions: "Online Banking, InstaPay transfer, or OTC deposit.",
     badge: "Same-Day",
     qrImage: "/Qr/bdo.jpg",
@@ -245,8 +229,8 @@ export const PAYMENT_METHODS = [
     id: "bpi",
     name: "BPI",
     tag: "Bank Transfer",
-    accountName: "Tearsize Health Care",
-    accountNumber: "3892 1094 82",
+    accountName: "Michael Angelo Marcelo",
+    accountNumber: "3579 3005 06",
     instructions: "Transfer via BPI App, InstaPay, or branch deposit.",
     badge: "Same-Day",
     qrImage: "/Qr/bpi.jpg",
@@ -255,8 +239,8 @@ export const PAYMENT_METHODS = [
     id: "paypal",
     name: "PayPal",
     tag: "International / Cards",
-    accountName: "tearsize@gmail.com",
-    accountNumber: "tearsize@gmail.com",
+    accountName: "Angelo Mercaida",
+    accountNumber: "angelomercaida@yahoo.com",
     instructions: "Send as Friends & Family to prevent transaction holds.",
     badge: "Online",
     qrImage: "/Qr/paypal.jpg",
@@ -283,10 +267,11 @@ export function OrderIntakeForm({
   const [email, setEmail] = useState(initialEmail);
   const [contactNumber, setContactNumber] = useState("");
   const [completeAddress, setCompleteAddress] = useState("");
+
   const [selectedItems, setSelectedItems] = useState<Record<string, number>>({
     "tirz-15": 1, // default convenient selection
   });
-  const [deliveryMode, setDeliveryMode] = useState("jnt");
+  const [deliveryMode, setDeliveryMode] = useState("lalamove");
   const [paymentMethod, setPaymentMethod] = useState("gcash");
   const [file, setFile] = useState<File | null>(null);
   const [filePreview, setFilePreview] = useState<string | null>(null);
@@ -412,11 +397,7 @@ export function OrderIntakeForm({
       return false;
     }
     if (!completeAddress.trim()) {
-      setErrorMessage("Please enter your complete Delivery Address.");
-      return false;
-    }
-    if (!deliveryMode) {
-      setErrorMessage("Please choose your Delivery Courier.");
+      setErrorMessage("Please enter your Delivery Address or City/Area.");
       return false;
     }
     setErrorMessage("");
@@ -554,7 +535,7 @@ export function OrderIntakeForm({
           </p>
 
           {/* Order Reference Badge */}
-          <div className="flex items-center gap-3 px-6 py-3 rounded-full bg-[#FFF8F7] border border-[#FFE8EA] mb-8 relative z-10">
+          <div className="flex items-center gap-3 px-6 py-3 rounded-full bg-[#FFF8F7] border border-[#FFE8EA] mb-6 relative z-10">
             <span className="text-[12px] font-bold uppercase tracking-wider text-[#6E6E6E]">
               Order Reference No:
             </span>
@@ -569,6 +550,33 @@ export function OrderIntakeForm({
             >
               {copiedKey === "ref" ? <PiCheckFat size={14} className="text-[#2E7D32]" /> : <PiCopySimple size={14} />}
             </button>
+          </div>
+
+          {/* Lalamove Form Action Banner */}
+          <div className="w-full rounded-[24px] bg-[#FFF0F0] border border-[#FF8FA3]/40 p-6 md:p-7 text-left flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-8 relative z-10 shadow-xs">
+            <div className="flex items-start gap-3.5">
+              <div className="w-10 h-10 rounded-full bg-[#FF5A5F] text-white flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
+                <PiTruck size={20} />
+              </div>
+              <div>
+                <h4 className="font-bold text-[14.5px] text-[#0F0F0F]">
+                  Hi, please fill out your delivery details with this link for a smooth delivery.
+                </h4>
+                <p className="text-[12.5px] text-[#555] mt-0.5">
+                  Direct parcel dispatch via the official Lalamove form link.
+                </p>
+              </div>
+            </div>
+
+            <a
+              href="https://delivery.lalamove.com/forms/PH7c9ea77fa46d4dea8e8f35c85c0bbf4a"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-[#FF5A5F] hover:bg-[#E04A4F] text-white text-[13px] font-bold transition-all shadow-sm shrink-0"
+            >
+              <span>Open Delivery Link</span>
+              <PiArrowSquareOutBold size={15} />
+            </a>
           </div>
 
           {/* Invoice Summary Card */}
@@ -614,7 +622,15 @@ export function OrderIntakeForm({
                 <span className="text-[#6E6E6E] uppercase font-bold text-[11px] block mb-0.5">
                   Delivery Method
                 </span>
-                <span className="font-medium text-[#0F0F0F]">{activeDelivery?.title}</span>
+                <a
+                  href="https://delivery.lalamove.com/forms/PH7c9ea77fa46d4dea8e8f35c85c0bbf4a"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-bold text-[#FF5A5F] hover:underline inline-flex items-center gap-1.5"
+                >
+                  <span>{activeDelivery?.title}</span>
+                  <PiArrowSquareOutBold size={14} />
+                </a>
               </div>
 
               <div>
@@ -909,75 +925,119 @@ export function OrderIntakeForm({
                       />
                     </div>
                   </div>
-
-                  {/* Complete Address */}
-                  <div className="sm:col-span-2 flex flex-col gap-1.5">
-                    <label className="text-[13px] font-bold text-[#0F0F0F]">
-                      Complete Delivery Address <span className="text-[#FF5A5F]">*</span>
-                    </label>
-                    <textarea
-                      required
-                      rows={3}
-                      value={completeAddress}
-                      onChange={(e) => setCompleteAddress(e.target.value)}
-                      placeholder="House/Unit No., Street Name, Barangay, Municipality/City, Province, ZIP code"
-                      className="w-full rounded-[16px] px-4 py-3.5 text-[14.5px] font-medium outline-none border border-[#FFE8EA] focus:border-[#FF5A5F] focus:ring-2 focus:ring-[#FF5A5F]/15 transition-all bg-[#FFF8F7]/30 resize-none"
-                    />
-                  </div>
                 </div>
               </div>
 
-              {/* Delivery Courier Selection */}
+              {/* Simplified Delivery Address Card */}
               <div className="bg-white rounded-[28px] border border-[#FFE8EA] p-6 md:p-8 shadow-sm flex flex-col gap-5">
-                <div className="flex items-center gap-2">
-                  <PiTruck className="text-[#FF5A5F] text-[20px]" />
-                  <h2 className="font-display font-bold text-[1.35rem] text-[#0F0F0F]">
-                    2. Select Courier & Speed
-                  </h2>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <PiMapPinFill className="text-[#FF5A5F] text-[20px]" />
+                    <h2 className="font-display font-bold text-[1.35rem] text-[#0F0F0F]">
+                      2. Delivery Address
+                    </h2>
+                  </div>
+                  <span className="text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-[#FFF0F0] text-[#FF5A5F] border border-[#FFE8EA]">
+                    Simple & Fast
+                  </span>
                 </div>
 
-                <div className="flex flex-col gap-3">
-                  {DELIVERY_OPTIONS.map((opt) => {
-                    const isSelected = deliveryMode === opt.id;
-                    return (
-                      <div
-                        key={opt.id}
-                        onClick={() => setDeliveryMode(opt.id)}
-                        className={`rounded-[20px] p-4.5 border transition-all duration-300 flex items-start justify-between gap-4 cursor-pointer ${
-                          isSelected
-                            ? "bg-[#FFF8F7] border-[#FF5A5F] ring-2 ring-[#FF5A5F]/15 shadow-sm"
-                            : "bg-white border-[#FFE8EA] hover:border-[#FF5A5F]/40"
-                        }`}
-                      >
-                        <div className="flex items-start gap-3.5">
-                          <div className="mt-0.5">{opt.icon}</div>
-                          <div>
-                            <div className="flex items-center gap-2 flex-wrap">
-                              <span className="font-bold text-[15px] text-[#0F0F0F]">
-                                {opt.title}
-                              </span>
-                              <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-white border border-[#FFE8EA] text-[#6E6E6E]">
-                                {opt.badge}
-                              </span>
-                            </div>
-                            <p className="text-[13px] text-[#6E6E6E] mt-1">
-                              {opt.description}
-                            </p>
-                          </div>
-                        </div>
+                <div className="flex flex-col gap-2.5">
+                  <label className="text-[13px] font-bold text-[#0F0F0F]">
+                    Delivery Address / Drop-off City & Area <span className="text-[#FF5A5F]">*</span>
+                  </label>
+                  <textarea
+                    required
+                    rows={2}
+                    value={completeAddress}
+                    onChange={(e) => setCompleteAddress(e.target.value)}
+                    placeholder="e.g. Unit 1204 Sakura Tower, Ortigas, Pasig City / BGC, Taguig"
+                    className="w-full rounded-[16px] px-4 py-3.5 text-[14.5px] font-medium outline-none border border-[#FFE8EA] focus:border-[#FF5A5F] focus:ring-2 focus:ring-[#FF5A5F]/15 transition-all bg-[#FFF8F7]/30 resize-none"
+                  />
+                  <p className="text-[12.5px] text-[#6E6E6E] flex items-center gap-1.5 mt-0.5">
+                    <span>💡 <strong>Quick Note:</strong> You will confirm the exact pin directly on the Lalamove link below.</span>
+                  </p>
+                </div>
+              </div>
 
-                        <span
-                          className={`text-[12.5px] font-bold px-3 py-1 rounded-full shrink-0 ${
-                            opt.free
-                              ? "bg-[#E8F5E9] text-[#2E7D32]"
-                              : "bg-[#FFF0F0] text-[#D94040]"
-                          }`}
-                        >
-                          {opt.feeText}
-                        </span>
+              {/* Dedicated Lalamove Logistics Section with Direct Form Link */}
+              <div className="bg-white rounded-[28px] border border-[#FFE8EA] p-6 md:p-8 shadow-sm flex flex-col gap-5">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <PiTruck className="text-[#FF5A5F] text-[20px]" />
+                    <h2 className="font-display font-bold text-[1.35rem] text-[#0F0F0F]">
+                      3. Dedicated Express Courier
+                    </h2>
+                  </div>
+                  <span className="px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-[#FFF0F0] text-[#FF5A5F] border border-[#FFE8EA]">
+                    Lalamove Link
+                  </span>
+                </div>
+
+                <div className="p-4 rounded-[20px] bg-[#FFF0F0] border border-[#FF8FA3]/40 flex items-start gap-3.5">
+                  <div className="w-8 h-8 rounded-full bg-[#FF5A5F] text-white flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
+                    <PiTruck size={17} />
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-[13.5px] font-bold text-[#0F0F0F] leading-snug">
+                      Hi, please fill out your delivery details with this link for a smooth delivery.
+                    </p>
+                    <p className="text-[12.5px] text-[#555] mt-0.5">
+                      Direct parcel dispatch via the official Lalamove form link below.
+                    </p>
+                  </div>
+                </div>
+
+                <a
+                  href="https://delivery.lalamove.com/forms/PH7c9ea77fa46d4dea8e8f35c85c0bbf4a"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group block rounded-[22px] p-5 border border-[#FF5A5F] bg-[#FFF8F7] hover:bg-[#FFF2F2] ring-2 ring-[#FF5A5F]/15 shadow-sm transition-all hover:shadow-md cursor-pointer"
+                >
+                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div className="flex items-start gap-4">
+                      <div className="w-12 h-12 rounded-[16px] bg-[#FF5A5F] group-hover:bg-[#E04A4F] text-white flex items-center justify-center shrink-0 shadow-md shadow-[#FF5A5F]/20 transition-colors">
+                        <PiTruck size={26} />
                       </div>
-                    );
-                  })}
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="font-bold text-[16.5px] text-[#0F0F0F] group-hover:text-[#FF5A5F] transition-colors">
+                            Lalamove Delivery Details Form
+                          </span>
+                          <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-white border border-[#FFE8EA] text-[#FF5A5F]">
+                            Direct Form Link
+                          </span>
+                        </div>
+                        <p className="text-[13px] text-[#555] mt-1 leading-relaxed">
+                          Door-to-door express courier. Delivery fee is shouldered by the client upon rider drop-off.
+                        </p>
+                        <div className="flex items-center gap-1.5 text-[12px] font-bold text-[#FF5A5F] mt-2 group-hover:underline break-all">
+                          <span>delivery.lalamove.com/forms/PH7c9ea77fa46d4dea8e8f35c85c0bbf4a</span>
+                          <PiArrowSquareOutBold size={14} className="shrink-0" />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-row md:flex-col items-center md:items-end justify-between md:justify-center gap-2 shrink-0 pt-2 md:pt-0 border-t md:border-t-0 border-[#FFE8EA]">
+                      <span className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-[#FF5A5F] text-white text-[13px] font-bold shadow-sm group-hover:bg-[#E04A4F] transition-all">
+                        <span>Direct to Link</span>
+                        <PiArrowSquareOutBold size={15} />
+                      </span>
+                      <span className="text-[11px] text-[#888] font-medium">
+                        Client shoulders fee
+                      </span>
+                    </div>
+                  </div>
+                </a>
+
+                {/* Cold-Chain Guarantee Note */}
+                <div className="flex items-center gap-3 p-4 rounded-[18px] bg-white border border-[#FFE8EA] text-[12.5px] text-[#4A3333]">
+                  <div className="w-8 h-8 rounded-full bg-[#E3F2FD] text-[#1976D2] flex items-center justify-center shrink-0">
+                    <PiSnowflakeFill size={16} />
+                  </div>
+                  <p>
+                    <strong>Cold-Chain Protected:</strong> All peptide formulations are shipped in insulated thermal packaging with cooling ice packs to preserve compound potency and stability during transit.
+                  </p>
                 </div>
               </div>
 
