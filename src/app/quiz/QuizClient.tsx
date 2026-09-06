@@ -494,6 +494,35 @@ export default function QuizClient() {
   const [done, setDone]               = useState(false);
   const [triviaId, setTriviaId]       = useState<string | null>(null);
   const [showExitConfirm, setShowExitConfirm] = useState(false);
+  const [requiredNotice, setRequiredNotice]   = useState(false);
+
+  // Check if redirected from /order without taking the quiz
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("required") === "true") {
+        setRequiredNotice(true);
+      }
+    }
+  }, []);
+
+  // Persist quiz completion to sessionStorage so /order is unlocked
+  useEffect(() => {
+    if (done) {
+      try {
+        sessionStorage.setItem("tearsize_quiz_completed", "true");
+        sessionStorage.setItem(
+          "tearsize_quiz_data",
+          JSON.stringify({
+            answers,
+            completedAt: new Date().toISOString(),
+          })
+        );
+      } catch (err) {
+        console.warn("Could not save quiz session:", err);
+      }
+    }
+  }, [done, answers]);
 
   // Warn before browser tab close / refresh
   useEffect(() => {
@@ -704,6 +733,21 @@ export default function QuizClient() {
 
           {!done && question && (
             <>
+              {/* Medical Assessment Required Banner (if redirected from /order) */}
+              {requiredNotice && (
+                <motion.div
+                  initial={{ opacity: 0, y: -8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="flex items-start gap-3 p-4 rounded-2xl bg-[#FFF0F0] border border-[#F5DADA] text-[#D94040] text-[13px] leading-snug shadow-xs"
+                >
+                  <PiWarningCircleFill size={20} className="shrink-0 mt-0.5 text-[#FF5A5F]" />
+                  <div className="flex-1">
+                    <strong className="font-semibold block text-[#0F0F0F] mb-0.5">Medical Intake Required</strong>
+                    <span>To ensure patient safety and proper dosage, a licensed doctor must review your health goals before orders can be placed. Please complete this quick 1-minute assessment.</span>
+                  </div>
+                </motion.div>
+              )}
+
               {/* Progress */}
               <ProgressBar step={step + 1} total={total} />
 

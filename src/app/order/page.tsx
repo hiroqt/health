@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import React from "react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { OrderIntakeForm } from "@/components/forms/OrderIntakeForm";
+import { OrderClient } from "./OrderClient";
 
 export const metadata: Metadata = {
   title: "Start Medical Intake & Order",
@@ -16,7 +16,7 @@ export default function OrderPage() {
       <Header splashDone={true} />
       <main className="flex-1 pt-24 md:pt-32 pb-16 px-4 md:px-8">
         <div className="max-w-[1280px] mx-auto flex flex-col items-center">
-          <OrderIntakeForm />
+          <OrderClient />
         </div>
       </main>
       <Footer />
