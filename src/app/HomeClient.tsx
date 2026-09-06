@@ -2,10 +2,12 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { IntroSplash } from "@/components/animations/IntroSplash";
+import { ClientReviewsSection } from "@/components/sections/ClientReviewsSection";
 import {
   PiArrowRight,
   PiStarFill,
@@ -128,6 +130,32 @@ function Hero({ splashDone }: { splashDone: boolean }) {
                   </span>
                 ))}
               </div>
+
+              {/* Disclaimer Notice */}
+              <motion.div
+                variants={fadeUp}
+                className="mt-2 max-w-3xl mx-auto rounded-2xl bg-white/80 backdrop-blur-sm border border-border px-6 py-4 shadow-xs text-center flex flex-col items-center justify-center gap-2"
+              >
+                <div className="flex items-center justify-center gap-1.5 text-accent">
+                  <PiShieldCheckFill size={16} aria-hidden="true" />
+                  <span className="text-[11px] md:text-[12px] font-bold tracking-wider uppercase text-ink">
+                    DISCLAIMER
+                  </span>
+                </div>
+                <p className="text-[12px] md:text-[13px] text-ink-3 leading-relaxed text-center">
+                  <strong className="font-semibold text-ink">by tearsize</strong> is a digital health platform which facilitates the provision of healthcare services by connecting its users with licensed doctors, pharmacies and other licensed healthcare institutions. <strong className="font-semibold text-ink">by tearsize</strong> itself is neither a licensed clinic nor a licensed pharmacy. <strong className="font-semibold text-ink">by tearsize</strong> does not prescribe, store or dispense any medication.
+                </p>
+                <p className="text-[12px] md:text-[13px] text-ink-3 text-center">
+                  For further information, refer to our{" "}
+                  <Link
+                    href="/terms"
+                    className="underline font-semibold text-ink hover:text-accent transition-colors whitespace-nowrap"
+                  >
+                    Terms & Conditions
+                  </Link>
+                  .
+                </p>
+              </motion.div>
             </div>
           </motion.div>
 
@@ -718,6 +746,8 @@ export default function HomeClient() {
           primaryCta={{ label: "Get started", href: "/learn-more" }}
           secondaryCta={{ label: "Learn more", href: "/learn-more" }}
         />
+
+        <ClientReviewsSection />
 
         <BentoCampaign />
 

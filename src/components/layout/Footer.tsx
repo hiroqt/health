@@ -27,19 +27,8 @@ const COLUMNS = [
     links: [
       { label: "How it Works",     href: "/learn-more" },
       { label: "Pricing & Plans",  href: "/products" },
-      { label: "Help Center",      href: "mailto:tearsize@gmail.com" },
-      { label: "Track Your Order", href: "/products" },
-      { label: "Contact Us",       href: "mailto:tearsize@gmail.com" },
-    ],
-  },
-  {
-    heading: "Company",
-    links: [
-      { label: "About by tearsize",  href: "#" },
-      { label: "Medical Team",    href: "#" },
-      { label: "Our Pharmacies",  href: "#" },
-      { label: "Careers",         href: "#" },
-      { label: "Press",           href: "#" },
+      { label: "Help Center",      href: "/contact" },
+      { label: "Contact Us",       href: "/contact" },
     ],
   },
 ];
@@ -212,7 +201,7 @@ export function Footer() {
             </div>
 
             {/* Link cols */}
-            <div className="lg:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-8">
+            <div className="lg:col-span-6 lg:col-start-7 grid grid-cols-2 gap-8 sm:gap-12">
               {COLUMNS.map(({ heading, links }) => (
                 <div key={heading} className="flex flex-col gap-5">
                   <h5 className="text-[11px] font-bold tracking-[0.18em] uppercase text-[#9A7878]">

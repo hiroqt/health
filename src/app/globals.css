@@ -120,6 +120,28 @@ body {
   animation-play-state: paused;
 }
 
+.marquee-reviews {
+  display: flex;
+  width: max-content;
+  animation: marquee 70s linear infinite;
+  will-change: transform;
+}
+
+.marquee-reviews:hover {
+  animation-play-state: paused;
+}
+
+.marquee-reviews-reverse {
+  display: flex;
+  width: max-content;
+  animation: marquee-reverse 70s linear infinite;
+  will-change: transform;
+}
+
+.marquee-reviews-reverse:hover {
+  animation-play-state: paused;
+}
+
 /* ─── Diagonal slash motif (by tearsize brand element) ──────────────────────── */
 .slash-bg {
   position: relative;

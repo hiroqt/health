@@ -118,7 +118,7 @@ export const PRODUCTS: Product[] = [
     dosing: {
       dosage: "0.5mg (Starting dose)",
       frequency: "Once daily (5-7 days per week, before bed)",
-      duration: "8 to 12 weeks"
+      duration: "The duration of the treatment is contingent upon the specific needs of patient"
     },
     tips: [
       "Administer on an empty stomach at bedtime (at least 90-120 minutes after last meal).",
@@ -145,7 +145,7 @@ export const PRODUCTS: Product[] = [
     dosing: {
       dosage: "1mg (Starting dose)",
       frequency: "Once daily (SubQ)",
-      duration: "Depends on prescription"
+      duration: "The duration of the treatment is contingent upon the specific needs of patient"
     },
     tips: [
       "For localized injuries, administer near the affected area if instructed by your physician.",
@@ -170,7 +170,7 @@ export const PRODUCTS: Product[] = [
     dosing: {
       dosage: "1mg (Starting dose)",
       frequency: "1-3 times per week (SubQ)",
-      duration: "4 to 8 weeks (Depends on prescription)"
+      duration: "The duration of the treatment is contingent upon the specific needs of patient"
     },
     tips: [
       "Administer prior to exercise or in the morning to maximize energy and fat oxidation.",
@@ -195,7 +195,7 @@ export const PRODUCTS: Product[] = [
     dosing: {
       dosage: "1mg (Starting dose)",
       frequency: "1-3 times weekly (SubQ)",
-      duration: "4 to 8 weeks (Loading phase), then monthly maintenance"
+      duration: "The duration of the treatment is contingent upon the specific needs of patient"
     },
     tips: [
       "Can be injected subcutaneously anywhere due to its systemic distribution.",
@@ -220,7 +220,7 @@ export const PRODUCTS: Product[] = [
     dosing: {
       dosage: "1mg (Starting dose)",
       frequency: "Once daily (SubQ, at bedtime)",
-      duration: "4 to 8 weeks (Based on prescription)"
+      duration: "The duration of the treatment is contingent upon the specific needs of patient"
     },
     tips: [
       "Inject on an empty stomach at bedtime (or post-workout) without carbohydrates to avoid blunting GH release.",
@@ -247,7 +247,7 @@ export const PRODUCTS: Product[] = [
     dosing: {
       dosage: "0.5mg - 1mg (Starting dose)",
       frequency: "Once daily (SubQ)",
-      duration: "Lifetime (No need to cycle off)"
+      duration: "Lifetime Protocol"
     },
     tips: [
       "Diluting with additional bacteriostatic water can help reduce temporary injection site tenderness.",
@@ -272,7 +272,7 @@ export const PRODUCTS: Product[] = [
     dosing: {
       dosage: "1mg (Starting dose)",
       frequency: "1-3 times per week (SubQ)",
-      duration: "Lifetime protocol"
+      duration: "Before Breakfast (must be morning)"
     },
     tips: [
       "Best administered in the morning as it increases energy levels and may disrupt sleep if taken late.",
@@ -322,7 +322,7 @@ export const PRODUCTS: Product[] = [
     dosing: {
       dosage: "1mg (Starting dose)",
       frequency: "Once daily (SubQ)",
-      duration: "Lifetime protocol"
+      duration: "Lifetime Protocol"
     },
     tips: [
       "Pair with adequate daily water intake and SPF protection for best aesthetic outcomes.",
@@ -347,7 +347,7 @@ export const PRODUCTS: Product[] = [
     dosing: {
       dosage: "1mg (Starting dose)",
       frequency: "Once daily (SubQ)",
-      duration: "Lifetime protocol"
+      duration: "Lifetime Protocol"
     },
     tips: [
       "Administer subcutaneously consistently on scheduled protocol days.",
@@ -372,7 +372,7 @@ export const PRODUCTS: Product[] = [
     dosing: {
       dosage: "5mg (Starting dose)",
       frequency: "1-2 times per week (IM or SubQ)",
-      duration: "Lifetime protocol"
+      duration: "Lifetime Protocol"
     },
     tips: [
       "Take alongside Vitamin C to enhance absorption, cellular recycling, and effectiveness.",
