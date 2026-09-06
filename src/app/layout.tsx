@@ -12,6 +12,14 @@ export const metadata: Metadata = {
   },
   description:
     "Personalized GLP-1 programs, metabolic health plans, and prescription skincare. Consult licensed doctors, get custom treatments, and receive free discreet delivery.",
+  icons: {
+    icon: [
+      { url: "/Profile.png" },
+      { url: "/Profile.png", type: "image/png" },
+    ],
+    shortcut: "/Profile.png",
+    apple: "/Profile.png",
+  },
 };
 
 export default function RootLayout({
