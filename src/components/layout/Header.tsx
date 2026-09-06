@@ -173,12 +173,7 @@ export function Header({ splashDone = true }: { splashDone?: boolean }) {
 
           {/* Right actions */}
           <div className="flex items-center gap-3 md:gap-4">
-            <Link
-              href="#"
-              className="hidden sm:inline-flex items-center h-10 md:h-11 px-4 md:px-5 rounded-full border border-[#FFE8EA] text-[13px] font-medium text-[#0F0F0F] whitespace-nowrap hover:border-[#FF5A5F] hover:text-[#FF5A5F] transition-colors"
-            >
-              Sign in
-            </Link>
+
             <Link
               href="/learn-more"
               className="inline-flex items-center h-10 md:h-11 px-5 md:px-6 rounded-full text-[13px] font-semibold text-white whitespace-nowrap transition-colors"
