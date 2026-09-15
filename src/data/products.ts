@@ -303,12 +303,12 @@ export const PRODUCTS: Product[] = [
     ]
   },
   {
-    slug: "glow",
-    name: "Glow Blend",
-    shortName: "Glow",
+    slug: "glow70",
+    name: "Glow 70",
+    shortName: "Glow 70",
     category: "Wellness & Longevity",
-    shortDescription: "Advanced aesthetic peptide blend for radiant complexion, collagen synthesis, and skin elasticity.",
-    about: "Glow is our premier skin-radiance and aesthetic longevity formulation. Combining synergistic concentrations of GHK-Cu, collagen-stimulating peptides, and cellular reparative factors, Glow is specifically engineered to improve dermal density, accelerate skin cell turnover, diminish fine lines, and give the complexion a hydrated, lit-from-within luminosity.",
+    shortDescription: "Advanced aesthetic peptide formulation for radiant complexion, collagen synthesis, and skin elasticity.",
+    about: "Glow 70 is our premier skin-radiance and aesthetic longevity formulation. Combining synergistic concentrations of GHK-Cu, collagen-stimulating peptides, and cellular reparative factors, Glow 70 is specifically engineered to improve dermal density, accelerate skin cell turnover, diminish fine lines, and give the complexion a hydrated, lit-from-within luminosity.",
     benefits: [
       { title: "Dermal Radiance & Luminosity", description: "Revitalizes microcirculation and skin cellular turnover for a vibrant natural glow." },
       { title: "Collagen & Elastin Synthesis", description: "Tightens skin architecture, improving suppleness and reducing fine lines." },
@@ -327,12 +327,12 @@ export const PRODUCTS: Product[] = [
     ]
   },
   {
-    slug: "klow",
-    name: "Klow Blend",
-    shortName: "Klow",
+    slug: "klow80",
+    name: "Klow 80",
+    shortName: "Klow 80",
     category: "Wellness & Longevity",
     shortDescription: "Synergistic longevity formulation combining KPV, GHK-Cu, and gut-skin rejuvenation factors.",
-    about: "Klow is a cutting-edge integrative formulation designed to optimize the gut-skin longevity axis. By combining the anti-inflammatory power of KPV with the regenerative and collagen-rebuilding strength of GHK-Cu and vital longevity cofactors, Klow addresses both internal inflammation and external radiance, restoring vitality from the inside out.",
+    about: "Klow 80 is a cutting-edge integrative formulation designed to optimize the gut-skin longevity axis. By combining the anti-inflammatory power of KPV with the regenerative and collagen-rebuilding strength of GHK-Cu and vital longevity cofactors, Klow 80 addresses both internal inflammation and external radiance, restoring vitality from the inside out.",
     benefits: [
       { title: "Gut-Skin Axis Optimization", description: "Addresses internal gut permeability and external skin radiance simultaneously." },
       { title: "Dual Anti-Inflammatory Action", description: "Synergistically suppresses systemic oxidative stress and cytokine signaling." },
@@ -400,6 +400,12 @@ const SLUG_ALIASES: Record<string, string> = {
   "ghk": "ghk-cu",
   "ghkcu": "ghk-cu",
   "ghk-cu": "ghk-cu",
+  "glow": "glow70",
+  "glow70": "glow70",
+  "glow-70": "glow70",
+  "klow": "klow80",
+  "klow80": "klow80",
+  "klow-80": "klow80",
 };
 
 export function getProductBySlug(slug: string): Product | undefined {

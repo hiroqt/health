@@ -16,7 +16,7 @@ const CATEGORIES = ["All", "Weight Management", "Peptide Therapy", "Wellness & L
 const CATEGORY_MAP: Record<string, string[]> = {
   "Weight Management": ["tirzepatide", "retatrutide", "cagrilintide", "tesamorelin"],
   "Peptide Therapy": ["bpc-157", "mots-c", "tb-500", "ipamorelin"],
-  "Wellness & Longevity": ["ghk-cu", "nad-plus", "kpv", "glow", "klow", "glutathione"],
+  "Wellness & Longevity": ["ghk-cu", "nad-plus", "kpv", "glow70", "klow80", "glutathione"],
 };
 
 // ─── Animations ───────────────────────────────────────────────────────────────
