@@ -6,12 +6,37 @@ import "./globals.css";
 const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://bytearsize.com"),
   title: {
     default: "by tearsize — Doctor-prescribed weight loss, entirely online.",
     template: "%s | by tearsize",
   },
   description:
     "Personalized GLP-1 programs, metabolic health plans, and prescription skincare. Consult licensed doctors, get custom treatments, and receive free discreet delivery.",
+  openGraph: {
+    title: "by tearsize — Doctor-prescribed weight loss, entirely online.",
+    description:
+      "Personalized GLP-1 programs, metabolic health plans, and prescription skincare. Consult licensed doctors, get custom treatments, and receive free discreet delivery.",
+    url: "https://bytearsize.com",
+    siteName: "tear size",
+    images: [
+      {
+        url: "/image.png",
+        width: 1400,
+        height: 615,
+        alt: "by tearsize — Doctor-prescribed weight loss, entirely online.",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "by tearsize — Doctor-prescribed weight loss, entirely online.",
+    description:
+      "Personalized GLP-1 programs, metabolic health plans, and prescription skincare. Consult licensed doctors, get custom treatments, and receive free discreet delivery.",
+    images: ["/image.png"],
+  },
   icons: {
     icon: [
       { url: "/favicon.ico" },
