@@ -7,7 +7,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { IntroSplash } from "@/components/animations/IntroSplash";
 import { Product, Benefit } from "@/data/products";
-import { PiArrowRight, PiCheckCircleFill, PiInfo, PiWarningCircle } from "react-icons/pi";
+import { PiArrowRight, PiCheckCircleFill, PiInfo, PiWarningCircle, PiFlask } from "react-icons/pi";
 import Link from "next/link";
 
 // ─── Animations ───────────────────────────────────────────────────────────────
@@ -90,16 +90,36 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                 
                 {/* About */}
                 <motion.section variants={fadeUp} className="flex flex-col gap-6">
-                  <div className="relative w-full aspect-[16/9] md:aspect-[4/3] rounded-[24px] overflow-hidden bg-white border border-border">
-                    <Image
-                      src={product.coverImage}
-                      alt={product.name}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 768px) 100vw, 60vw"
-                      priority
-                    />
-                  </div>
+                  {product.coverImage ? (
+                    <div className="relative w-full aspect-[16/9] md:aspect-[4/3] rounded-[24px] overflow-hidden bg-white border border-border">
+                      <Image
+                        src={product.coverImage}
+                        alt={product.name}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, 60vw"
+                        priority
+                      />
+                    </div>
+                  ) : (
+                    <div className="relative w-full aspect-[16/9] md:aspect-[4/3] rounded-[24px] overflow-hidden bg-gradient-to-br from-surface via-surface-warm/30 to-surface-warm/50 border border-border flex flex-col items-center justify-center p-8 text-center select-none">
+                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_35%,rgba(255,90,95,0.08),transparent_60%)]" />
+                      <div className="relative z-10 flex flex-col items-center max-w-sm">
+                        <div className="w-16 h-16 rounded-2xl bg-white/90 border border-border flex items-center justify-center shadow-xs text-accent mb-4">
+                          <PiFlask size={32} className="opacity-85" />
+                        </div>
+                        <span className="inline-flex items-center px-3 py-1 rounded-full bg-accent/10 text-accent text-[11px] font-bold tracking-wider uppercase mb-2">
+                          {product.category}
+                        </span>
+                        <h3 className="font-display text-[1.25rem] text-ink font-semibold mb-1.5">
+                          Formulation Imagery In Preparation
+                        </h3>
+                        <p className="text-[13.5px] text-ink-3 leading-relaxed">
+                          Official packaging and clinical photography will be published soon. Review clinical summary, benefits, and dosing protocol below.
+                        </p>
+                      </div>
+                    </div>
+                  )}
                   <div className="flex flex-col gap-4">
                     <h2 className="font-display text-[1.75rem] text-ink">About {product.name}</h2>
                     <p className="text-[15px] text-ink-3 leading-relaxed">

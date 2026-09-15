@@ -18,7 +18,7 @@ export interface Product {
   category: ProductCategory;
   shortDescription: string;
   about: string;
-  coverImage: string;
+  coverImage?: string;
   benefits: Benefit[];
   dosing: DosingInfo;
   tips: string[];
@@ -185,7 +185,6 @@ export const PRODUCTS: Product[] = [
     category: "Peptide Therapy",
     shortDescription: "Synthetic Thymosin Beta-4 for cellular migration, muscle recovery, and flexibility.",
     about: "TB-500 is a synthetic fraction of the naturally occurring protein Thymosin Beta-4 (Tβ4). It plays a vital role in cellular structure and repair by upregulating actin, promoting cell migration, reducing fibrous scar tissue formation, and increasing flexibility and endurance in recovering tissues. It acts systemically throughout the entire body.",
-    coverImage: "/TB-500/TB-500-Benefits.jpg",
     benefits: [
       { title: "Systemic Tissue Regeneration", description: "Upregulates actin to repair damaged muscle fibers and connective tissues." },
       { title: "Cell Migration & Repair", description: "Facilitates rapid migration of healing cells to injury sites." },
@@ -210,7 +209,6 @@ export const PRODUCTS: Product[] = [
     category: "Peptide Therapy",
     shortDescription: "Selective growth hormone secretagogue for lean muscle, fat loss, and deep cellular recovery.",
     about: "Ipamorelin is one of the cleanest and most selective Growth Hormone Secretagogues (GHS) available. It mimics ghrelin to bind selectively to the secretagogue receptor on the pituitary gland, releasing growth hormone in a smooth, physiological pulse without stimulating hunger, cortisol, aldosterone, or prolactin. This leads to accelerated fat loss, lean muscle definition, deep sleep, and revitalized collagen production.",
-    coverImage: "/IPAMORELIN/Ipamorelin-Benefits.jpg",
     benefits: [
       { title: "Selective GH Pulsing", description: "Stimulates natural growth hormone production without raising cortisol or prolactin." },
       { title: "Lean Muscle & Fat Loss", description: "Enhances fat breakdown (lipolysis) while protecting lean muscle mass." },
@@ -287,7 +285,6 @@ export const PRODUCTS: Product[] = [
     category: "Wellness & Longevity",
     shortDescription: "Potent anti-inflammatory tripeptide for gut mucosal healing and immune balance.",
     about: "KPV (Lysine-Proline-Valine) is a potent, naturally occurring tripeptide derived from alpha-Melanocyte-Stimulating Hormone (α-MSH). It possesses exceptional anti-inflammatory, antimicrobial, and immune-modulating properties. KPV directly calms overactive inflammatory cascades via NF-κB inhibition, making it unmatched for gut barrier restoration, IBD/IBS support, and systemic inflammation reduction.",
-    coverImage: "/KPV/KPV-Benefits.jpg",
     benefits: [
       { title: "Targeted Gut Wall Repair", description: "Restores intestinal epithelial integrity, healing mucosal inflammation." },
       { title: "NF-κB Inhibition", description: "Directly suppresses core inflammatory cytokines (TNF-α, IL-6, IL-1β)." },
@@ -312,7 +309,6 @@ export const PRODUCTS: Product[] = [
     category: "Wellness & Longevity",
     shortDescription: "Advanced aesthetic peptide blend for radiant complexion, collagen synthesis, and skin elasticity.",
     about: "Glow is our premier skin-radiance and aesthetic longevity formulation. Combining synergistic concentrations of GHK-Cu, collagen-stimulating peptides, and cellular reparative factors, Glow is specifically engineered to improve dermal density, accelerate skin cell turnover, diminish fine lines, and give the complexion a hydrated, lit-from-within luminosity.",
-    coverImage: "/GLOW/Glow-Benefits.jpg",
     benefits: [
       { title: "Dermal Radiance & Luminosity", description: "Revitalizes microcirculation and skin cellular turnover for a vibrant natural glow." },
       { title: "Collagen & Elastin Synthesis", description: "Tightens skin architecture, improving suppleness and reducing fine lines." },
@@ -337,7 +333,6 @@ export const PRODUCTS: Product[] = [
     category: "Wellness & Longevity",
     shortDescription: "Synergistic longevity formulation combining KPV, GHK-Cu, and gut-skin rejuvenation factors.",
     about: "Klow is a cutting-edge integrative formulation designed to optimize the gut-skin longevity axis. By combining the anti-inflammatory power of KPV with the regenerative and collagen-rebuilding strength of GHK-Cu and vital longevity cofactors, Klow addresses both internal inflammation and external radiance, restoring vitality from the inside out.",
-    coverImage: "/KLOW/Klow-Benefits.jpg",
     benefits: [
       { title: "Gut-Skin Axis Optimization", description: "Addresses internal gut permeability and external skin radiance simultaneously." },
       { title: "Dual Anti-Inflammatory Action", description: "Synergistically suppresses systemic oxidative stress and cytokine signaling." },

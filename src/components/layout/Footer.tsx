@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import {
-  PiInstagramLogo, PiFacebookLogo,
+  PiInstagramLogo, PiWhatsappLogo,
   PiArrowRight, PiArrowUpRight,
   PiMapPin, PiPhone, PiEnvelopeSimple,
   PiSyringe, PiSyringeFill
@@ -35,7 +35,7 @@ const COLUMNS = [
 
 const SOCIALS = [
   { icon: <PiInstagramLogo size={20} />, label: "Instagram", href: "https://www.instagram.com/bytearsizeph/" },
-  { icon: <PiFacebookLogo size={20} />,  label: "Facebook",  href: "https://www.facebook.com/peptidesbytearsize" },
+  { icon: <PiWhatsappLogo size={20} />,  label: "WhatsApp",  href: "https://wa.me/639613236199" },
   { icon: <PiEnvelopeSimple size={20} />, label: "Email",     href: "mailto:tearsize@gmail.com" },
 ];
 
@@ -180,10 +180,12 @@ export function Footer() {
               </p>
               <div className="flex flex-col gap-3 mt-2">
                 <a
-                  href="tel:+639613236199"
+                  href="https://wa.me/639613236199"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="flex items-center gap-3 text-[13.5px] text-[#4A3333] hover:text-[#F07070] transition-colors"
                 >
-                  <span style={{ color: "#F07070" }}><PiPhone size={16} /></span>
+                  <span style={{ color: "#F07070" }}><PiWhatsappLogo size={16} /></span>
                   +63 961 323 6199
                 </a>
                 <a

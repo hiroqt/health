@@ -7,7 +7,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { IntroSplash } from "@/components/animations/IntroSplash";
 import { PRODUCTS, Product, Benefit } from "@/data/products";
-import { PiArrowRight, PiCheckCircleFill } from "react-icons/pi";
+import { PiArrowRight, PiCheckCircleFill, PiFlask } from "react-icons/pi";
 import Link from "next/link";
 
 // ─── Categories & Mapping ─────────────────────────────────────────────────────
@@ -133,13 +133,30 @@ export default function ProductsClient() {
                           
                           {/* Image Container with Overlay */}
                           <div className="w-full aspect-[4/3] relative overflow-hidden rounded-[18px] bg-surface mb-4">
-                            <Image
-                              src={product.coverImage}
-                              alt={product.name}
-                              fill
-                              className="object-cover group-hover:scale-105 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"
-                              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                            />
+                            {product.coverImage ? (
+                              <Image
+                                src={product.coverImage}
+                                alt={product.name}
+                                fill
+                                className="object-cover group-hover:scale-105 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"
+                                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                              />
+                            ) : (
+                              <div className="w-full h-full flex flex-col items-center justify-center p-6 bg-gradient-to-br from-surface via-surface-warm/30 to-surface-warm/60 relative select-none">
+                                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_35%,rgba(255,90,95,0.08),transparent_60%)]" />
+                                <div className="relative z-10 flex flex-col items-center text-center">
+                                  <div className="w-14 h-14 rounded-2xl bg-white/90 border border-border flex items-center justify-center shadow-xs text-accent mb-2.5 group-hover:scale-105 transition-transform duration-500">
+                                    <PiFlask size={26} className="opacity-80" />
+                                  </div>
+                                  <span className="text-[11px] font-bold tracking-wider text-ink-3/70 uppercase">
+                                    Formulation
+                                  </span>
+                                  <span className="text-[13px] font-medium text-ink-2 mt-0.5">
+                                    Image in preparation
+                                  </span>
+                                </div>
+                              </div>
+                            )}
                             {/* Hover Overlay */}
                             <div className="absolute inset-0 bg-ink/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px]">
                               <span className="bg-white text-ink px-5 py-2.5 rounded-full font-semibold text-[14px] shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 flex items-center gap-2">
