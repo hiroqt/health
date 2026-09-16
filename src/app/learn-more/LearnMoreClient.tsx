@@ -123,17 +123,17 @@ function Hero() {
             A personalized, doctor-guided program built around you — your goals, your pace, your life. No clinic visits, no guesswork.
           </motion.p>
 
-          {/* Quiz CTA pill */}
+          {/* Assessment CTA button */}
           <motion.div variants={fadeUp} className="flex flex-col items-center gap-4 mt-6">
             <Link
               href="/quiz"
               className="inline-flex items-center justify-center rounded-full font-semibold whitespace-nowrap transition-all duration-200 gap-2 text-white shadow-md hover:shadow-lg bg-accent hover:bg-accent-hover text-[15px] min-h-[60px] px-10 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
             >
-              Take the free quiz <PiArrowRight size={18} />
+              Take free assessment <PiArrowRight size={18} />
             </Link>
             <div className="flex items-center gap-2 text-[13.5px] font-medium text-ink-3">
               <PiTimerFill size={15} className="text-accent" />
-              Quiz takes under 3 minutes
+              Assessment takes under 3 minutes
             </div>
           </motion.div>
         </motion.div>
@@ -435,7 +435,7 @@ function QuizSection() {
                 Free · No commitment
               </motion.p>
               <motion.h2 variants={fadeUp} className="font-display text-ink leading-tight text-[clamp(1.8rem,4vw,3rem)]">
-                The quiz only takes
+                The assessment only takes
                 <br />
                 <em className="not-italic text-accent">3 minutes.</em>
               </motion.h2>
@@ -450,12 +450,18 @@ function QuizSection() {
                   </motion.li>
                 ))}
               </motion.ul>
-              <motion.div variants={fadeUp} className="mt-4">
+              <motion.div variants={fadeUp} className="mt-4 flex flex-wrap gap-3">
                 <Link
                   href="/quiz"
                   className="inline-flex items-center justify-center rounded-full font-semibold whitespace-nowrap transition-all duration-200 gap-2 text-white bg-accent hover:bg-accent-hover text-[14.5px] min-h-[56px] px-8 shadow-sm hover:shadow-md"
                 >
-                  Start free quiz <PiArrowRight size={18} />
+                  Take free assessment (for first time user) <PiArrowRight size={18} />
+                </Link>
+                <Link
+                  href="/order?reorder=true"
+                  className="inline-flex items-center justify-center rounded-full font-semibold whitespace-nowrap transition-all duration-200 gap-2 text-ink bg-white border border-border hover:border-accent/40 hover:bg-surface text-[14.5px] min-h-[56px] px-8 shadow-xs"
+                >
+                  Re-order <PiArrowRight size={18} />
                 </Link>
               </motion.div>
             </motion.div>
@@ -504,32 +510,30 @@ const PILLARS = [
 
 function TrustPillars() {
   return (
-    <section className="w-full py-14 md:py-20 bg-bg border-t border-border">
+    <section className="w-full py-14 md:py-20 bg-surface">
       <div className="max-w-[1280px] mx-auto px-4 md:px-8 lg:px-12">
-        <motion.div {...inView} variants={stagger} className="flex flex-col gap-12">
-          <motion.div variants={fadeUp} className="flex flex-col items-center text-center gap-4 max-w-lg mx-auto">
-            <p className="text-[11px] font-bold tracking-[0.22em] uppercase text-ink-3">
-              Why by tearsize
+        <motion.div {...inView} variants={stagger} className="flex flex-col gap-10">
+          <motion.div variants={fadeUp} className="text-center max-w-xl mx-auto">
+            <p className="text-[11px] font-bold tracking-[0.22em] uppercase mb-3 text-ink-3">
+              Safety & Standards
             </p>
-            <h2 className="font-display text-ink leading-tight text-[clamp(1.75rem,3.5vw,2.75rem)]">
-              Built on trust.
-              <br />
-              <em className="not-italic text-accent">Proven by results.</em>
+            <h2 className="font-display text-ink leading-tight text-[clamp(1.75rem,3vw,2.5rem)]">
+              Healthcare you can trust.
             </h2>
           </motion.div>
 
-          <motion.div variants={stagger} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <motion.div variants={stagger} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {PILLARS.map((p) => (
               <motion.div
                 key={p.title}
                 variants={fadeUp}
-                className="rounded-[24px] p-8 flex flex-col gap-4 bg-surface border border-border hover:shadow-card-hover transition-shadow duration-300"
+                className="bg-white rounded-[24px] border border-border p-7 flex flex-col gap-4 shadow-card hover:shadow-card-hover hover:border-accent/30 transition-all duration-300"
               >
-                <div className="w-12 h-12 rounded-full flex items-center justify-center bg-accent-light text-accent">
+                <div className="w-12 h-12 rounded-2xl bg-surface flex items-center justify-center text-accent">
                   {p.icon}
                 </div>
-                <h3 className="font-display text-ink leading-snug text-[1.2rem]">{p.title}</h3>
-                <p className="text-[14px] leading-relaxed text-ink-2">{p.desc}</p>
+                <h3 className="font-display text-[1.1rem] text-ink">{p.title}</h3>
+                <p className="text-[14px] leading-relaxed text-ink-3">{p.desc}</p>
               </motion.div>
             ))}
           </motion.div>
@@ -544,9 +548,7 @@ function CtaCloser() {
   return (
     <section className="w-full py-16 md:py-24 relative overflow-hidden bg-ink">
       <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-        <div className="absolute -top-[10%] left-[7%] w-[8px] h-[120%] bg-accent/10 -rotate-16" />
-        <div className="absolute -top-[10%] left-[11.5%] w-[8px] h-[120%] bg-accent/5 -rotate-16" />
-        <div className="absolute top-[10%] right-[7%] w-[90px] h-[90px] bg-accent/10 rotate-45 rounded-[12px]" />
+        <div className="absolute top-[10%] right-[8%] w-[90px] h-[90px] bg-accent/10 rotate-45 rounded-[12px]" />
         <div className="absolute bottom-[14%] right-[13%] w-[55px] h-[55px] bg-accent/5 rotate-45 rounded-[8px]" />
       </div>
 
@@ -560,20 +562,20 @@ function CtaCloser() {
           <em className="not-italic text-accent">starts with one step.</em>
         </motion.h2>
         <motion.p variants={fadeUp} className="text-[15.5px] leading-relaxed mb-10 text-white/60">
-          Take the free 3-minute quiz. Get matched with a licensed doctor. Start feeling like yourself again — entirely online.
+          Take the free 3-minute assessment. Get matched with a licensed doctor. Start feeling like yourself again — entirely online.
         </motion.p>
         <motion.div variants={fadeUp} className="flex flex-wrap gap-4 justify-center">
           <Link
             href="/quiz"
-            className="inline-flex items-center justify-center rounded-full font-semibold whitespace-nowrap transition-all duration-200 gap-2 text-white bg-accent hover:bg-accent-hover text-[15px] min-h-[56px] px-9 shadow-lg"
+            className="inline-flex items-center justify-center rounded-full font-semibold whitespace-nowrap transition-all duration-200 gap-2 text-white bg-accent hover:bg-accent-hover text-[15px] min-h-[56px] px-8 shadow-lg"
           >
-            Take the quiz <PiArrowRight size={18} />
+            Take free assessment (for first time user) <PiArrowRight size={18} />
           </Link>
           <Link
-            href="/"
-            className="inline-flex items-center justify-center rounded-full font-semibold whitespace-nowrap transition-colors duration-200 text-white text-[15px] min-h-[56px] px-9 border-[1.5px] border-accent/40 hover:border-accent/90"
+            href="/order?reorder=true"
+            className="inline-flex items-center justify-center rounded-full font-semibold whitespace-nowrap transition-colors duration-200 text-white bg-white/10 hover:bg-white/20 text-[15px] min-h-[56px] px-8 border-[1.5px] border-accent/40 hover:border-accent/90"
           >
-            Back to home
+            Re-order <PiArrowRight size={18} />
           </Link>
         </motion.div>
       </motion.div>

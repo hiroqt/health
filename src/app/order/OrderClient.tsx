@@ -17,9 +17,16 @@ export function OrderClient() {
   useEffect(() => {
     try {
       const isCompleted = sessionStorage.getItem("tearsize_quiz_completed") === "true";
+      const isReorder =
+        typeof window !== "undefined" &&
+        (window.location.search.includes("reorder=true") ||
+          window.location.search.includes("direct=true"));
       const savedDataRaw = sessionStorage.getItem("tearsize_quiz_data");
 
-      if (isCompleted) {
+      if (isCompleted || isReorder) {
+        if (isReorder) {
+          sessionStorage.setItem("tearsize_quiz_completed", "true");
+        }
         if (savedDataRaw) {
           const parsed = JSON.parse(savedDataRaw);
           setQuizData({

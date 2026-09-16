@@ -880,6 +880,20 @@ export default function QuizClient() {
             </>
           )}
 
+          {!done && (
+            <div className="pt-2 flex flex-col items-center justify-center gap-2">
+              <Link
+                href="/order?reorder=true"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-[13.5px] font-semibold text-[#6E6E6E] hover:text-[#0F0F0F] bg-white border border-[#F5DADA] hover:border-[#FF5A5F]/40 transition-all shadow-xs hover:shadow-sm"
+              >
+                <span>Already a patient?</span>
+                <span className="text-[#FF5A5F] font-bold flex items-center gap-1">
+                  Re-order here <PiArrowRight size={14} />
+                </span>
+              </Link>
+            </div>
+          )}
+
           {/* Order Intake Form directly following quiz */}
           <AnimatePresence>
             {done && (

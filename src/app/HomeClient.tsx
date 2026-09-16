@@ -110,10 +110,10 @@ function Hero({ splashDone }: { splashDone: boolean }) {
 
             <div className="mt-10 flex flex-col items-center justify-center gap-6">
               <a
-                href="/learn-more"
+                href="/quiz"
                 className="inline-flex items-center justify-center rounded-full font-semibold whitespace-nowrap cursor-pointer transition-all duration-200 gap-2 shrink-0 text-white shadow-md hover:shadow-lg bg-accent hover:bg-accent-hover text-[15px] min-h-[60px] px-10 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
               >
-                Start your program <PiArrowRight size={18} />
+                Take free assessment <PiArrowRight size={18} />
               </a>
               <div className="flex flex-wrap justify-center gap-3">
                 {[
@@ -669,16 +669,16 @@ function CtaBanner() {
         </motion.p>
         <motion.div variants={fadeUp} className="flex flex-wrap gap-3 justify-center">
           <a
-            href="/learn-more"
+            href="/quiz"
             className="inline-flex items-center justify-center rounded-full text-[13.5px] font-semibold whitespace-nowrap cursor-pointer transition-colors duration-200 min-h-[48px] px-7 gap-2 bg-accent hover:bg-accent-hover text-white focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-ink outline-none"
           >
-            Start my program <PiArrowRight size={15} />
+            Take free assessment (for first time user) <PiArrowRight size={15} />
           </a>
           <a
-            href="#how-it-works"
-            className="inline-flex items-center justify-center rounded-full text-[13.5px] font-semibold whitespace-nowrap cursor-pointer transition-colors duration-200 min-h-[48px] px-7 gap-2 text-white border-[1.5px] border-accent/40 hover:border-accent/90 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-ink outline-none"
+            href="/order?reorder=true"
+            className="inline-flex items-center justify-center rounded-full text-[13.5px] font-semibold whitespace-nowrap cursor-pointer transition-colors duration-200 min-h-[48px] px-7 gap-2 text-white bg-white/10 hover:bg-white/20 border-[1.5px] border-accent/40 hover:border-accent/90 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-ink outline-none"
           >
-            How it works
+            Re-order <PiArrowRight size={15} />
           </a>
         </motion.div>
       </motion.div>

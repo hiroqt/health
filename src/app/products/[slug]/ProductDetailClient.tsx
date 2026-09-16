@@ -73,12 +73,18 @@ export default function ProductDetailClient({ product }: { product: Product }) {
               <p className="text-[clamp(1.1rem,2vw,1.25rem)] text-ink-2 leading-relaxed max-w-2xl font-medium">
                 {product.shortDescription}
               </p>
-              <div className="pt-4 flex flex-wrap gap-4">
+              <div className="pt-4 flex flex-wrap gap-3">
                 <Link
-                  href="/learn-more"
+                  href="/quiz"
                   className="inline-flex items-center justify-center rounded-full text-[14px] font-semibold whitespace-nowrap cursor-pointer transition-colors duration-200 min-h-[52px] px-8 gap-2 bg-accent hover:bg-accent-hover text-white focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 outline-none"
                 >
-                  Start your program <PiArrowRight size={16} />
+                  Take free assessment (for first time user) <PiArrowRight size={16} />
+                </Link>
+                <Link
+                  href="/order?reorder=true"
+                  className="inline-flex items-center justify-center rounded-full text-[14px] font-semibold whitespace-nowrap cursor-pointer transition-colors duration-200 min-h-[52px] px-8 gap-2 text-ink bg-white border border-border hover:border-accent/40 hover:bg-surface focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 outline-none"
+                >
+                  Re-order <PiArrowRight size={16} />
                 </Link>
               </div>
             </motion.div>
@@ -194,7 +200,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                             ))}
                           </div>
                           <Link
-                            href="/order"
+                            href="/order?reorder=true"
                             className="w-full inline-flex items-center justify-center rounded-full text-[14px] font-semibold whitespace-nowrap cursor-pointer transition-colors duration-200 min-h-[48px] px-6 gap-2 bg-accent hover:bg-accent-hover text-white focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 outline-none"
                           >
                             Order Now <PiArrowRight size={16} />

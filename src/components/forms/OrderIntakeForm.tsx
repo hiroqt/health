@@ -34,6 +34,7 @@ import {
   PiQrCodeFill,
   PiDownloadSimpleBold,
   PiArrowSquareOutBold,
+  PiFlask,
 } from "react-icons/pi";
 
 // ─── PRODUCTS & DOSAGES ───────────────────────────────────────────────────────
@@ -43,7 +44,7 @@ export interface OrderItemOption {
   dosage: string;
   price: number;
   category: "Weight Management" | "Peptide Therapy" | "Wellness & Longevity";
-  coverImage: string;
+  coverImage?: string;
   shortDesc: string;
 }
 
@@ -147,16 +148,14 @@ export const ORDER_PRODUCTS: OrderItemOption[] = [
     dosage: "10mg",
     price: 4000,
     category: "Peptide Therapy",
-    coverImage: "",
     shortDesc: "Tissue regeneration, cellular migration & healing",
   },
   {
     id: "ipa-10",
     name: "Ipamorelin",
     dosage: "10mg",
-    price: 3000,
+    price: 6000,
     category: "Peptide Therapy",
-    coverImage: "",
     shortDesc: "Selective growth hormone secretagogue",
   },
 
@@ -185,7 +184,6 @@ export const ORDER_PRODUCTS: OrderItemOption[] = [
     dosage: "10mg",
     price: 3000,
     category: "Wellness & Longevity",
-    coverImage: "",
     shortDesc: "Anti-inflammatory & gut mucosal healing",
   },
   {
@@ -194,7 +192,6 @@ export const ORDER_PRODUCTS: OrderItemOption[] = [
     dosage: "70mg",
     price: 5000,
     category: "Wellness & Longevity",
-    coverImage: "",
     shortDesc: "Aesthetic skin radiance & collagen synthesis",
   },
   {
@@ -203,7 +200,6 @@ export const ORDER_PRODUCTS: OrderItemOption[] = [
     dosage: "80mg",
     price: 5000,
     category: "Wellness & Longevity",
-    coverImage: "",
     shortDesc: "Gut-skin axis longevity & rejuvenation",
   },
   {
@@ -634,8 +630,12 @@ export function OrderIntakeForm({
                 return (
                   <div key={item.id} className="flex items-center justify-between text-[14px]">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-[10px] overflow-hidden relative shrink-0 border border-[#FFE8EA] bg-white">
-                        <Image src={item.coverImage} alt={item.name} fill sizes="40px" className="object-cover" />
+                      <div className="w-10 h-10 rounded-[10px] overflow-hidden relative shrink-0 border border-[#FFE8EA] bg-[#FFF8F7] flex items-center justify-center">
+                        {item.coverImage ? (
+                          <Image src={item.coverImage} alt={item.name} fill sizes="40px" className="object-cover" />
+                        ) : (
+                          <PiFlask className="w-5 h-5 text-[#FF5A5F]" />
+                        )}
                       </div>
                       <div>
                         <span className="font-bold text-[#0F0F0F]">{item.name}</span>
@@ -818,14 +818,18 @@ export function OrderIntakeForm({
                     >
                       {/* Product Header */}
                       <div className="flex items-start gap-3.5">
-                        <div className="w-16 h-16 rounded-[16px] overflow-hidden relative shrink-0 border border-[#FFE8EA] bg-[#FFF8F7]">
-                          <Image
-                            src={prod.coverImage}
-                            alt={prod.name}
-                            fill
-                            sizes="64px"
-                            className="object-cover group-hover:scale-105 transition-transform duration-500"
-                          />
+                        <div className="w-16 h-16 rounded-[16px] overflow-hidden relative shrink-0 border border-[#FFE8EA] bg-[#FFF8F7] flex items-center justify-center">
+                          {prod.coverImage ? (
+                            <Image
+                              src={prod.coverImage}
+                              alt={prod.name}
+                              fill
+                              sizes="64px"
+                              className="object-cover group-hover:scale-105 transition-transform duration-500"
+                            />
+                          ) : (
+                            <PiFlask className="w-8 h-8 text-[#FF5A5F]" />
+                          )}
                         </div>
 
                         <div className="flex flex-col min-w-0 flex-1">
@@ -1362,14 +1366,18 @@ export function OrderIntakeForm({
                       className="flex items-center justify-between gap-3 p-3 rounded-[16px] bg-[#FFF8F7] border border-[#FFE8EA]"
                     >
                       <div className="flex items-center gap-3 min-w-0">
-                        <div className="w-10 h-10 rounded-[10px] bg-white border border-[#FFE8EA] flex items-center justify-center shrink-0 relative overflow-hidden">
-                          <Image
-                            src={item.coverImage}
-                            alt={item.name}
-                            fill
-                            sizes="40px"
-                            className="object-cover"
-                          />
+                        <div className="w-10 h-10 rounded-[10px] bg-[#FFF8F7] border border-[#FFE8EA] flex items-center justify-center shrink-0 relative overflow-hidden">
+                          {item.coverImage ? (
+                            <Image
+                              src={item.coverImage}
+                              alt={item.name}
+                              fill
+                              sizes="40px"
+                              className="object-cover"
+                            />
+                          ) : (
+                            <PiFlask className="w-5 h-5 text-[#FF5A5F]" />
+                          )}
                         </div>
                         <div className="min-w-0">
                           <span className="font-bold text-[13px] text-[#0F0F0F] block truncate">

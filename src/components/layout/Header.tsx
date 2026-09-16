@@ -210,15 +210,14 @@ export function Header({ splashDone = true }: { splashDone?: boolean }) {
 
           {/* Right actions */}
           <div className="flex items-center gap-3 md:gap-4">
-
             <Link
-              href="/learn-more"
-              className="inline-flex items-center h-10 md:h-11 px-5 md:px-6 rounded-full text-[13px] font-semibold text-white whitespace-nowrap transition-colors"
+              href="/quiz"
+              className="inline-flex items-center h-10 md:h-11 px-5 md:px-6 rounded-full text-[13px] font-semibold text-white whitespace-nowrap transition-colors shadow-sm"
               style={{ background: "#FF5A5F" }}
               onMouseEnter={(e) => (e.currentTarget.style.background = "#E04A4F")}
               onMouseLeave={(e) => (e.currentTarget.style.background = "#FF5A5F")}
             >
-              Get started
+              Take Free Assessment
             </Link>
             {/* Mobile toggle */}
             <button
@@ -375,14 +374,14 @@ export function Header({ splashDone = true }: { splashDone?: boolean }) {
 
               <div className="px-5 pb-8 pt-3 shrink-0 border-t border-[#FFE8EA] bg-white flex flex-col gap-4">
                 <Link
-                  href="/learn-more"
+                  href="/quiz"
                   onClick={() => setOpen(false)}
                   className="flex items-center justify-center w-full h-12 rounded-full text-[14px] font-semibold text-white transition-colors shadow-[0_4px_14px_rgba(255,90,95,0.25)]"
                   style={{ background: "#FF5A5F" }}
                   onMouseEnter={(e) => (e.currentTarget.style.background = "#E04A4F")}
                   onMouseLeave={(e) => (e.currentTarget.style.background = "#FF5A5F")}
                 >
-                  Get started
+                  Take Free Assessment
                 </Link>
 
                 {/* Social Channels */}
