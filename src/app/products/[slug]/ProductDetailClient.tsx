@@ -155,8 +155,12 @@ export default function ProductDetailClient({ product }: { product: Product }) {
 
                 {/* Pricing Card */}
                 {(() => {
+                  const norm = (s: string) => s.toLowerCase().replace(/[\s\-_+]+/g, "");
                   const matchingProducts = ORDER_PRODUCTS.filter(
-                    (op) => op.name.toLowerCase() === product.name.toLowerCase()
+                    (op) =>
+                      op.name.toLowerCase() === product.name.toLowerCase() ||
+                      norm(op.name) === norm(product.name) ||
+                      norm(op.name) === norm(product.slug)
                   );
                   const lowestPrice = matchingProducts.length > 0
                     ? Math.min(...matchingProducts.map((p) => p.price))

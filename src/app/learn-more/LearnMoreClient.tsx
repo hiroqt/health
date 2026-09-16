@@ -170,7 +170,7 @@ const JOURNEY_CARDS = [
     tag: "Wellness & Longevity",
     title: "Wellness & Longevity",
     subtitle: "Cellular vitality, radiance & detox",
-    desc: "Replenish biological resilience with therapies like GHK-Cu, NAD+, KPV, Glow 70, Klow 80, and Glutathione. Restore energy metabolism, glowing skin, and cellular longevity.",
+    desc: "Replenish biological resilience with therapies like GHK-Cu, NAD+, KPV, Glow70, Klow80, and Glutathione. Restore energy metabolism, glowing skin, and cellular longevity.",
     href: "/products",
     badge: null,
   },
