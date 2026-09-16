@@ -7,7 +7,8 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { IntroSplash } from "@/components/animations/IntroSplash";
 import { Product, Benefit } from "@/data/products";
-import { PiArrowRight, PiCheckCircleFill, PiInfo, PiWarningCircle, PiFlask } from "react-icons/pi";
+import { ORDER_PRODUCTS } from "@/components/forms/OrderIntakeForm";
+import { PiArrowRight, PiCheckCircleFill, PiInfo, PiWarningCircle, PiFlask, PiTag } from "react-icons/pi";
 import Link from "next/link";
 
 // ─── Animations ───────────────────────────────────────────────────────────────
@@ -151,8 +152,67 @@ export default function ProductDetailClient({ product }: { product: Product }) {
 
               {/* Sidebar (Right/Bottom) */}
               <div className="md:col-span-5 flex flex-col gap-6">
-                
-                {/* Dosing Guide Card */}
+
+                {/* Pricing Card */}
+                {(() => {
+                  const matchingProducts = ORDER_PRODUCTS.filter(
+                    (op) => op.name.toLowerCase() === product.name.toLowerCase()
+                  );
+                  const lowestPrice = matchingProducts.length > 0
+                    ? Math.min(...matchingProducts.map((p) => p.price))
+                    : null;
+
+                  return (
+                    <motion.div variants={fadeUp} className="bg-white border border-accent/20 rounded-[24px] p-6 lg:p-8 shadow-sm">
+                      <h3 className="font-display text-[1.5rem] text-ink mb-2 flex items-center gap-2">
+                        <PiTag className="text-accent" />
+                        Pricing
+                      </h3>
+                      {lowestPrice !== null ? (
+                        <>
+                          <p className="text-[13px] text-ink-3 mb-5">
+                            Starting from <span className="font-display font-bold text-accent text-[1.5rem]">₱{lowestPrice.toLocaleString()}</span>
+                          </p>
+                          <div className="flex flex-col gap-3 mb-6">
+                            {matchingProducts.map((op) => (
+                              <div
+                                key={op.id}
+                                className="flex items-center justify-between px-4 py-3 rounded-[14px] bg-surface border border-border"
+                              >
+                                <div className="flex flex-col">
+                                  <span className="text-[14px] font-semibold text-ink">{op.dosage}</span>
+                                  <span className="text-[12px] text-ink-3">{op.shortDesc}</span>
+                                </div>
+                                <span className="text-[16px] font-bold text-ink whitespace-nowrap">
+                                  ₱{op.price.toLocaleString()}
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+                          <Link
+                            href="/order"
+                            className="w-full inline-flex items-center justify-center rounded-full text-[14px] font-semibold whitespace-nowrap cursor-pointer transition-colors duration-200 min-h-[48px] px-6 gap-2 bg-accent hover:bg-accent-hover text-white focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 outline-none"
+                          >
+                            Order Now <PiArrowRight size={16} />
+                          </Link>
+                        </>
+                      ) : (
+                        <>
+                          <p className="text-[14px] text-ink-3 mb-5">
+                            Pricing is available upon consultation. Get in touch to learn more about this treatment.
+                          </p>
+                          <Link
+                            href="/learn-more"
+                            className="w-full inline-flex items-center justify-center rounded-full text-[14px] font-semibold whitespace-nowrap cursor-pointer transition-colors duration-200 min-h-[48px] px-6 gap-2 bg-accent hover:bg-accent-hover text-white focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 outline-none"
+                          >
+                            Inquire About Pricing <PiArrowRight size={16} />
+                          </Link>
+                        </>
+                      )}
+                    </motion.div>
+                  );
+                })()}
+
                 <motion.div variants={fadeUp} className="bg-white border border-border rounded-[24px] p-6 lg:p-8">
                   <h3 className="font-display text-[1.5rem] text-ink mb-6 flex items-center gap-2">
                     <PiInfo className="text-accent" />
