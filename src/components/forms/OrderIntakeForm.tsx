@@ -37,181 +37,10 @@ import {
   PiFlask,
 } from "react-icons/pi";
 
-// ─── PRODUCTS & DOSAGES ───────────────────────────────────────────────────────
-export interface OrderItemOption {
-  id: string;
-  name: string;
-  dosage: string;
-  price: number;
-  category: "Weight Management" | "Peptide Therapy" | "Wellness & Longevity";
-  coverImage?: string;
-  shortDesc: string;
-}
-
-export const ORDER_PRODUCTS: OrderItemOption[] = [
-  // Weight Management
-  {
-    id: "tirz-15",
-    name: "Tirzepatide",
-    dosage: "15mg",
-    price: 2500,
-    category: "Weight Management",
-    coverImage: "/TIRZEPATIDE /Tirzepatide benefits (15mg).png",
-    shortDesc: "Dual GIP & GLP-1 receptor agonist",
-  },
-  {
-    id: "tirz-30",
-    name: "Tirzepatide",
-    dosage: "30mg",
-    price: 4000,
-    category: "Weight Management",
-    coverImage: "/TIRZEPATIDE /Tirzepatide benefits (15mg).png",
-    shortDesc: "Dual GIP & GLP-1 receptor agonist",
-  },
-  {
-    id: "tirz-60",
-    name: "Tirzepatide",
-    dosage: "60mg",
-    price: 7000,
-    category: "Weight Management",
-    coverImage: "/TIRZEPATIDE /Tirzepatide benefits (15mg).png",
-    shortDesc: "Dual GIP & GLP-1 receptor agonist",
-  },
-  {
-    id: "reta-15",
-    name: "Retatrutide",
-    dosage: "15mg",
-    price: 3000,
-    category: "Weight Management",
-    coverImage: "/RETATRUTIDE /Reta benefits (15mg).png",
-    shortDesc: "Next-gen triple agonist (GLP-1/GIP/Glucagon)",
-  },
-  {
-    id: "reta-30",
-    name: "Retatrutide",
-    dosage: "30mg",
-    price: 5000,
-    category: "Weight Management",
-    coverImage: "/RETATRUTIDE /Reta benefits (15mg).png",
-    shortDesc: "Next-gen triple agonist (GLP-1/GIP/Glucagon)",
-  },
-  {
-    id: "cagri-5",
-    name: "Cagrilintide",
-    dosage: "5mg",
-    price: 3000,
-    category: "Weight Management",
-    coverImage: "/CAGRILINTIDE/Cagrilintide 10mg.jpg",
-    shortDesc: "Long-acting amylin analogue for appetite control",
-  },
-  {
-    id: "cagri-10",
-    name: "Cagrilintide",
-    dosage: "10mg",
-    price: 5000,
-    category: "Weight Management",
-    coverImage: "/CAGRILINTIDE/Cagrilintide 10mg.jpg",
-    shortDesc: "Long-acting amylin analogue for appetite control",
-  },
-  {
-    id: "tesa-10",
-    name: "Tesamorelin",
-    dosage: "10mg",
-    price: 5000,
-    category: "Weight Management",
-    coverImage: "/TESAMORELIN /Benefits of Tesamorelin.png",
-    shortDesc: "Targeted GHRH analogue for visceral fat",
-  },
-
-  // Peptide Therapy
-  {
-    id: "bpc-10",
-    name: "BPC-157",
-    dosage: "10mg",
-    price: 4000,
-    category: "Peptide Therapy",
-    coverImage: "/BPC-157/Benefits of BPC-157.png",
-    shortDesc: "Accelerates tissue healing & gut wall repair",
-  },
-  {
-    id: "mots-40",
-    name: "MOTS-c",
-    dosage: "40mg",
-    price: 6000,
-    category: "Peptide Therapy",
-    coverImage: "/MOTS-C/Mots-C benefits (10mg).png",
-    shortDesc: "Mitochondrial metabolic flexibility & ATP energy",
-  },
-  {
-    id: "tb-10",
-    name: "TB-500",
-    dosage: "10mg",
-    price: 4000,
-    category: "Peptide Therapy",
-    shortDesc: "Tissue regeneration, cellular migration & healing",
-  },
-  {
-    id: "ipa-10",
-    name: "Ipamorelin",
-    dosage: "10mg",
-    price: 6000,
-    category: "Peptide Therapy",
-    shortDesc: "Selective growth hormone secretagogue",
-  },
-
-  // Wellness & Longevity
-  {
-    id: "ghk-100",
-    name: "GHK-Cu",
-    dosage: "100mg",
-    price: 3000,
-    category: "Wellness & Longevity",
-    coverImage: "/GHK-CU/GHK-CU Benefits.png",
-    shortDesc: "Copper peptide for collagen & skin remodeling",
-  },
-  {
-    id: "nad-500",
-    name: "NAD+",
-    dosage: "500mg",
-    price: 3000,
-    category: "Wellness & Longevity",
-    coverImage: "/NAD+/NAD+ benefits.png",
-    shortDesc: "Cellular coenzyme for DNA repair & sirtuins",
-  },
-  {
-    id: "kpv-10",
-    name: "KPV",
-    dosage: "10mg",
-    price: 3000,
-    category: "Wellness & Longevity",
-    shortDesc: "Anti-inflammatory & gut mucosal healing",
-  },
-  {
-    id: "glow-70",
-    name: "Glow70",
-    dosage: "70mg",
-    price: 5000,
-    category: "Wellness & Longevity",
-    shortDesc: "Aesthetic skin radiance & collagen synthesis",
-  },
-  {
-    id: "klow-80",
-    name: "Klow80",
-    dosage: "80mg",
-    price: 5000,
-    category: "Wellness & Longevity",
-    shortDesc: "Gut-skin axis longevity & rejuvenation",
-  },
-  {
-    id: "gluta-1500",
-    name: "Glutathione",
-    dosage: "1500mg",
-    price: 6000,
-    category: "Wellness & Longevity",
-    coverImage: "/GLUTATHIONE /Glutathione Benefits.png",
-    shortDesc: "Master antioxidant & hepatic detoxification",
-  },
-];
+// ─── PRODUCTS & DOSAGES (SINGLE SOURCE OF TRUTH) ─────────────────────────────
+import { ORDER_PRODUCTS, OrderItemOption } from "@/data/products";
+export type { OrderItemOption };
+export { ORDER_PRODUCTS };
 
 export const DELIVERY_OPTIONS = [
   {
@@ -844,6 +673,11 @@ export function OrderIntakeForm({
                           <p className="text-[12.5px] text-[#6E6E6E] line-clamp-2 mt-0.5">
                             {prod.shortDesc}
                           </p>
+                          {prod.duration && (
+                            <span className="text-[11.5px] font-medium text-[#FF5A5F] mt-1 inline-flex items-center gap-1">
+                              • {prod.duration}
+                            </span>
+                          )}
                         </div>
                       </div>
 

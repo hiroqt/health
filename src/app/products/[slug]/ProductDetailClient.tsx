@@ -78,7 +78,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                   href="/quiz"
                   className="inline-flex items-center justify-center rounded-full text-[14px] font-semibold whitespace-nowrap cursor-pointer transition-colors duration-200 min-h-[52px] px-8 gap-2 bg-accent hover:bg-accent-hover text-white focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 outline-none"
                 >
-                  Take free assessment (for first time user) <PiArrowRight size={16} />
+                  Get free assessment (for first time user) <PiArrowRight size={16} />
                 </Link>
                 <Link
                   href="/order?reorder=true"
@@ -161,15 +161,11 @@ export default function ProductDetailClient({ product }: { product: Product }) {
 
                 {/* Pricing Card */}
                 {(() => {
-                  const norm = (s: string) => s.toLowerCase().replace(/[\s\-_+]+/g, "");
-                  const matchingProducts = ORDER_PRODUCTS.filter(
-                    (op) =>
-                      op.name.toLowerCase() === product.name.toLowerCase() ||
-                      norm(op.name) === norm(product.name) ||
-                      norm(op.name) === norm(product.slug)
-                  );
-                  const lowestPrice = matchingProducts.length > 0
-                    ? Math.min(...matchingProducts.map((p) => p.price))
+                  const variants = product.variants && product.variants.length > 0
+                    ? product.variants
+                    : [];
+                  const lowestPrice = variants.length > 0
+                    ? Math.min(...variants.map((v) => v.price))
                     : null;
 
                   return (
@@ -184,17 +180,26 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                             Starting from <span className="font-display font-bold text-accent text-[1.5rem]">₱{lowestPrice.toLocaleString()}</span>
                           </p>
                           <div className="flex flex-col gap-3 mb-6">
-                            {matchingProducts.map((op) => (
+                            {variants.map((v) => (
                               <div
-                                key={op.id}
+                                key={v.id}
                                 className="flex items-center justify-between px-4 py-3 rounded-[14px] bg-surface border border-border"
                               >
-                                <div className="flex flex-col">
-                                  <span className="text-[14px] font-semibold text-ink">{op.dosage}</span>
-                                  <span className="text-[12px] text-ink-3">{op.shortDesc}</span>
+                                <div className="flex flex-col gap-0.5">
+                                  <div className="flex items-center gap-2">
+                                    <span className="text-[14px] font-semibold text-ink">{v.dosage}</span>
+                                    {v.duration && (
+                                      <span className="text-[11px] font-semibold text-accent bg-accent/10 px-2 py-0.5 rounded-full">
+                                        {v.duration}
+                                      </span>
+                                    )}
+                                  </div>
+                                  {v.shortDesc && (
+                                    <span className="text-[12px] text-ink-3">{v.shortDesc}</span>
+                                  )}
                                 </div>
-                                <span className="text-[16px] font-bold text-ink whitespace-nowrap">
-                                  ₱{op.price.toLocaleString()}
+                                <span className="text-[16px] font-bold text-ink whitespace-nowrap ml-2">
+                                  ₱{v.price.toLocaleString()}
                                 </span>
                               </div>
                             ))}
@@ -223,6 +228,27 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                   );
                 })()}
 
+                {/* Package Inclusions Card */}
+                {product.inclusions && product.inclusions.length > 0 && (
+                  <motion.div variants={fadeUp} className="bg-white border border-border rounded-[24px] p-6 lg:p-8">
+                    <h3 className="font-display text-[1.5rem] text-ink mb-4 flex items-center gap-2">
+                      <PiCheckCircleFill className="text-accent" />
+                      What's Included
+                    </h3>
+                    <p className="text-[13px] text-ink-3 mb-4">
+                      Every order includes full administration supplies:
+                    </p>
+                    <ul className="flex flex-col gap-2.5">
+                      {product.inclusions.map((item, idx) => (
+                        <li key={idx} className="flex items-center gap-2.5 text-[14px] text-ink font-medium">
+                          <span className="w-1.5 h-1.5 rounded-full bg-accent shrink-0"></span>
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </motion.div>
+                )}
+
                 <motion.div variants={fadeUp} className="bg-white border border-border rounded-[24px] p-6 lg:p-8">
                   <h3 className="font-display text-[1.5rem] text-ink mb-6 flex items-center gap-2">
                     <PiInfo className="text-accent" />
@@ -244,6 +270,15 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                       <span className="text-[12px] font-bold tracking-wider uppercase text-ink-3">Duration</span>
                       <span className="text-[15px] font-medium text-ink">{product.dosing.duration}</span>
                     </div>
+                    {product.dosing.route && (
+                      <>
+                        <hr className="border-border" />
+                        <div className="flex flex-col gap-1">
+                          <span className="text-[12px] font-bold tracking-wider uppercase text-ink-3">Route / Administration</span>
+                          <span className="text-[15px] font-medium text-ink">{product.dosing.route}</span>
+                        </div>
+                      </>
+                    )}
                   </div>
                 </motion.div>
 

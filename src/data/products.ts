@@ -7,9 +7,29 @@ export interface DosingInfo {
   dosage: string;
   frequency: string;
   duration: string;
+  route?: string;
+}
+
+export interface ProductVariant {
+  id: string;
+  dosage: string;
+  price: number;
+  duration: string;
+  shortDesc?: string;
 }
 
 export type ProductCategory = "Weight Management" | "Peptide Therapy" | "Wellness & Longevity";
+
+export interface OrderItemOption {
+  id: string;
+  name: string;
+  dosage: string;
+  price: number;
+  category: ProductCategory;
+  coverImage?: string;
+  shortDesc: string;
+  duration?: string;
+}
 
 export interface Product {
   slug: string;
@@ -22,7 +42,17 @@ export interface Product {
   benefits: Benefit[];
   dosing: DosingInfo;
   tips: string[];
+  inclusions?: string[];
+  variants: ProductVariant[];
 }
+
+export const STANDARD_INCLUSIONS: string[] = [
+  "Complete set of syringe",
+  "BAC Water for dilution",
+  "Alcohol pads",
+  "Detailed instructions & guidelines",
+  "Doctor-guided plan",
+];
 
 export const PRODUCTS: Product[] = [
   // ─── 1. Weight Management ──────────────────────────────────────────────────
@@ -35,21 +65,47 @@ export const PRODUCTS: Product[] = [
     about: "Tirzepatide is a groundbreaking dual-action receptor agonist targeting both GIP and GLP-1 incretin pathways. By activating both receptors, it synergistically curbs appetite, delays gastric emptying, improves insulin secretion, and recalibrates metabolic health, delivering profound and sustained reductions in body weight.",
     coverImage: "/TIRZEPATIDE /Tirzepatide benefits (15mg).png",
     benefits: [
-      { title: "Substantial Weight Loss", description: "Promotes profound and sustained reductions in body weight and body fat." },
-      { title: "Appetite & Satiety Control", description: "Dramatically reduces cravings and enhances post-meal fullness." },
+      { title: "Substantial Weight Loss", description: "Promotes profound and sustained reductions in body weight (up to 22%) and body fat." },
+      { title: "Appetite & Satiety Control", description: "Dramatically reduces cravings, dampens food noise, and enhances post-meal fullness." },
       { title: "Glycemic Regulation", description: "Optimizes glucose control, insulin sensitivity, and lipid parameters." },
       { title: "Cardiometabolic Health", description: "Supports healthy blood pressure, visceral fat reduction, and cardiovascular markers." }
     ],
     dosing: {
-      dosage: "2.5mg (Starting dose)",
-      frequency: "Once weekly (SubQ)",
-      duration: "Titrate up every 4 weeks as tolerated"
+      dosage: "15mg, 30mg, or 60mg vial (Starting dose: 2.5mg)",
+      frequency: "Once a week (SubQ)",
+      duration: "15mg: 5-6 weeks | 30mg: 2 months | 60mg: 3-4 months of use",
+      route: "Subcutaneous (fatty areas of abdomen, arms, or thighs)",
     },
     tips: [
-      "Administer on the same day each week; can be taken with or without food.",
+      "Administer on the same day each week via subcutaneous route; can be taken with or without food.",
+      "Same active ingredient in Mounjaro with 99% purity and fewer side effects than Semaglutide.",
       "Prioritize high-protein intake and daily hydration to preserve lean muscle mass.",
       "Eat smaller, frequent portions to prevent mild early gastrointestinal adjustment symptoms."
-    ]
+    ],
+    inclusions: STANDARD_INCLUSIONS,
+    variants: [
+      {
+        id: "tirz-15",
+        dosage: "15mg",
+        price: 2500,
+        duration: "5-6 weeks of use",
+        shortDesc: "Dual GIP & GLP-1 receptor agonist",
+      },
+      {
+        id: "tirz-30",
+        dosage: "30mg",
+        price: 4000,
+        duration: "1-8 weeks (2 months) of use",
+        shortDesc: "Dual GIP & GLP-1 receptor agonist",
+      },
+      {
+        id: "tirz-60",
+        dosage: "60mg",
+        price: 7000,
+        duration: "3-4 months of use",
+        shortDesc: "Dual GIP & GLP-1 receptor agonist",
+      },
+    ],
   },
   {
     slug: "retatrutide",
@@ -63,18 +119,37 @@ export const PRODUCTS: Product[] = [
       { title: "Maximal Weight Reduction", description: "Delivers superior fat loss results through multi-receptor hormonal synergy." },
       { title: "Thermogenic Energy Expenditure", description: "Glucagon agonism elevates basal metabolic rate and hepatic fat clearance." },
       { title: "Appetite Suppression", description: "Strongly attenuates hunger signaling and eliminates persistent cravings." },
-      { title: "Metabolic Recalibration", description: "Improves HbA1c, triglycerides, and overall insulin dynamics." }
+      { title: "Visceral Fat & Muscle Preservation", description: "Reduces stubborn visceral fat while preserving lean functional muscle." }
     ],
     dosing: {
-      dosage: "2mg (Starting dose)",
-      frequency: "Once weekly (SubQ)",
-      duration: "Titrate up every 4 weeks as tolerated"
+      dosage: "15mg or 30mg vial (Starting dose: 2mg)",
+      frequency: "Once a week (SubQ)",
+      duration: "15mg: 5-6 weeks | 30mg: 3 months of use",
+      route: "Subcutaneous (fatty areas of abdomen, arms, or thighs)",
     },
     tips: [
-      "Administer on the same day each week; can be taken with or without food.",
+      "Administer on the same day each week via subcutaneous route; can be taken with or without food.",
+      "Acts as a triple-agonist on three key metabolic receptors regulating appetite, metabolism, and energy balance.",
       "Prioritize high-protein intake and daily hydration to preserve lean muscle mass.",
       "Eat smaller, frequent portions to prevent mild early gastrointestinal adjustment symptoms."
-    ]
+    ],
+    inclusions: STANDARD_INCLUSIONS,
+    variants: [
+      {
+        id: "reta-15",
+        dosage: "15mg",
+        price: 3000,
+        duration: "5-6 weeks of use",
+        shortDesc: "Next-gen triple agonist (GLP-1/GIP/Glucagon)",
+      },
+      {
+        id: "reta-30",
+        dosage: "30mg",
+        price: 5000,
+        duration: "3 months of use",
+        shortDesc: "Next-gen triple agonist (GLP-1/GIP/Glucagon)",
+      },
+    ],
   },
   {
     slug: "cagrilintide",
@@ -88,18 +163,37 @@ export const PRODUCTS: Product[] = [
       { title: "Potent Satiety Enhancement", description: "Acts on central amylin receptors to signal profound post-meal fullness." },
       { title: "Delayed Gastric Emptying", description: "Slows digestion to reduce postprandial glucose spikes and hunger." },
       { title: "Synergistic Weight Loss", description: "Offers exceptional complementary efficacy alongside GLP-1 therapies." },
-      { title: "Craving Reduction", description: "Diminishes hedonic eating behaviors and cravings for calorie-dense foods." }
+      { title: "Food Noise Reduction", description: "Diminishes hedonic eating behaviors and cravings for calorie-dense foods." }
     ],
     dosing: {
-      dosage: "1mg (Starting dose)",
-      frequency: "Once weekly (SubQ)",
-      duration: "Ongoing maintenance protocol"
+      dosage: "5mg or 10mg vial (Starting dose: 0.3mg - 1mg)",
+      frequency: "Once a week (SubQ)",
+      duration: "5mg vial: 5 weeks | 10mg vial: 10 weeks of use",
+      route: "Subcutaneous (fatty areas of abdomen, upper arm, or thighs)",
     },
     tips: [
       "Inject subcutaneously once weekly on the same day, with or without meals.",
       "Begin at the starting dose (0.3mg) and titrate in 4-week increments to minimize nausea.",
+      "Next-generation dual agonist that pairs powerfully with GLP-1 therapies to amplify results.",
       "Pair with balanced nutrition and consistent hydration for peak digestive comfort."
-    ]
+    ],
+    inclusions: STANDARD_INCLUSIONS,
+    variants: [
+      {
+        id: "cagri-5",
+        dosage: "5mg",
+        price: 3000,
+        duration: "5 weeks of use",
+        shortDesc: "Long-acting amylin analogue for appetite control",
+      },
+      {
+        id: "cagri-10",
+        dosage: "10mg",
+        price: 5000,
+        duration: "10 weeks of use",
+        shortDesc: "Long-acting amylin analogue for appetite control",
+      },
+    ],
   },
   {
     slug: "tesamorelin",
@@ -111,20 +205,32 @@ export const PRODUCTS: Product[] = [
     coverImage: "/TESAMORELIN /Benefits of Tesamorelin.png",
     benefits: [
       { title: "Visceral Fat Mobilization", description: "Clinically proven to specifically reduce deep abdominal and visceral fat." },
-      { title: "Body Composition", description: "Preserves and supports lean muscle tissue during fat reduction." },
+      { title: "Body Composition Support", description: "Preserves and supports lean muscle tissue during fat reduction." },
       { title: "Natural GH Release", description: "Stimulates the pituitary gland to release endogenous growth hormone pulses." },
-      { title: "Lipid Profile Support", description: "Supports improvements in triglycerides and cardiovascular markers." }
+      { title: "Lipid Profile & Metabolism", description: "Supports improvements in cholesterol, triglycerides, and metabolic markers." }
     ],
     dosing: {
-      dosage: "0.5mg (Starting dose)",
-      frequency: "Once daily (5-7 days per week, before bed)",
-      duration: "The duration of the treatment is contingent upon the specific needs of patient"
+      dosage: "10mg vial (Starting dose: 0.5mg - 1mg)",
+      frequency: "Once daily (SubQ)",
+      duration: "10mg vial is good for 1 month of use",
+      route: "Subcutaneous (fatty areas of abdomen, arms, or thighs)",
     },
     tips: [
+      "Self inject subcutaneously into fatty areas of abdomen, arms, or thighs once daily.",
       "Administer on an empty stomach at bedtime (at least 90-120 minutes after last meal).",
       "Avoid carbohydrates or sugars right before injection to preserve natural GH release.",
       "Cycle protocols (e.g. 5 days on, 2 days off) as recommended by your physician."
-    ]
+    ],
+    inclusions: STANDARD_INCLUSIONS,
+    variants: [
+      {
+        id: "tesa-10",
+        dosage: "10mg",
+        price: 5000,
+        duration: "1 month of use",
+        shortDesc: "Targeted GHRH analogue for visceral fat",
+      },
+    ],
   },
 
   // ─── 2. Peptide Therapy ────────────────────────────────────────────────────
@@ -137,21 +243,33 @@ export const PRODUCTS: Product[] = [
     about: "BPC-157 (Body Protection Compound-157) is a pentadecapeptide naturally derived from gastric juice that is widely known for its potent systemic healing and regenerative properties. It accelerates the repair of muscles, tendons, ligaments, and the gut lining. By promoting angiogenesis (formation of new blood vessels), it enhances blood flow to damaged tissues, significantly reducing recovery time.",
     coverImage: "/BPC-157/Benefits of BPC-157.png",
     benefits: [
-      { title: "Accelerated Tissue Healing", description: "Speeds up the repair of tendons, muscles, ligaments, and joints." },
+      { title: "Accelerated Tissue Healing", description: "Speeds up the repair of tendons, muscles, ligaments, and joints after injury or strain." },
       { title: "Gut Lining Repair", description: "Protects and restores the gut mucosal barrier, alleviating digestive inflammation." },
       { title: "Joint & Cartilage Support", description: "Reduces inflammation, eases stiffness, and promotes joint recovery." },
-      { title: "Angiogenesis & Circulation", description: "Promotes new microvascular development for enhanced nutrient delivery to injured areas." }
+      { title: "Post-Workout Recovery", description: "Aids fast recovery from physical exertion and strenuous training." }
     ],
     dosing: {
-      dosage: "1mg (Starting dose)",
-      frequency: "Once daily (SubQ)",
-      duration: "The duration of the treatment is contingent upon the specific needs of patient"
+      dosage: "10mg vial (Starting dose: 1mg)",
+      frequency: "5 Days On, 2 Days Off (SubQ)",
+      duration: "10mg vial is good for 1 month of use",
+      route: "Subcutaneous (fatty areas of abdomen, arms, or thighs)",
     },
     tips: [
-      "For localized injuries, administer near the affected area if instructed by your physician.",
+      "Self inject via subcutaneous route into fatty areas of abdomen, arms, or thighs (5 days on, 2 days off).",
+      "For localized injuries, can be administered near the affected area if instructed by your physician.",
       "Can be taken alongside other peptides like TB-500 for synergistic healing effects.",
-      "Always ensure proper hydration and a protein-rich diet to support tissue repair."
-    ]
+      "Ensure proper hydration and a protein-rich diet to support cellular tissue repair."
+    ],
+    inclusions: STANDARD_INCLUSIONS,
+    variants: [
+      {
+        id: "bpc-10",
+        dosage: "10mg",
+        price: 4000,
+        duration: "1 month of use",
+        shortDesc: "Accelerates tissue healing & gut wall repair",
+      },
+    ],
   },
   {
     slug: "mots-c",
@@ -162,21 +280,40 @@ export const PRODUCTS: Product[] = [
     about: "MOTS-c is a 16-amino acid mitochondrial-derived peptide (MDP) that directly regulates cellular metabolism and energy homeostasis. Often described as an exercise mimetic, MOTS-c activates the AMPK signaling pathway, stimulates glucose uptake in skeletal muscle, enhances fatty acid oxidation, and supports mitochondrial biogenesis and longevity.",
     coverImage: "/MOTS-C/Mots-C benefits (10mg).png",
     benefits: [
-      { title: "Metabolic Boost", description: "Enhances fat burning and improves cellular metabolic flexibility." },
-      { title: "Exercise Mimetic", description: "Provides cellular energy benefits similar to intensive physical training." },
-      { title: "Insulin Sensitivity", description: "Improves skeletal muscle glucose uptake and insulin response." },
-      { title: "Mitochondrial Function", description: "Optimizes mitochondrial ATP production for sustained energy." }
+      { title: "Metabolic Boost & Fat Burn", description: "Enhances fat burning and improves cellular metabolic flexibility." },
+      { title: "Exercise Mimetic & Endurance", description: "Provides cellular energy benefits, boosting athletic performance and muscle preservation." },
+      { title: "Insulin Sensitivity", description: "Improves skeletal muscle glucose uptake and overall insulin response." },
+      { title: "Mitochondrial ATP Energy", description: "Optimizes mitochondrial ATP production for sustained daily vitality and anti-aging support." }
     ],
     dosing: {
-      dosage: "1mg (Starting dose)",
-      frequency: "1-3 times per week (SubQ)",
-      duration: "The duration of the treatment is contingent upon the specific needs of patient"
+      dosage: "10mg or 40mg vial",
+      frequency: "Twice a week (SubQ)",
+      duration: "10mg vial: 10 weeks | 40mg vial: 2 months of use",
+      route: "Subcutaneous (fatty areas of abdomen, arms, or thighs)",
     },
     tips: [
+      "Self inject via subcutaneous route into fatty areas of abdomen, arms, or thighs twice a week.",
       "Administer prior to exercise or in the morning to maximize energy and fat oxidation.",
       "May cause slight transient flushing or warmth after injection.",
       "Cycle off for 2-4 weeks after a full protocol to maintain optimal receptor sensitivity."
-    ]
+    ],
+    inclusions: STANDARD_INCLUSIONS,
+    variants: [
+      {
+        id: "mots-10",
+        dosage: "10mg",
+        price: 3000,
+        duration: "10 weeks of use",
+        shortDesc: "Mitochondrial metabolic flexibility & ATP energy",
+      },
+      {
+        id: "mots-40",
+        dosage: "40mg",
+        price: 6000,
+        duration: "2 months of use",
+        shortDesc: "Mitochondrial metabolic flexibility & ATP energy",
+      },
+    ],
   },
   {
     slug: "tb-500",
@@ -192,15 +329,26 @@ export const PRODUCTS: Product[] = [
       { title: "Endurance & Recovery", description: "Promotes healthy microcirculation and shortens recovery times between workouts." }
     ],
     dosing: {
-      dosage: "1mg (Starting dose)",
+      dosage: "10mg vial (Starting dose: 1mg)",
       frequency: "1-3 times weekly (SubQ)",
-      duration: "The duration of the treatment is contingent upon the specific needs of patient"
+      duration: "1 month of use (contingent upon patient needs)",
+      route: "Subcutaneous",
     },
     tips: [
       "Can be injected subcutaneously anywhere due to its systemic distribution.",
       "Combines synergistically with BPC-157 for comprehensive tendon and ligament healing.",
       "Store reconstituted peptide refrigerated at 2°C – 8°C."
-    ]
+    ],
+    inclusions: STANDARD_INCLUSIONS,
+    variants: [
+      {
+        id: "tb-10",
+        dosage: "10mg",
+        price: 4000,
+        duration: "1 month of use",
+        shortDesc: "Tissue regeneration, cellular migration & healing",
+      },
+    ],
   },
   {
     slug: "ipamorelin",
@@ -216,15 +364,26 @@ export const PRODUCTS: Product[] = [
       { title: "Skin Elasticity & Collagen", description: "Supports healthy collagen renewal for firmer skin and stronger hair/nails." }
     ],
     dosing: {
-      dosage: "1mg (Starting dose)",
+      dosage: "10mg vial (Starting dose: 1mg)",
       frequency: "Once daily (SubQ, at bedtime)",
-      duration: "The duration of the treatment is contingent upon the specific needs of patient"
+      duration: "1 month of use (contingent upon patient needs)",
+      route: "Subcutaneous",
     },
     tips: [
       "Inject on an empty stomach at bedtime (or post-workout) without carbohydrates to avoid blunting GH release.",
       "Consistent nightly use provides the most dramatic improvements in sleep quality and body composition.",
       "Keep reconstituted vial refrigerated at all times."
-    ]
+    ],
+    inclusions: STANDARD_INCLUSIONS,
+    variants: [
+      {
+        id: "ipa-10",
+        dosage: "10mg",
+        price: 6000,
+        duration: "1 month of use",
+        shortDesc: "Selective growth hormone secretagogue",
+      },
+    ],
   },
 
   // ─── 3. Wellness & Longevity ──────────────────────────────────────────────
@@ -237,21 +396,33 @@ export const PRODUCTS: Product[] = [
     about: "GHK-Cu (Glycyl-L-Histidyl-L-Lysine Copper) is a naturally occurring tripeptide complex with profound regenerative and anti-aging properties. It stimulates collagen and elastin synthesis, promotes tissue remodeling, accelerates wound healing, acts as a powerful antioxidant, and stimulates hair follicle growth while resetting cellular gene expression toward a youthful state.",
     coverImage: "/GHK-CU/GHK-CU Benefits.png",
     benefits: [
-      { title: "Skin Rejuvenation", description: "Boosts collagen and elastin production for firmer, younger-looking skin." },
+      { title: "Skin Rejuvenation & Firmness", description: "Boosts collagen and elastin production for firmer, younger-looking, and smoother skin." },
+      { title: "Antioxidant Protection", description: "Protects skin cells against oxidative stress, environmental toxins, and photo-aging." },
       { title: "Dermal Remodeling", description: "Accelerates tissue repair and softens the appearance of scars and fine lines." },
-      { title: "Hair Follicle Support", description: "Stimulates hair follicles, reduces shedding, and encourages thicker growth." },
-      { title: "Anti-Inflammatory", description: "Reduces oxidative stress and calms chronic inflammatory pathways in the body." }
+      { title: "Hair Follicle Support", description: "Stimulates microcirculation to hair follicles, reducing shedding and encouraging thicker growth." }
     ],
     dosing: {
-      dosage: "0.5mg - 1mg (Starting dose)",
-      frequency: "Once daily (SubQ)",
-      duration: "Lifetime Protocol"
+      dosage: "100mg vial (5 units / 0.5mg)",
+      frequency: "5 Days On, 2 Days Off (SubQ)",
+      duration: "100mg vial is good for 20 weeks of use",
+      route: "Subcutaneous (fatty areas of abdomen, arms, or thighs)",
     },
     tips: [
+      "Self inject via subcutaneous route into fatty areas of abdomen, arms, or thighs on a 5 days on, 2 days off schedule.",
       "Diluting with additional bacteriostatic water can help reduce temporary injection site tenderness.",
       "Monitor zinc intake, as prolonged copper peptide protocols can influence trace mineral balance.",
-      "Store reconstituted peptide in the refrigerator."
-    ]
+      "Store reconstituted peptide in the refrigerator at 2°C – 8°C."
+    ],
+    inclusions: STANDARD_INCLUSIONS,
+    variants: [
+      {
+        id: "ghk-100",
+        dosage: "100mg",
+        price: 3000,
+        duration: "20 weeks of use",
+        shortDesc: "Copper peptide for collagen & skin remodeling",
+      },
+    ],
   },
   {
     slug: "nad-plus",
@@ -262,45 +433,70 @@ export const PRODUCTS: Product[] = [
     about: "NAD+ (Nicotinamide Adenine Dinucleotide) is a vital coenzyme found in every cell of the body, essential for energy production, DNA repair, and cellular metabolism. As we age, NAD+ levels naturally decline, leading to fatigue and cognitive decline. Replenishing NAD+ restores cellular energy, sharpens mental clarity, and supports healthy aging.",
     coverImage: "/NAD+/NAD+ benefits.png",
     benefits: [
-      { title: "Cellular Energy (ATP)", description: "Restores mitochondrial bioenergetics to boost natural physical and mental stamina." },
-      { title: "Cognitive Clarity", description: "Clears brain fog and improves focus, executive memory, and mental sharpness." },
-      { title: "Sirtuin & Anti-Aging", description: "Activates sirtuin longevity enzymes and supports genomic DNA repair." },
-      { title: "Neuroprotection", description: "Protects neuronal networks and supports healthy cellular resilience." }
+      { title: "Cellular Energy (ATP)", description: "Restores mitochondrial bioenergetics to boost physical stamina and reduce fatigue." },
+      { title: "Mental Clarity & Focus", description: "Clears brain fog, supports burnout recovery, and sharpens executive memory and focus." },
+      { title: "Sirtuin & Longevity", description: "Activates sirtuin longevity enzymes and supports genomic DNA repair." },
+      { title: "Recovery Under Stress", description: "Provides cellular resilience and nervous system support during demanding periods." }
     ],
     dosing: {
-      dosage: "1mg (Starting dose)",
-      frequency: "1-3 times per week (SubQ)",
-      duration: "Before Breakfast (must be morning)"
+      dosage: "500mg vial (10 units / 1mg)",
+      frequency: "Twice a week (SubQ)",
+      duration: "500mg vial is good for 25 weeks of use",
+      route: "Subcutaneous (fatty areas of abdomen, arms, or thighs)",
     },
     tips: [
-      "Best administered in the morning as it increases energy levels and may disrupt sleep if taken late.",
+      "Self inject via subcutaneous route into fatty areas of abdomen, arms, or thighs twice a week.",
+      "Best administered in the morning before breakfast as it increases energy levels and may disrupt sleep if taken late.",
       "Inject slowly over 20-30 seconds to minimize temporary localized warmth.",
       "Keep refrigerated at all times to maintain potency."
-    ]
+    ],
+    inclusions: STANDARD_INCLUSIONS,
+    variants: [
+      {
+        id: "nad-500",
+        dosage: "500mg",
+        price: 3000,
+        duration: "25 weeks of use",
+        shortDesc: "Cellular coenzyme for DNA repair & sirtuins",
+      },
+    ],
   },
   {
     slug: "kpv",
     name: "KPV",
     shortName: "KPV",
     category: "Wellness & Longevity",
-    shortDescription: "Potent anti-inflammatory tripeptide for gut mucosal healing and immune balance.",
-    about: "KPV (Lysine-Proline-Valine) is a potent, naturally occurring tripeptide derived from alpha-Melanocyte-Stimulating Hormone (α-MSH). It possesses exceptional anti-inflammatory, antimicrobial, and immune-modulating properties. KPV directly calms overactive inflammatory cascades via NF-κB inhibition, making it unmatched for gut barrier restoration, IBD/IBS support, and systemic inflammation reduction.",
+    shortDescription: "Potent anti-inflammatory tripeptide for gut mucosal healing, clearer skin, and immune balance.",
+    about: "KPV (Lysine-Proline-Valine) is a potent, naturally occurring tripeptide derived from alpha-Melanocyte-Stimulating Hormone (α-MSH). It possesses exceptional anti-inflammatory, antimicrobial, and immune-modulating properties. KPV directly calms overactive inflammatory cascades via NF-κB inhibition, making it unmatched for gut barrier restoration, IBD/IBS support, clearer skin, and systemic inflammation reduction.",
+    coverImage: "/PRICELIST/KPV 15mg.png",
     benefits: [
-      { title: "Targeted Gut Wall Repair", description: "Restores intestinal epithelial integrity, healing mucosal inflammation." },
-      { title: "NF-κB Inhibition", description: "Directly suppresses core inflammatory cytokines (TNF-α, IL-6, IL-1β)." },
-      { title: "Antimicrobial Action", description: "Combats dysbiotic pathogens while supporting healthy microbiome balance." },
-      { title: "Dermatological Calming", description: "Calms systemic histamine reactions, inflammatory eczema, and skin redness." }
+      { title: "Targeted Gut Wall Repair", description: "Restores intestinal epithelial integrity, healing mucosal inflammation and improving digestion." },
+      { title: "NF-κB Inhibition & Inflammation", description: "Directly suppresses core inflammatory cytokines for total-body inflammatory calming." },
+      { title: "Skin Clearing & Dermatological Health", description: "Calms systemic histamine reactions, inflammatory eczema, and improves skin clarity." },
+      { title: "Stronger Immune Response", description: "Promotes immune resilience and supports balanced host defenses." }
     ],
     dosing: {
-      dosage: "0.5mg - 1mg (Starting dose)",
+      dosage: "15mg vial",
       frequency: "Once daily (SubQ)",
-      duration: "Depends on prescription and case"
+      duration: "15mg vial is good for 20 weeks of use",
+      route: "Subcutaneous (fatty areas of abdomen or thighs)",
     },
     tips: [
+      "Self inject via subcutaneous route into fatty areas of abdomen or thighs once daily.",
+      "Derived from the C-terminal fragment of α-MSH with potent anti-inflammatory and gut mucosal healing properties.",
       "Synergizes powerfully with BPC-157 for a comprehensive gut-lining rejuvenation protocol.",
-      "Can be administered subcutaneously or in targeted oral formulations.",
       "Well-tolerated with virtually no systemic side effects."
-    ]
+    ],
+    inclusions: STANDARD_INCLUSIONS,
+    variants: [
+      {
+        id: "kpv-15",
+        dosage: "15mg",
+        price: 4000,
+        duration: "20 weeks of use",
+        shortDesc: "Anti-inflammatory & gut mucosal healing",
+      },
+    ],
   },
   {
     slug: "glow70",
@@ -316,15 +512,26 @@ export const PRODUCTS: Product[] = [
       { title: "Tone & Texture Refinement", description: "Assists in evening out skin tone and smoothing micro-texture." }
     ],
     dosing: {
-      dosage: "1mg (Starting dose)",
+      dosage: "70mg vial",
       frequency: "Once daily (SubQ)",
-      duration: "Lifetime Protocol"
+      duration: "Ongoing aesthetic protocol",
+      route: "Subcutaneous",
     },
     tips: [
       "Pair with adequate daily water intake and SPF protection for best aesthetic outcomes.",
       "Best administered in the evening to allow overnight cellular regeneration.",
       "Keep vial refrigerated at 2°C – 8°C."
-    ]
+    ],
+    inclusions: STANDARD_INCLUSIONS,
+    variants: [
+      {
+        id: "glow-70",
+        dosage: "70mg",
+        price: 5000,
+        duration: "Aesthetic protocol",
+        shortDesc: "Aesthetic skin radiance & collagen synthesis",
+      },
+    ],
   },
   {
     slug: "klow80",
@@ -340,15 +547,26 @@ export const PRODUCTS: Product[] = [
       { title: "Comprehensive Longevity", description: "Enhances overall energy, cellular resistance, and biological vitality." }
     ],
     dosing: {
-      dosage: "1mg (Starting dose)",
+      dosage: "80mg vial",
       frequency: "Once daily (SubQ)",
-      duration: "Lifetime Protocol"
+      duration: "Ongoing longevity protocol",
+      route: "Subcutaneous",
     },
     tips: [
       "Administer subcutaneously consistently on scheduled protocol days.",
       "Combines internal anti-inflammatory benefits with external aesthetic rejuvenating effects.",
       "Reconstitute with bacteriostatic water and store in the refrigerator."
-    ]
+    ],
+    inclusions: STANDARD_INCLUSIONS,
+    variants: [
+      {
+        id: "klow-80",
+        dosage: "80mg",
+        price: 5000,
+        duration: "Longevity protocol",
+        shortDesc: "Gut-skin axis longevity & rejuvenation",
+      },
+    ],
   },
   {
     slug: "glutathione",
@@ -360,22 +578,48 @@ export const PRODUCTS: Product[] = [
     coverImage: "/GLUTATHIONE /Glutathione Benefits.png",
     benefits: [
       { title: "Potent Master Antioxidant", description: "Neutralizes free radicals and prevents cellular damage across all organs." },
-      { title: "Liver Detoxification", description: "Supports liver health and eliminates metabolic toxins from the body." },
-      { title: "Immune System Support", description: "Strengthens cellular defense and immune response against oxidative stress." },
-      { title: "Skin Brightening", description: "Improves overall skin tone, clarity, and reduces hyperpigmentation." }
+      { title: "Liver Detoxification", description: "Supports hepatic health and eliminates metabolic toxins from the body." },
+      { title: "Skin Brightening", description: "Improves overall skin tone, clarity, and reduces hyperpigmentation." },
+      { title: "Immune System & Overall Wellness", description: "Strengthens cellular defense and boosts vitality and physical energy." }
     ],
     dosing: {
-      dosage: "5mg (Starting dose)",
-      frequency: "1-2 times per week (SubQ)",
-      duration: "Lifetime Protocol"
+      dosage: "1500mg vial",
+      frequency: "Thrice a week (SubQ)",
+      duration: "1500mg vial is good for 6 weeks of use",
+      route: "Subcutaneous (fatty areas of abdomen, arms, or thighs)",
     },
     tips: [
+      "Self inject via subcutaneous route into fatty areas of abdomen, arms, or thighs thrice a week.",
       "Take alongside Vitamin C to enhance absorption, cellular recycling, and effectiveness.",
-      "Best administered via SubQ injection for maximum bioavailability.",
-      "Ensure proper hydration to aid the natural detoxification process."
-    ]
+      "Ensure proper hydration to aid the natural detoxification process.",
+      "Made of three amino acids (glutamine, glycine, and cysteine) to neutralize toxins and protect cells."
+    ],
+    inclusions: STANDARD_INCLUSIONS,
+    variants: [
+      {
+        id: "gluta-1500",
+        dosage: "1500mg",
+        price: 6000,
+        duration: "6 weeks of use",
+        shortDesc: "Master antioxidant & hepatic detoxification",
+      },
+    ],
   }
 ];
+
+// ─── DERIVED ORDER PRODUCTS (SINGLE SOURCE OF TRUTH) ─────────────────────────
+export const ORDER_PRODUCTS: OrderItemOption[] = PRODUCTS.flatMap((product) =>
+  product.variants.map((v) => ({
+    id: v.id,
+    name: product.name,
+    dosage: v.dosage,
+    price: v.price,
+    category: product.category,
+    coverImage: product.coverImage,
+    shortDesc: v.shortDesc || product.shortDescription,
+    duration: v.duration,
+  }))
+);
 
 const SLUG_ALIASES: Record<string, string> = {
   "tirz": "tirzepatide",

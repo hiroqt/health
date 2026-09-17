@@ -45,3 +45,8 @@ next-env.d.ts
 .impeccable
 .claude
 .codex
+
+# pricelist
+/public/PRICELIST/
+/public/pricelist/
+/public/[pP]ricelist/
