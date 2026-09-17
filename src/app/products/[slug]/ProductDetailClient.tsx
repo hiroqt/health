@@ -78,7 +78,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                   href="/quiz"
                   className="inline-flex items-center justify-center rounded-full text-[14px] font-semibold whitespace-nowrap cursor-pointer transition-colors duration-200 min-h-[52px] px-8 gap-2 bg-accent hover:bg-accent-hover text-white focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 outline-none"
                 >
-                  Get free assessment (for first time user) <PiArrowRight size={16} />
+                  Get a free assessment (for first time user) <PiArrowRight size={16} />
                 </Link>
                 <Link
                   href="/order?reorder=true"

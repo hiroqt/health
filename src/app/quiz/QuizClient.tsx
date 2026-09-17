@@ -660,12 +660,12 @@ export default function QuizClient() {
                   className="font-display font-bold text-[#1A0A0A] leading-snug"
                   style={{ fontSize: "1.25rem" }}
                 >
-                  {done ? "Leave order checkout?" : "Leave the quiz?"}
+                  {done ? "Leave order checkout?" : "Leave the assessment?"}
                 </h2>
                 <p className="text-[13.5px] leading-relaxed text-[#9A7878]">
                   {done
                     ? "Your medication selection and order intake details won't be saved if you navigate away."
-                    : "Your quiz progress won't be saved. You'll need to start over if you come back."}
+                    : "Your assessment progress won't be saved. You'll need to start over if you come back."}
                 </p>
               </div>
 
@@ -677,7 +677,7 @@ export default function QuizClient() {
                   onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "#D94040"; }}
                   onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "#F07070"; }}
                 >
-                  {done ? "Yes, leave checkout" : "Yes, leave quiz"}
+                  {done ? "Yes, leave checkout" : "Yes, leave assessment"}
                 </Link>
                 <button
                   type="button"
@@ -721,7 +721,7 @@ export default function QuizClient() {
           type="button"
           onClick={() => setShowExitConfirm(true)}
           className="w-9 h-9 rounded-full flex items-center justify-center transition-colors duration-200 cursor-pointer bg-[#F5DADA] hover:bg-[#FADADD] text-[#9A7878] hover:text-[#D94040]"
-          aria-label={done ? "Exit checkout" : "Exit quiz"}
+          aria-label={done ? "Exit checkout" : "Exit assessment"}
         >
           <PiX size={16} />
         </button>

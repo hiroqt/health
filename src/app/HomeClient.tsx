@@ -113,7 +113,7 @@ function Hero({ splashDone }: { splashDone: boolean }) {
                 href="/quiz"
                 className="inline-flex items-center justify-center rounded-full font-semibold whitespace-nowrap cursor-pointer transition-all duration-200 gap-2 shrink-0 text-white shadow-md hover:shadow-lg bg-accent hover:bg-accent-hover text-[15px] min-h-[60px] px-10 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
               >
-                Get free assessment <PiArrowRight size={18} />
+                Get a free assessment <PiArrowRight size={18} />
               </a>
               <div className="flex flex-wrap justify-center gap-3">
                 {[
@@ -672,7 +672,7 @@ function CtaBanner() {
             href="/quiz"
             className="inline-flex items-center justify-center rounded-full text-[13.5px] font-semibold whitespace-nowrap cursor-pointer transition-colors duration-200 min-h-[48px] px-7 gap-2 bg-accent hover:bg-accent-hover text-white focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-ink outline-none"
           >
-            Get free assessment (for first time user) <PiArrowRight size={15} />
+            Get a free assessment (for first time user) <PiArrowRight size={15} />
           </a>
           <a
             href="/order?reorder=true"

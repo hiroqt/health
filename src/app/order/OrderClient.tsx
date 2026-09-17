@@ -60,12 +60,12 @@ export function OrderClient() {
           </h2>
           <p className="text-[14px] text-[#7A5555] leading-relaxed">
             Prescription medications require a brief doctor-reviewed health assessment before checkout. 
-            Redirecting you to the 1-minute quiz...
+            Redirecting you to the 1-minute clinical assessment...
           </p>
         </div>
         <div className="flex items-center gap-2 text-[13px] font-semibold text-[#FF5A5F]">
           <PiSpinnerGapBold size={18} className="animate-spin" />
-          <span>Opening Clinical Quiz</span>
+          <span>Opening Clinical Assessment</span>
         </div>
         <Link
           href="/quiz?required=true"
@@ -82,7 +82,7 @@ export function OrderClient() {
       {/* Quiz Validation Badge */}
       <div className="mb-6 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#EBF9F1] border border-[#BDEBD0] text-[#1E7E4B] text-[12.5px] font-semibold shadow-xs">
         <PiShieldCheckFill size={17} className="shrink-0" />
-        <span>Clinical Quiz Verified — Prescription Checkout Unlocked</span>
+        <span>Clinical Assessment Verified — Prescription Checkout Unlocked</span>
       </div>
 
       <OrderIntakeForm

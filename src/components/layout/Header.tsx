@@ -217,7 +217,7 @@ export function Header({ splashDone = true }: { splashDone?: boolean }) {
               onMouseEnter={(e) => (e.currentTarget.style.background = "#E04A4F")}
               onMouseLeave={(e) => (e.currentTarget.style.background = "#FF5A5F")}
             >
-              Get Free Assessment
+              Get a Free Assessment
             </Link>
             {/* Mobile toggle */}
             <button
@@ -381,7 +381,7 @@ export function Header({ splashDone = true }: { splashDone?: boolean }) {
                   onMouseEnter={(e) => (e.currentTarget.style.background = "#E04A4F")}
                   onMouseLeave={(e) => (e.currentTarget.style.background = "#FF5A5F")}
                 >
-                  Get Free Assessment
+                  Get a Free Assessment
                 </Link>
 
                 {/* Social Channels */}

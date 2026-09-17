@@ -8,6 +8,7 @@ import {
   PiCheckCircleFill,
   PiUploadSimpleFill,
   PiTruck,
+  PiPackage,
   PiCreditCardFill,
   PiCopySimple,
   PiCheckFat,
@@ -46,12 +47,24 @@ export const DELIVERY_OPTIONS = [
   {
     id: "lalamove",
     title: "Lalamove Express Delivery",
+    name: "Lalamove",
     link: "https://delivery.lalamove.com/forms/PH7c9ea77fa46d4dea8e8f35c85c0bbf4a",
     badge: "Same-Day Dispatch",
     description: "Door-to-door express courier with cold-chain packaging. Delivery fee is shouldered by the client upon rider drop-off.",
     feeText: "Client shoulders fee",
     free: false,
     icon: <PiTruck size={22} className="text-[#FF5A5F]" />,
+  },
+  {
+    id: "jnt",
+    title: "J&T Express",
+    name: "J&T Express",
+    link: "https://www.jtexpress.ph/trajectoryQuery",
+    badge: "Nationwide / Provincial",
+    description: "Nationwide parcel delivery with insulated thermal packaging and cooling ice packs. Tracking number provided upon dispatch.",
+    feeText: "Client shoulders fee",
+    free: false,
+    icon: <PiPackage size={22} className="text-[#FF5A5F]" />,
   },
 ];
 
@@ -413,32 +426,60 @@ export function OrderIntakeForm({
             </button>
           </div>
 
-          {/* Lalamove Form Action Banner */}
-          <div className="w-full rounded-[24px] bg-[#FFF0F0] border border-[#FF8FA3]/40 p-6 md:p-7 text-left flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-8 relative z-10 shadow-xs">
-            <div className="flex items-start gap-3.5">
-              <div className="w-10 h-10 rounded-full bg-[#FF5A5F] text-white flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
-                <PiTruck size={20} />
+          {/* Courier Form Action Banner */}
+          {deliveryMode === "lalamove" ? (
+            <div className="w-full rounded-[24px] bg-[#FFF0F0] border border-[#FF8FA3]/40 p-6 md:p-7 text-left flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-8 relative z-10 shadow-xs">
+              <div className="flex items-start gap-3.5">
+                <div className="w-10 h-10 rounded-full bg-[#FF5A5F] text-white flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
+                  <PiTruck size={20} />
+                </div>
+                <div>
+                  <h4 className="font-bold text-[14.5px] text-[#0F0F0F]">
+                    Hi, please fill out your delivery details with this link for a smooth delivery.
+                  </h4>
+                  <p className="text-[12.5px] text-[#555] mt-0.5">
+                    Direct parcel dispatch via the official Lalamove form link.
+                  </p>
+                </div>
               </div>
-              <div>
-                <h4 className="font-bold text-[14.5px] text-[#0F0F0F]">
-                  Hi, please fill out your delivery details with this link for a smooth delivery.
-                </h4>
-                <p className="text-[12.5px] text-[#555] mt-0.5">
-                  Direct parcel dispatch via the official Lalamove form link.
-                </p>
-              </div>
-            </div>
 
-            <a
-              href="https://delivery.lalamove.com/forms/PH7c9ea77fa46d4dea8e8f35c85c0bbf4a"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-[#FF5A5F] hover:bg-[#E04A4F] text-white text-[13px] font-bold transition-all shadow-sm shrink-0"
-            >
-              <span>Open Delivery Link</span>
-              <PiArrowSquareOutBold size={15} />
-            </a>
-          </div>
+              <a
+                href="https://delivery.lalamove.com/forms/PH7c9ea77fa46d4dea8e8f35c85c0bbf4a"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-[#FF5A5F] hover:bg-[#E04A4F] text-white text-[13px] font-bold transition-all shadow-sm shrink-0"
+              >
+                <span>Open Delivery Link</span>
+                <PiArrowSquareOutBold size={15} />
+              </a>
+            </div>
+          ) : (
+            <div className="w-full rounded-[24px] bg-[#FFF0F0] border border-[#FF8FA3]/40 p-6 md:p-7 text-left flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-8 relative z-10 shadow-xs">
+              <div className="flex items-start gap-3.5">
+                <div className="w-10 h-10 rounded-full bg-[#FF5A5F] text-white flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
+                  <PiPackage size={20} />
+                </div>
+                <div>
+                  <h4 className="font-bold text-[14.5px] text-[#0F0F0F]">
+                    Your order will be dispatched nationwide via J&T Express.
+                  </h4>
+                  <p className="text-[12.5px] text-[#555] mt-0.5">
+                    Shipped with cold-chain thermal packaging. A tracking number will be sent via SMS once dispatched.
+                  </p>
+                </div>
+              </div>
+
+              <a
+                href="https://www.jtexpress.ph/trajectoryQuery"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-[#FF5A5F] hover:bg-[#E04A4F] text-white text-[13px] font-bold transition-all shadow-sm shrink-0"
+              >
+                <span>J&T Tracking Portal</span>
+                <PiArrowSquareOutBold size={15} />
+              </a>
+            </div>
+          )}
 
           {/* Invoice Summary Card */}
           <div className="w-full rounded-[24px] bg-[#FFF8F7] border border-[#FFE8EA] p-6 md:p-8 text-left flex flex-col gap-5 mb-8 relative z-10">
@@ -487,15 +528,19 @@ export function OrderIntakeForm({
                 <span className="text-[#6E6E6E] uppercase font-bold text-[11px] block mb-0.5">
                   Delivery Method
                 </span>
-                <a
-                  href="https://delivery.lalamove.com/forms/PH7c9ea77fa46d4dea8e8f35c85c0bbf4a"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-bold text-[#FF5A5F] hover:underline inline-flex items-center gap-1.5"
-                >
-                  <span>{activeDelivery?.title}</span>
-                  <PiArrowSquareOutBold size={14} />
-                </a>
+                {activeDelivery?.link ? (
+                  <a
+                    href={activeDelivery.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-bold text-[#FF5A5F] hover:underline inline-flex items-center gap-1.5"
+                  >
+                    <span>{activeDelivery?.title}</span>
+                    <PiArrowSquareOutBold size={14} />
+                  </a>
+                ) : (
+                  <span className="font-bold text-[#0F0F0F]">{activeDelivery?.title}</span>
+                )}
               </div>
 
               <div>
@@ -829,80 +874,194 @@ export function OrderIntakeForm({
                     className="w-full rounded-[16px] px-4 py-3.5 text-[14.5px] font-medium outline-none border border-[#FFE8EA] focus:border-[#FF5A5F] focus:ring-2 focus:ring-[#FF5A5F]/15 transition-all bg-[#FFF8F7]/30 resize-none"
                   />
                   <p className="text-[12.5px] text-[#6E6E6E] flex items-center gap-1.5 mt-0.5">
-                    <span>💡 <strong>Quick Note:</strong> You will confirm the exact pin directly on the Lalamove link below.</span>
+                    <span>
+                      💡 <strong>Quick Note:</strong>{" "}
+                      {deliveryMode === "lalamove"
+                        ? "You will confirm the exact pin directly on the Lalamove link below."
+                        : "Please ensure your complete street address, barangay, and city/province are provided for J&T Express dispatch."}
+                    </span>
                   </p>
                 </div>
               </div>
 
-              {/* Dedicated Lalamove Logistics Section with Direct Form Link */}
+              {/* Dedicated Courier Selection Section */}
               <div className="bg-white rounded-[28px] border border-[#FFE8EA] p-6 md:p-8 shadow-sm flex flex-col gap-5">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <PiTruck className="text-[#FF5A5F] text-[20px]" />
                     <h2 className="font-display font-bold text-[1.35rem] text-[#0F0F0F]">
-                      3. Dedicated Express Courier
+                      3. Choose Courier Delivery
                     </h2>
                   </div>
                   <span className="px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-[#FFF0F0] text-[#FF5A5F] border border-[#FFE8EA]">
-                    Lalamove Link
+                    {deliveryMode === "lalamove" ? "Lalamove Express" : "J&T Express"}
                   </span>
                 </div>
 
-                <div className="p-4 rounded-[20px] bg-[#FFF0F0] border border-[#FF8FA3]/40 flex items-start gap-3.5">
-                  <div className="w-8 h-8 rounded-full bg-[#FF5A5F] text-white flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
-                    <PiTruck size={17} />
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-[13.5px] font-bold text-[#0F0F0F] leading-snug">
-                      Hi, please fill out your delivery details with this link for a smooth delivery.
-                    </p>
-                    <p className="text-[12.5px] text-[#555] mt-0.5">
-                      Direct parcel dispatch via the official Lalamove form link below.
-                    </p>
-                  </div>
+                {/* Courier selection tabs */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                  {DELIVERY_OPTIONS.map((opt) => {
+                    const isSelected = deliveryMode === opt.id;
+                    return (
+                      <button
+                        key={opt.id}
+                        type="button"
+                        onClick={() => setDeliveryMode(opt.id)}
+                        className={`p-4 rounded-[20px] border text-left transition-all cursor-pointer flex flex-col gap-2 relative ${
+                          isSelected
+                            ? "border-[#FF5A5F] bg-[#FFF8F7] ring-2 ring-[#FF5A5F]/20 shadow-xs"
+                            : "border-[#FFE8EA] bg-white hover:border-[#FF5A5F]/40 hover:bg-[#FFF8F7]/30"
+                        }`}
+                      >
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2.5">
+                            <div
+                              className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 ${
+                                isSelected
+                                  ? "bg-[#FF5A5F] text-white"
+                                  : "bg-[#FFF0F0] text-[#FF5A5F]"
+                              }`}
+                            >
+                              {opt.id === "lalamove" ? <PiTruck size={19} /> : <PiPackage size={19} />}
+                            </div>
+                            <div>
+                              <span className="font-bold text-[14.5px] text-[#0F0F0F] block leading-tight">
+                                {opt.name || opt.title}
+                              </span>
+                              <span className="text-[11px] font-semibold text-[#FF5A5F]">
+                                {opt.badge}
+                              </span>
+                            </div>
+                          </div>
+                          {isSelected && (
+                            <span className="w-5 h-5 rounded-full bg-[#FF5A5F] text-white flex items-center justify-center shrink-0">
+                              <PiCheckFat size={10} />
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-[12px] text-[#666] leading-relaxed mt-1">
+                          {opt.description}
+                        </p>
+                      </button>
+                    );
+                  })}
                 </div>
 
-                <a
-                  href="https://delivery.lalamove.com/forms/PH7c9ea77fa46d4dea8e8f35c85c0bbf4a"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group block rounded-[22px] p-5 border border-[#FF5A5F] bg-[#FFF8F7] hover:bg-[#FFF2F2] ring-2 ring-[#FF5A5F]/15 shadow-sm transition-all hover:shadow-md cursor-pointer"
-                >
-                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                    <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 rounded-[16px] bg-[#FF5A5F] group-hover:bg-[#E04A4F] text-white flex items-center justify-center shrink-0 shadow-md shadow-[#FF5A5F]/20 transition-colors">
-                        <PiTruck size={26} />
+                {/* Conditional courier view */}
+                {deliveryMode === "lalamove" ? (
+                  <div className="flex flex-col gap-3">
+                    <div className="p-4 rounded-[20px] bg-[#FFF0F0] border border-[#FF8FA3]/40 flex items-start gap-3.5">
+                      <div className="w-8 h-8 rounded-full bg-[#FF5A5F] text-white flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
+                        <PiTruck size={17} />
                       </div>
-                      <div className="min-w-0">
-                        <div className="flex items-center gap-2 flex-wrap">
-                          <span className="font-bold text-[16.5px] text-[#0F0F0F] group-hover:text-[#FF5A5F] transition-colors">
-                            Lalamove Delivery Details Form
-                          </span>
-                          <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-white border border-[#FFE8EA] text-[#FF5A5F]">
-                            Direct Form Link
-                          </span>
-                        </div>
-                        <p className="text-[13px] text-[#555] mt-1 leading-relaxed">
-                          Door-to-door express courier. Delivery fee is shouldered by the client upon rider drop-off.
+                      <div className="flex-1">
+                        <p className="text-[13.5px] font-bold text-[#0F0F0F] leading-snug">
+                          Hi, please fill out your delivery details with this link for a smooth delivery.
                         </p>
-                        <div className="flex items-center gap-1.5 text-[12px] font-bold text-[#FF5A5F] mt-2 group-hover:underline break-all">
-                          <span>delivery.lalamove.com/forms/PH7c9ea77fa46d4dea8e8f35c85c0bbf4a</span>
-                          <PiArrowSquareOutBold size={14} className="shrink-0" />
-                        </div>
+                        <p className="text-[12.5px] text-[#555] mt-0.5">
+                          Direct parcel dispatch via the official Lalamove form link below.
+                        </p>
                       </div>
                     </div>
 
-                    <div className="flex flex-row md:flex-col items-center md:items-end justify-between md:justify-center gap-2 shrink-0 pt-2 md:pt-0 border-t md:border-t-0 border-[#FFE8EA]">
-                      <span className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-[#FF5A5F] text-white text-[13px] font-bold shadow-sm group-hover:bg-[#E04A4F] transition-all">
-                        <span>Direct to Link</span>
-                        <PiArrowSquareOutBold size={15} />
-                      </span>
-                      <span className="text-[11px] text-[#888] font-medium">
-                        Client shoulders fee
-                      </span>
+                    <a
+                      href="https://delivery.lalamove.com/forms/PH7c9ea77fa46d4dea8e8f35c85c0bbf4a"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group block rounded-[22px] p-5 border border-[#FF5A5F] bg-[#FFF8F7] hover:bg-[#FFF2F2] ring-2 ring-[#FF5A5F]/15 shadow-sm transition-all hover:shadow-md cursor-pointer"
+                    >
+                      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div className="flex items-start gap-4">
+                          <div className="w-12 h-12 rounded-[16px] bg-[#FF5A5F] group-hover:bg-[#E04A4F] text-white flex items-center justify-center shrink-0 shadow-md shadow-[#FF5A5F]/20 transition-colors">
+                            <PiTruck size={26} />
+                          </div>
+                          <div className="min-w-0">
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <span className="font-bold text-[16.5px] text-[#0F0F0F] group-hover:text-[#FF5A5F] transition-colors">
+                                Lalamove Delivery Details Form
+                              </span>
+                              <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-white border border-[#FFE8EA] text-[#FF5A5F]">
+                                Direct Form Link
+                              </span>
+                            </div>
+                            <p className="text-[13px] text-[#555] mt-1 leading-relaxed">
+                              Door-to-door express courier. Delivery fee is shouldered by the client upon rider drop-off.
+                            </p>
+                            <div className="flex items-center gap-1.5 text-[12px] font-bold text-[#FF5A5F] mt-2 group-hover:underline break-all">
+                              <span>delivery.lalamove.com/forms/PH7c9ea77fa46d4dea8e8f35c85c0bbf4a</span>
+                              <PiArrowSquareOutBold size={14} className="shrink-0" />
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="flex flex-row md:flex-col items-center md:items-end justify-between md:justify-center gap-2 shrink-0 pt-2 md:pt-0 border-t md:border-t-0 border-[#FFE8EA]">
+                          <span className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-[#FF5A5F] text-white text-[13px] font-bold shadow-sm group-hover:bg-[#E04A4F] transition-all">
+                            <span>Direct to Link</span>
+                            <PiArrowSquareOutBold size={15} />
+                          </span>
+                          <span className="text-[11px] text-[#888] font-medium">
+                            Client shoulders fee
+                          </span>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                ) : (
+                  <div className="flex flex-col gap-3">
+                    <div className="p-4 rounded-[20px] bg-[#FFF0F0] border border-[#FF8FA3]/40 flex items-start gap-3.5">
+                      <div className="w-8 h-8 rounded-full bg-[#FF5A5F] text-white flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
+                        <PiPackage size={17} />
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-[13.5px] font-bold text-[#0F0F0F] leading-snug">
+                          Nationwide & Provincial Delivery via J&T Express
+                        </p>
+                        <p className="text-[12.5px] text-[#555] mt-0.5">
+                          Dispatched in insulated thermal box with ice packs. Your official tracking number will be sent via SMS / email upon handover to courier.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="rounded-[22px] p-5 border border-[#FFE8EA] bg-[#FFF8F7] flex flex-col md:flex-row md:items-center justify-between gap-4">
+                      <div className="flex items-start gap-4">
+                        <div className="w-12 h-12 rounded-[16px] bg-[#FF5A5F] text-white flex items-center justify-center shrink-0 shadow-md shadow-[#FF5A5F]/20">
+                          <PiPackage size={26} />
+                        </div>
+                        <div className="min-w-0">
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <span className="font-bold text-[16.5px] text-[#0F0F0F]">
+                              J&T Express Parcel Dispatch
+                            </span>
+                            <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-white border border-[#FFE8EA] text-[#FF5A5F]">
+                              Nationwide
+                            </span>
+                          </div>
+                          <p className="text-[13px] text-[#555] mt-1 leading-relaxed">
+                            Full nationwide door-to-door coverage. Courier delivery fee is shouldered by the client upon parcel delivery.
+                          </p>
+                          <a
+                            href="https://www.jtexpress.ph/trajectoryQuery"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1.5 text-[12px] font-bold text-[#FF5A5F] mt-2 hover:underline"
+                          >
+                            <span>Track parcel at jtexpress.ph</span>
+                            <PiArrowSquareOutBold size={14} className="shrink-0" />
+                          </a>
+                        </div>
+                      </div>
+
+                      <div className="flex flex-row md:flex-col items-center md:items-end justify-between md:justify-center gap-2 shrink-0 pt-2 md:pt-0 border-t md:border-t-0 border-[#FFE8EA]">
+                        <span className="px-3 py-1.5 rounded-full bg-[#EBF9F1] text-[#1E7E4B] text-[12px] font-bold border border-[#BDEBD0]">
+                          Nationwide Coverage
+                        </span>
+                        <span className="text-[11px] text-[#888] font-medium">
+                          Client shoulders fee
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </a>
+                )}
 
                 {/* Cold-Chain Guarantee Note */}
                 <div className="flex items-center gap-3 p-4 rounded-[18px] bg-white border border-[#FFE8EA] text-[12.5px] text-[#4A3333]">

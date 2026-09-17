@@ -129,7 +129,7 @@ function Hero() {
               href="/quiz"
               className="inline-flex items-center justify-center rounded-full font-semibold whitespace-nowrap transition-all duration-200 gap-2 text-white shadow-md hover:shadow-lg bg-accent hover:bg-accent-hover text-[15px] min-h-[60px] px-10 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
             >
-              Get free assessment <PiArrowRight size={18} />
+              Get a free assessment <PiArrowRight size={18} />
             </Link>
             <div className="flex items-center gap-2 text-[13.5px] font-medium text-ink-3">
               <PiTimerFill size={15} className="text-accent" />
@@ -455,7 +455,7 @@ function QuizSection() {
                   href="/quiz"
                   className="inline-flex items-center justify-center rounded-full font-semibold whitespace-nowrap transition-all duration-200 gap-2 text-white bg-accent hover:bg-accent-hover text-[14.5px] min-h-[56px] px-8 shadow-sm hover:shadow-md"
                 >
-                  Get free assessment (for first time user) <PiArrowRight size={18} />
+                  Get a free assessment (for first time user) <PiArrowRight size={18} />
                 </Link>
                 <Link
                   href="/order?reorder=true"
@@ -569,7 +569,7 @@ function CtaCloser() {
             href="/quiz"
             className="inline-flex items-center justify-center rounded-full font-semibold whitespace-nowrap transition-all duration-200 gap-2 text-white bg-accent hover:bg-accent-hover text-[15px] min-h-[56px] px-8 shadow-lg"
           >
-            Get free assessment (for first time user) <PiArrowRight size={18} />
+            Get a free assessment (for first time user) <PiArrowRight size={18} />
           </Link>
           <Link
             href="/order?reorder=true"
