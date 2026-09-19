@@ -269,7 +269,7 @@ export default function ContactClient() {
                     <span className="text-[10px] text-[#6E6E6E]">Direct Line</span>
                   </a>
                   <a
-                    href="https://wa.me/639613236199"
+                    href="whatsapp://send?phone=639613236199"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex flex-col items-center justify-center p-2.5 rounded-xl bg-white border border-[#FFE8EA] hover:border-[#25D366] transition-colors text-center group"
@@ -489,7 +489,7 @@ export default function ContactClient() {
                             Messenger Chat
                           </a>
                           <a
-                            href="https://wa.me/639613236199"
+                            href="whatsapp://send?phone=639613236199"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="flex-1 flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl bg-[#25D366] text-white text-[13px] font-semibold hover:bg-[#20BA5A] transition-colors"
