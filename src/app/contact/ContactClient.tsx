@@ -360,7 +360,7 @@ export default function ContactClient() {
 
                 <div className="flex flex-col gap-2.5">
                   <a
-                    href="https://www.facebook.com/peptidesbytearsize"
+                    href="https://www.facebook.com/tearsizev3"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center justify-between p-3 rounded-xl bg-white border border-[#FFE8EA] hover:border-[#1877F2] transition-colors group"
@@ -373,7 +373,7 @@ export default function ContactClient() {
                         <span className="text-[13px] font-bold text-[#0F0F0F] group-hover:text-[#1877F2] block">
                           Facebook Page & Messenger
                         </span>
-                        <span className="text-[11px] text-[#6E6E6E]">@peptidesbytearsize</span>
+                        <span className="text-[11px] text-[#6E6E6E]">@tearsizev3</span>
                       </div>
                     </div>
                     <span className="text-[12px] font-semibold text-[#1877F2] flex items-center gap-1">
@@ -481,7 +481,7 @@ export default function ContactClient() {
                         </span>
                         <div className="flex flex-col sm:flex-row gap-2">
                           <a
-                            href="https://m.me/peptidesbytearsize"
+                            href="https://m.me/tearsizev3"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="flex-1 flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl bg-[#0084FF] text-white text-[13px] font-semibold hover:bg-[#0070D6] transition-colors"

@@ -58,7 +58,7 @@ const NAV_LINKS = [
 const MOBILE_SOCIALS = [
   {
     label: "Facebook",
-    href: "https://www.facebook.com/peptidesbytearsize",
+    href: "https://www.facebook.com/tearsizev3",
     icon: <PiFacebookLogoFill size={20} />,
   },
   {
