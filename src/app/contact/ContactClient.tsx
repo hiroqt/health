@@ -64,7 +64,7 @@ const FAQS = [
   },
   {
     q: "What is the quickest way to reach the team?",
-    a: "For immediate assistance, message us on Facebook Messenger or WhatsApp / Viber hotline (+63 961 323 6199). You can also submit the inquiry form below.",
+    a: "For immediate assistance, message us on Facebook Messenger or WhatsApp hotline (+63 961 323 6199). You can also submit the inquiry form below.",
   },
 ];
 
@@ -135,7 +135,7 @@ export default function ContactClient() {
         setErrorMsg(data.error || "Failed to submit your message. Please try messaging us directly via email or social channels.");
       }
     } catch (err) {
-      setErrorMsg("Network error occurred. You can reach us directly via WhatsApp, Viber, or Gmail.");
+      setErrorMsg("Network error occurred. You can reach us directly via WhatsApp or Gmail.");
     } finally {
       setLoading(false);
     }
@@ -234,7 +234,7 @@ export default function ContactClient() {
                     </div>
                     <div>
                       <h3 className="text-[15px] font-bold text-[#0F0F0F]">Phone & Direct Messaging</h3>
-                      <p className="text-[12px] text-[#6E6E6E]">Voice call, SMS, Viber, WhatsApp</p>
+                      <p className="text-[12px] text-[#6E6E6E]">Voice call, SMS, WhatsApp</p>
                     </div>
                   </div>
                   <button
@@ -260,7 +260,7 @@ export default function ContactClient() {
                   </a>
                 </div>
 
-                <div className="grid grid-cols-3 gap-2 mt-3 pt-3 border-t border-[#FFE8EA]/60">
+                <div className="grid grid-cols-2 gap-2 mt-3 pt-3 border-t border-[#FFE8EA]/60">
                   <a
                     href="tel:+639613236199"
                     className="flex flex-col items-center justify-center p-2.5 rounded-xl bg-white border border-[#FFE8EA] hover:border-[#FF5A5F] transition-colors text-center group"
@@ -279,13 +279,6 @@ export default function ContactClient() {
                       <span className="text-[12px] font-semibold text-[#0F0F0F] group-hover:text-[#25D366]">WhatsApp</span>
                     </div>
                     <span className="text-[10px] text-[#6E6E6E]">Instant Chat</span>
-                  </a>
-                  <a
-                    href="viber://chat?number=%2B639613236199"
-                    className="flex flex-col items-center justify-center p-2.5 rounded-xl bg-white border border-[#FFE8EA] hover:border-[#7360F2] transition-colors text-center group"
-                  >
-                    <span className="text-[12px] font-semibold text-[#0F0F0F] group-hover:text-[#7360F2]">Viber</span>
-                    <span className="text-[10px] text-[#6E6E6E]">Message</span>
                   </a>
                 </div>
               </motion.div>
