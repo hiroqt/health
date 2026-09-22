@@ -615,6 +615,15 @@ function Testimonials() {
           </div>
         </div>
       </motion.div>
+
+      <div className="flex justify-center mt-6 md:mt-8">
+        <Link
+          href="/before-and-after"
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-[13.5px] font-semibold text-[#FF5A5F] bg-white border border-[#FFE8EA] hover:border-[#FF5A5F] hover:bg-[#FFF5F6] shadow-xs transition-all"
+        >
+          View Real Before &amp; After Transformations <PiArrowRight size={14} />
+        </Link>
+      </div>
     </section>
   );
 }

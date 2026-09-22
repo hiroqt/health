@@ -121,6 +121,71 @@ export const PAYMENT_METHODS = [
   },
 ];
 
+/**
+ * Generates a random clinical order reference formatted as TSZ-XXXXXX.
+ */
+function generateOrderReference(): string {
+  return `TSZ-${Math.floor(100000 + Math.random() * 900000)}`;
+}
+
+/**
+ * Client-side image compression utility using HTML5 Canvas.
+ * Scales images down to max 1200px and compresses to 80% JPEG quality.
+ * Slashes 5MB-10MB mobile camera photos to ~150KB-250KB for fast, dependable cloud transmission.
+ */
+async function compressImageFile(inputFile: File): Promise<{ base64: string; mimeType: string }> {
+  if (!inputFile.type.startsWith("image/")) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve({ base64: reader.result as string, mimeType: inputFile.type || "application/pdf" });
+      reader.onerror = (err) => reject(err);
+      reader.readAsDataURL(inputFile);
+    });
+  }
+
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = document.createElement("img");
+      img.onload = () => {
+        const MAX_DIM = 1200;
+        let width = img.width;
+        let height = img.height;
+
+        if (width > MAX_DIM || height > MAX_DIM) {
+          if (width > height) {
+            height = Math.round((height * MAX_DIM) / width);
+            width = MAX_DIM;
+          } else {
+            width = Math.round((width * MAX_DIM) / height);
+            height = MAX_DIM;
+          }
+        }
+
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+        if (ctx) {
+          ctx.drawImage(img, 0, 0, width, height);
+          const compressed = canvas.toDataURL("image/jpeg", 0.8);
+          resolve({ base64: compressed, mimeType: "image/jpeg" });
+        } else {
+          resolve({ base64: (event.target?.result as string) || "", mimeType: inputFile.type });
+        }
+      };
+      img.onerror = () => {
+        resolve({ base64: (event.target?.result as string) || "", mimeType: inputFile.type });
+      };
+      img.src = event.target?.result as string;
+    };
+    reader.onerror = () => {
+      resolve({ base64: "", mimeType: inputFile.type });
+    };
+    reader.readAsDataURL(inputFile);
+  });
+}
+
 interface OrderIntakeFormProps {
   initialName?: string;
   initialEmail?: string;
@@ -224,8 +289,8 @@ export function OrderIntakeForm({
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const selectedFile = e.target.files[0];
-      if (selectedFile.size > 10 * 1024 * 1024) {
-        setErrorMessage("File size exceeds 10 MB. Please upload a smaller image.");
+      if (selectedFile.size > 15 * 1024 * 1024) {
+        setErrorMessage("File size exceeds 15 MB. Please upload a smaller image.");
         return;
       }
       setErrorMessage("");
@@ -309,18 +374,16 @@ export function OrderIntakeForm({
     setIsSubmitting(true);
     setErrorMessage("");
 
-    const generatedRef = `TSZ-${Math.floor(100000 + Math.random() * 900000)}`;
+    const generatedRef = generateOrderReference();
 
     try {
-      // Convert file to Base64 string for cloud transmission
+      // Compress and convert file to Base64 (lightweight ~150KB for fast, reliable upload)
       let base64String = "";
+      let resolvedMimeType = "image/jpeg";
       if (file) {
-        base64String = await new Promise<string>((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onload = () => resolve(reader.result as string);
-          reader.onerror = (err) => reject(err);
-          reader.readAsDataURL(file);
-        });
+        const compressed = await compressImageFile(file);
+        base64String = compressed.base64;
+        resolvedMimeType = compressed.mimeType;
       }
 
       const activeDelivery = DELIVERY_OPTIONS.find((d) => d.id === deliveryMode);
@@ -344,7 +407,7 @@ export function OrderIntakeForm({
         totalAmount: total,
         fileBase64: base64String,
         fileName: file?.name || "receipt.jpg",
-        fileType: file?.type || "image/jpeg",
+        fileType: resolvedMimeType,
       };
 
       const res = await fetch("/api/orders", {
@@ -353,9 +416,14 @@ export function OrderIntakeForm({
         body: JSON.stringify(payload),
       });
 
-      const data = await res.json();
-      if (!res.ok || !data.success) {
-        console.warn("Order API note:", data?.error);
+      const data = await res.json().catch(() => null);
+
+      if (!res.ok || !data?.success) {
+        const errDetail = data?.error || "We encountered an issue saving your order. Please tap 'Retry Submission' below.";
+        console.error("Order submission failed:", data);
+        setErrorMessage(errDetail);
+        setIsSubmitting(false);
+        return;
       }
 
       setOrderRef(generatedRef);
@@ -363,14 +431,11 @@ export function OrderIntakeForm({
       setOrderSubmitted(true);
       if (onSuccess) onSuccess();
       window.scrollTo({ top: 0, behavior: "smooth" });
-    } catch (err: any) {
-      console.error("Order submission error:", err);
-      // Graceful fallback to client confirmation
-      setOrderRef(generatedRef);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : String(err);
+      console.error("Order submission network exception:", msg);
+      setErrorMessage("Network timeout or connection interrupted. Please tap 'Retry Submission' to try again.");
       setIsSubmitting(false);
-      setOrderSubmitted(true);
-      if (onSuccess) onSuccess();
-      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
