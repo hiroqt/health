@@ -22,7 +22,6 @@ import {
   PiShieldCheckFill,
   PiSparkleFill,
   PiInfo,
-  PiClock,
 } from "react-icons/pi";
 
 const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
@@ -235,12 +234,6 @@ export default function BeforeAfterClient() {
                         <PiSealCheckFill size={13} className="text-[#FF5A5F]" />
                         {item.tag}
                       </span>
-                      {item.duration && (
-                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md text-white text-[11px] font-medium">
-                          <PiClock size={12} />
-                          {item.duration}
-                        </span>
-                      )}
                     </div>
 
                     {/* Hover enlarge overlay */}
@@ -489,12 +482,6 @@ export default function BeforeAfterClient() {
                     <span className="px-3 py-1 rounded-lg bg-[#FFF5F6] text-[#FF5A5F] text-[12px] font-semibold border border-[#FFE8EA]">
                       {selectedItem.tag}
                     </span>
-                    {selectedItem.duration && (
-                      <span className="px-3 py-1 rounded-lg bg-[#F5F5F5] text-[#2B2B2B] text-[12px] font-medium flex items-center gap-1">
-                        <PiClock size={12} />
-                        {selectedItem.duration}
-                      </span>
-                    )}
                   </div>
 
                   <div className="pt-3 border-t border-[#FFE8EA]">

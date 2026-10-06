@@ -162,7 +162,6 @@ export const TRANSFORMATION_ITEMS: TransformationItem[] = [
     imageJpg: "/before-after/28.jpg",
     category: "weight-loss",
     tag: "Consistent Steady Progress",
-    duration: "14 Weeks",
     patientHighlight: "Uniform fat loss and enhanced facial and neck contours.",
     program: "Doctor-Guided Weight Plan",
     alt: "Steady progress transformation card showing slimmed profile - by tearsize journey",
