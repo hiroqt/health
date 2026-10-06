@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { PiArrowRight, PiArrowLeft, PiCheckFat, PiSyringe, PiSyringeFill, PiX, PiLightbulbFilament, PiWarningCircleFill } from "react-icons/pi";
+import { PiArrowRight, PiArrowLeft, PiCheckFat, PiSyringeFill, PiX, PiLightbulbFilament, PiWarningCircleFill } from "react-icons/pi";
 import { OrderIntakeForm } from "@/components/forms/OrderIntakeForm";
 
 // ─── Animation ────────────────────────────────────────────────────────────────
@@ -496,6 +496,11 @@ export default function QuizClient() {
   const [showExitConfirm, setShowExitConfirm] = useState(false);
   const [requiredNotice, setRequiredNotice]   = useState(false);
 
+  // Session tracking & Google Sheets sync
+  const [sessionId, setSessionId] = useState<string>("");
+  const [startedAt, setStartedAt] = useState<string>("");
+  const lastSyncedRef = React.useRef<string>("");
+
   // Check if redirected from /order without taking the quiz
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -506,7 +511,73 @@ export default function QuizClient() {
     }
   }, []);
 
-  // Persist quiz completion to sessionStorage so /order is unlocked
+  // Initialize or restore unique quiz session ID
+  useEffect(() => {
+    try {
+      let currentId = sessionStorage.getItem("tearsize_quiz_session_id");
+      let currentStartedAt = sessionStorage.getItem("tearsize_quiz_started_at");
+      if (!currentId) {
+        currentId = `QZ-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`;
+        currentStartedAt = new Date().toISOString();
+        sessionStorage.setItem("tearsize_quiz_session_id", currentId);
+        sessionStorage.setItem("tearsize_quiz_started_at", currentStartedAt);
+      }
+      setSessionId(currentId);
+      setStartedAt(currentStartedAt || new Date().toISOString());
+    } catch {
+      const fallbackId = `QZ-${Date.now().toString(36).toUpperCase()}`;
+      setSessionId(fallbackId);
+      setStartedAt(new Date().toISOString());
+    }
+  }, []);
+
+  const total = QUESTIONS.length;
+
+  const syncQuizProgress = React.useCallback(
+    (
+      status: "In Progress" | "Completed" | "Abandoned",
+      targetStep: number,
+      latestAnswers: Answers
+    ) => {
+      const activeSessionId =
+        sessionId ||
+        (typeof window !== "undefined" ? sessionStorage.getItem("tearsize_quiz_session_id") : null);
+      if (!activeSessionId) return;
+
+      const activeStartedAt =
+        startedAt ||
+        (typeof window !== "undefined" ? sessionStorage.getItem("tearsize_quiz_started_at") : null) ||
+        new Date().toISOString();
+
+      const answersKey = `${status}:${targetStep}:${JSON.stringify(latestAnswers)}`;
+      if (lastSyncedRef.current === answersKey) return;
+      lastSyncedRef.current = answersKey;
+
+      try {
+        const payload = {
+          sessionId: activeSessionId,
+          status,
+          step: Math.min(targetStep + 1, QUESTIONS.length),
+          totalSteps: QUESTIONS.length,
+          startedAt: activeStartedAt,
+          answers: latestAnswers,
+        };
+
+        fetch("/api/quiz", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        }).catch((err) => {
+          console.warn("[QuizClient] Background sync notice:", err);
+        });
+      } catch (err) {
+        console.warn("[QuizClient] Sync notice:", err);
+      }
+    },
+    [sessionId, startedAt]
+  );
+
+  // Persist quiz completion to sessionStorage so /order is unlocked & sync completed status
   useEffect(() => {
     if (done) {
       try {
@@ -521,12 +592,30 @@ export default function QuizClient() {
       } catch (err) {
         console.warn("Could not save quiz session:", err);
       }
+      syncQuizProgress("Completed", total - 1, answers);
     }
-  }, [done, answers]);
+  }, [done, answers, syncQuizProgress, total]);
 
-  // Warn before browser tab close / refresh
+  // Warn before browser tab close / refresh & save attempt
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (!done && Object.keys(answers).length > 0) {
+        const activeSessionId =
+          sessionId || sessionStorage.getItem("tearsize_quiz_session_id");
+        if (activeSessionId) {
+          const payload = JSON.stringify({
+            sessionId: activeSessionId,
+            status: "In Progress",
+            step: step + 1,
+            totalSteps: total,
+            startedAt: startedAt || sessionStorage.getItem("tearsize_quiz_started_at"),
+            answers,
+          });
+          if (typeof navigator !== "undefined" && navigator.sendBeacon) {
+            navigator.sendBeacon("/api/quiz", new Blob([payload], { type: "application/json" }));
+          }
+        }
+      }
       e.preventDefault();
       e.returnValue = "";
       return "";
@@ -534,7 +623,7 @@ export default function QuizClient() {
 
     window.addEventListener("beforeunload", handleBeforeUnload);
     return () => window.removeEventListener("beforeunload", handleBeforeUnload);
-  }, []);
+  }, [done, answers, step, sessionId, startedAt, total]);
 
   // Intercept browser back button in web tab and show confirmation dialog
   useEffect(() => {
@@ -551,7 +640,6 @@ export default function QuizClient() {
   }, []);
 
   const question = QUESTIONS[step];
-  const total    = QUESTIONS.length;
 
   // Current answer
   const currentAnswer = answers[question?.id] ?? (question?.type === "multiple" ? [] : "");
@@ -579,7 +667,12 @@ export default function QuizClient() {
   const goNext = () => {
     if (!canAdvance || !question) return;
     const isLast = step === total - 1;
-    if (isLast) { setDone(true); return; }
+    if (isLast) {
+      setDone(true);
+      syncQuizProgress("Completed", step, answers);
+      return;
+    }
+    syncQuizProgress("In Progress", step, answers);
     // Show trivia if one exists for this question
     if (TRIVIA[question.id]) {
       setTriviaId(question.id);
@@ -598,10 +691,16 @@ export default function QuizClient() {
 
   // Auto-advance on single choice selection
   const handleSingleChange = (id: string, val: string) => {
+    const nextAnswers = { ...answers, [id]: val };
     setAnswer(id, val);
+    syncQuizProgress("In Progress", step, nextAnswers);
     setTimeout(() => {
       const isLast = step === total - 1;
-      if (isLast) { setDone(true); return; }
+      if (isLast) {
+        setDone(true);
+        syncQuizProgress("Completed", step, nextAnswers);
+        return;
+      }
       if (TRIVIA[id]) {
         setTriviaId(id);
       } else {
@@ -672,6 +771,11 @@ export default function QuizClient() {
               <div className="flex flex-col gap-2.5 pt-1">
                 <Link
                   href="/"
+                  onClick={() => {
+                    if (!done && Object.keys(answers).length > 0) {
+                      syncQuizProgress("Abandoned", step, answers);
+                    }
+                  }}
                   className="flex items-center justify-center rounded-full font-bold text-white transition-colors duration-200 shadow-sm"
                   style={{ background: "#F07070", fontSize: "14px", minHeight: "46px" }}
                   onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "#D94040"; }}

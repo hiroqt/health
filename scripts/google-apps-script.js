@@ -90,6 +90,20 @@ function doPost(e) {
       data = e.parameter;
     }
 
+    // A. Route to dedicated Quiz Answers tab if payload is a quiz response
+    if (data.type === "quiz_response" || (data.sessionId && !data.orderRef)) {
+      var quizResult = handleQuizResponse(data);
+      return ContentService.createTextOutput(JSON.stringify(quizResult))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+
+    // B. Route to Contact Messages tab if payload is a contact inquiry
+    if (data.type === "contact_inquiry") {
+      var contactResult = handleContactInquiry(data);
+      return ContentService.createTextOutput(JSON.stringify(contactResult))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+
     // 1. Format items summary & array
     var itemsSummary = "";
     var itemsArray = [];
@@ -268,6 +282,191 @@ function doPost(e) {
   }
 }
 
+// ─── QUIZ HANDLER: RECORDS / UPDATES QUIZ ATTEMPTS & COMPLETIONS ───────────
+function handleQuizResponse(data) {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName("Quiz Answers") || ss.getSheetByName("Quiz Responses");
+
+  if (!sheet) {
+    sheet = ss.insertSheet("Quiz Answers");
+  }
+
+  var headers = [
+    "Session ID",
+    "Status",
+    "Progress",
+    "Started At",
+    "Last Updated",
+    "First Name",
+    "Email Address",
+    "Primary Goal",
+    "Biological Sex / Gender",
+    "Age Range",
+    "Goal Weight Duration",
+    "Diagnosed Conditions",
+    "Previous Treatments"
+  ];
+
+  // Remove old JSON column if it exists from previous version
+  if (sheet.getLastColumn() >= 14) {
+    try {
+      if (String(sheet.getRange(1, 14).getValue()).indexOf("JSON") !== -1) {
+        sheet.deleteColumn(14);
+      }
+    } catch (colErr) {
+      Logger.log("Column cleanup note: " + colErr.toString());
+    }
+  }
+
+  if (sheet.getLastRow() === 0) {
+    sheet.appendRow(headers);
+    var headerRange = sheet.getRange(1, 1, 1, headers.length);
+    headerRange.setFontWeight("bold")
+      .setBackground("#2E1010")
+      .setFontColor("#FFFFFF")
+      .setHorizontalAlignment("center");
+    sheet.setFrozenRows(1);
+    SpreadsheetApp.flush();
+  }
+
+  var sessionId = data.sessionId || ("QZ-" + Utilities.formatDate(new Date(), "Asia/Manila", "yyyyMMdd-HHmmss"));
+  var nowFormatted = Utilities.formatDate(new Date(), "Asia/Manila", "yyyy-MM-dd HH:mm:ss");
+
+  var startedAtFormatted = nowFormatted;
+  if (data.startedAt) {
+    try {
+      startedAtFormatted = Utilities.formatDate(new Date(data.startedAt), "Asia/Manila", "yyyy-MM-dd HH:mm:ss");
+    } catch (dErr) {
+      startedAtFormatted = nowFormatted;
+    }
+  }
+
+  var status = data.status || "In Progress";
+  var progress = data.progress || (data.step ? ("Step " + data.step + " of " + (data.totalSteps || 8)) : "In Progress");
+
+  var formatted = data.formattedAnswers || {};
+  var raw = data.answers || {};
+
+  var firstName = String(formatted.name || raw.name || "").trim();
+  var email = String(formatted.email || raw.email || "").trim();
+  var goal = String(formatted.goal || raw.goal || "").trim();
+  var gender = String(formatted.gender || raw.gender || "").trim();
+  var age = String(formatted.age || raw.age || "").trim();
+  var weightHistory = String(formatted.weightHistory || raw.weight_history || "").trim();
+  var conditions = String(formatted.conditions || (Array.isArray(raw.conditions) ? raw.conditions.join(", ") : (raw.conditions || ""))).trim();
+  var previousTreatments = String(formatted.previousTreatments || (Array.isArray(raw.previous_treatments) ? raw.previous_treatments.join(", ") : (raw.previous_treatments || ""))).trim();
+
+  var rowData = [
+    sessionId,
+    status,
+    progress,
+    startedAtFormatted,
+    nowFormatted,
+    firstName,
+    email,
+    goal,
+    gender,
+    age,
+    weightHistory,
+    conditions,
+    previousTreatments
+  ];
+
+  // Search if row already exists for this Session ID
+  var existingRow = -1;
+  var lastRow = sheet.getLastRow();
+  if (lastRow > 1) {
+    var idValues = sheet.getRange(2, 1, lastRow - 1, 1).getValues();
+    for (var i = 0; i < idValues.length; i++) {
+      if (String(idValues[i][0]).trim() === String(sessionId).trim()) {
+        existingRow = i + 2;
+        break;
+      }
+    }
+  }
+
+  if (existingRow > 0) {
+    var existingStartedAt = sheet.getRange(existingRow, 4).getValue();
+    if (existingStartedAt) {
+      rowData[3] = existingStartedAt;
+    }
+    sheet.getRange(existingRow, 1, 1, rowData.length).setValues([rowData]);
+  } else {
+    sheet.appendRow(rowData);
+    existingRow = sheet.getLastRow();
+  }
+
+  // Visual status pill coloring for Column B (Status)
+  try {
+    var statusCell = sheet.getRange(existingRow, 2);
+    if (status === "Completed") {
+      statusCell.setBackground("#E6F4EA").setFontColor("#137333").setFontWeight("bold");
+    } else if (status === "In Progress") {
+      statusCell.setBackground("#FEF7E0").setFontColor("#B06000").setFontWeight("bold");
+    } else if (status === "Abandoned") {
+      statusCell.setBackground("#FCE8E6").setFontColor("#C5221F").setFontWeight("bold");
+    }
+  } catch (styleErr) {
+    Logger.log("Status cell style note: " + styleErr.toString());
+  }
+
+  SpreadsheetApp.flush();
+
+  return {
+    success: true,
+    sessionId: sessionId,
+    status: status,
+    progress: progress,
+    row: existingRow
+  };
+}
+
+// ─── CONTACT INQUIRY HANDLER: RECORDS TO CONTACT MESSAGES TAB ───────────────
+function handleContactInquiry(data) {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName("Contact Inquiries") || ss.getSheetByName("Messages");
+
+  if (!sheet) {
+    sheet = ss.insertSheet("Contact Inquiries");
+  }
+
+  var headers = [
+    "Timestamp",
+    "Full Name",
+    "Email Address",
+    "Contact Number",
+    "Inquiry Type",
+    "Message"
+  ];
+
+  if (sheet.getLastRow() === 0) {
+    sheet.appendRow(headers);
+    sheet.getRange(1, 1, 1, headers.length)
+      .setFontWeight("bold")
+      .setBackground("#1A202C")
+      .setFontColor("#FFFFFF");
+    sheet.setFrozenRows(1);
+    SpreadsheetApp.flush();
+  }
+
+  var dateFormatted = Utilities.formatDate(new Date(), "Asia/Manila", "yyyy-MM-dd HH:mm:ss");
+  var row = [
+    dateFormatted,
+    data.fullName || "",
+    data.email || "",
+    data.contactNumber || "",
+    data.inquiryType || "General",
+    data.message || ""
+  ];
+
+  sheet.appendRow(row);
+  SpreadsheetApp.flush();
+
+  return {
+    success: true,
+    row: sheet.getLastRow()
+  };
+}
 
 // ─── 2. SPREADSHEET EDIT TRIGGER (AUTO-EMAIL ON SUCCESS / REJECT) ────────────
 
@@ -280,6 +479,7 @@ function handleSheetEdit(e) {
   if (!e || !e.range) return;
 
   var sheet = e.range.getSheet();
+  if (sheet.getName() !== "Orders" && sheet.getName() !== "Sheet1") return;
   var editedRow = e.range.getRow();
   var editedCol = e.range.getColumn();
 
