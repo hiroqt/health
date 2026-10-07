@@ -26,6 +26,7 @@ const COLUMNS = [
     heading: "Support",
     links: [
       { label: "Before & After",   href: "/before-and-after" },
+      { label: "Proof of Orders",  href: "/proof-of-orders" },
       { label: "How it Works",     href: "/learn-more" },
       { label: "Pricing & Plans",  href: "/products" },
       { label: "Help Center",      href: "/contact" },

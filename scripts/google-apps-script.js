@@ -27,8 +27,8 @@
 
 // ─── CONSTANTS & CONFIGURATION ───────────────────────────────────────────────
 var PRIMARY_GMAIL = "tearsize@gmail.com";
-var ADMIN_EMAIL = "bypeptidet@gmail.com";
-var NOTIFICATION_RECIPIENTS = "bypeptidet@gmail.com, tearsize@gmail.com";
+var ADMIN_EMAIL = "tearsize@gmail.com";
+var NOTIFICATION_RECIPIENTS = "tearsize@gmail.com";
 var BRAND_NAME = "by tearsize";
 
 // ─── HELPER: EMAIL SENDER WITH FALLBACK ─────────────────────────────────────
@@ -304,13 +304,15 @@ function handleQuizResponse(data) {
     "Age Range",
     "Goal Weight Duration",
     "Diagnosed Conditions",
-    "Previous Treatments"
+    "Previous Treatments",
+    "Email Alert"
   ];
 
   // Remove old JSON column if it exists from previous version
   if (sheet.getLastColumn() >= 14) {
     try {
-      if (String(sheet.getRange(1, 14).getValue()).indexOf("JSON") !== -1) {
+      var col14Val = String(sheet.getRange(1, 14).getValue());
+      if (col14Val.indexOf("JSON") !== -1) {
         sheet.deleteColumn(14);
       }
     } catch (colErr) {
@@ -326,6 +328,13 @@ function handleQuizResponse(data) {
       .setFontColor("#FFFFFF")
       .setHorizontalAlignment("center");
     sheet.setFrozenRows(1);
+    SpreadsheetApp.flush();
+  } else if (sheet.getLastColumn() === 13) {
+    sheet.getRange(1, 14).setValue("Email Alert")
+      .setFontWeight("bold")
+      .setBackground("#2E1010")
+      .setFontColor("#FFFFFF")
+      .setHorizontalAlignment("center");
     SpreadsheetApp.flush();
   }
 
@@ -356,6 +365,25 @@ function handleQuizResponse(data) {
   var conditions = String(formatted.conditions || (Array.isArray(raw.conditions) ? raw.conditions.join(", ") : (raw.conditions || ""))).trim();
   var previousTreatments = String(formatted.previousTreatments || (Array.isArray(raw.previous_treatments) ? raw.previous_treatments.join(", ") : (raw.previous_treatments || ""))).trim();
 
+  // Search if row already exists for this Session ID
+  var existingRow = -1;
+  var existingEmailAlert = "";
+  var lastRow = sheet.getLastRow();
+  if (lastRow > 1) {
+    var idValues = sheet.getRange(2, 1, lastRow - 1, 1).getValues();
+    for (var i = 0; i < idValues.length; i++) {
+      if (String(idValues[i][0]).trim() === String(sessionId).trim()) {
+        existingRow = i + 2;
+        try {
+          existingEmailAlert = String(sheet.getRange(existingRow, 14).getValue() || "").trim();
+        } catch (e) {}
+        break;
+      }
+    }
+  }
+
+  var emailAlertStatus = existingEmailAlert || "Pending Completion";
+
   var rowData = [
     sessionId,
     status,
@@ -369,21 +397,9 @@ function handleQuizResponse(data) {
     age,
     weightHistory,
     conditions,
-    previousTreatments
+    previousTreatments,
+    emailAlertStatus
   ];
-
-  // Search if row already exists for this Session ID
-  var existingRow = -1;
-  var lastRow = sheet.getLastRow();
-  if (lastRow > 1) {
-    var idValues = sheet.getRange(2, 1, lastRow - 1, 1).getValues();
-    for (var i = 0; i < idValues.length; i++) {
-      if (String(idValues[i][0]).trim() === String(sessionId).trim()) {
-        existingRow = i + 2;
-        break;
-      }
-    }
-  }
 
   if (existingRow > 0) {
     var existingStartedAt = sheet.getRange(existingRow, 4).getValue();
@@ -412,13 +428,177 @@ function handleQuizResponse(data) {
 
   SpreadsheetApp.flush();
 
+  // ─── EMAIL NOTIFICATIONS (Triggered on Completed Response) ───────────────────
+  var adminNotified = false;
+  var patientNotified = false;
+
+  if (status === "Completed" && existingEmailAlert.indexOf("Sent") === -1) {
+    var alertTimestamp = Utilities.formatDate(new Date(), "Asia/Manila", "yyyy-MM-dd HH:mm");
+
+    // 1. Send Alert Email to ADMIN
+    try {
+      var adminSubject = "🩺 New Quiz Response: " + (firstName || "Patient") + " — " + (goal || "Clinical Intake");
+      var adminHtml = generateAdminQuizEmailHtml(rowData, headers, ss.getUrl());
+
+      adminNotified = sendEmailWithFallback({
+        to: NOTIFICATION_RECIPIENTS,
+        subject: adminSubject,
+        htmlBody: adminHtml,
+        replyTo: (email && email.indexOf("@") !== -1) ? email : PRIMARY_GMAIL,
+        name: BRAND_NAME + " Assessment Alerts"
+      });
+      Logger.log("Unified Quiz Admin alert dispatched: " + adminNotified);
+    } catch (adminErr) {
+      Logger.log("Unified Quiz Admin alert error: " + adminErr.toString());
+    }
+
+    // 2. Send Confirmation Email to PATIENT
+    if (email && email.indexOf("@") !== -1) {
+      try {
+        var patientSubject = "Your Clinical Assessment Has Been Received — " + BRAND_NAME;
+        var patientHtml = generatePatientQuizEmailHtml(firstName, goal, gender, age, conditions, sessionId);
+
+        patientNotified = sendEmailWithFallback({
+          to: email,
+          subject: patientSubject,
+          htmlBody: patientHtml,
+          replyTo: PRIMARY_GMAIL,
+          name: BRAND_NAME
+        });
+        Logger.log("Unified Quiz Patient confirmation dispatched: " + patientNotified);
+      } catch (patErr) {
+        Logger.log("Unified Quiz Patient confirmation error: " + patErr.toString());
+      }
+    }
+
+    // Update Email Alert status in Column 14
+    var alertSummary = "Sent (" + alertTimestamp + ")";
+    if (adminNotified && patientNotified) {
+      alertSummary = "Sent to Admin & Patient (" + alertTimestamp + ")";
+    } else if (adminNotified) {
+      alertSummary = "Sent to Admin (" + alertTimestamp + ")";
+    }
+
+    try {
+      sheet.getRange(existingRow, 14).setValue(alertSummary);
+      SpreadsheetApp.flush();
+    } catch (updErr) {
+      Logger.log("Error updating alert status cell: " + updErr.toString());
+    }
+  }
+
   return {
     success: true,
     sessionId: sessionId,
     status: status,
     progress: progress,
-    row: existingRow
+    row: existingRow,
+    adminNotified: adminNotified,
+    patientNotified: patientNotified
   };
+}
+
+// ─── EMAIL TEMPLATE: ADMIN QUIZ NOTIFICATION ────────────────────────────────
+function generateAdminQuizEmailHtml(rowData, headers, sheetUrl) {
+  var sessionId = rowData[0] || "N/A";
+  var timestamp = rowData[4] || Utilities.formatDate(new Date(), "Asia/Manila", "yyyy-MM-dd HH:mm:ss");
+  var firstName = rowData[5] || "Not provided";
+  var email = rowData[6] || "Not provided";
+  var goal = rowData[7] || "Not provided";
+  var gender = rowData[8] || "Not provided";
+  var age = rowData[9] || "Not provided";
+  var weightHistory = rowData[10] || "Not provided";
+  var conditions = rowData[11] || "None declared";
+  var previousTreatments = rowData[12] || "None";
+
+  var items = [
+    { label: "Patient Name", value: firstName, highlight: true },
+    { label: "Email Address", value: email, highlight: true },
+    { label: "Primary Health Goal", value: goal },
+    { label: "Biological Sex / Gender", value: gender },
+    { label: "Age Group", value: age },
+    { label: "Weight Goal Duration", value: weightHistory },
+    { label: "Diagnosed Conditions", value: conditions },
+    { label: "Previous Treatments Tried", value: previousTreatments },
+    { label: "Session ID", value: sessionId },
+    { label: "Submitted Timestamp", value: timestamp }
+  ];
+
+  var rowsHtml = items.map(function(item) {
+    var valStyle = item.highlight ? "font-weight: 700; color: #1A0A0A; font-size: 14.5px;" : "color: #333333; font-size: 13.5px;";
+    return '<tr>' +
+      '<td style="padding: 10px 14px; border-bottom: 1px solid #FFEAEB; font-weight: 600; color: #7A4545; width: 38%; font-size: 13px;">' + item.label + '</td>' +
+      '<td style="padding: 10px 14px; border-bottom: 1px solid #FFEAEB; ' + valStyle + '">' + item.value + '</td>' +
+    '</tr>';
+  }).join("");
+
+  return '<!DOCTYPE html><html><head><meta charset="UTF-8"></head>' +
+  '<body style="margin: 0; padding: 0; background-color: #FFF5F5; font-family: -apple-system, BlinkMacSystemFont, sans-serif; color: #2B2B2B;">' +
+    '<center style="width: 100%; table-layout: fixed; background-color: #FFF5F5; padding: 36px 10px;">' +
+      '<div style="max-width: 600px; margin: 0 auto; background-color: #FFFFFF; border-radius: 24px; border: 1px solid #FFD8D8; overflow: hidden; box-shadow: 0 10px 30px rgba(240, 112, 112, 0.08);">' +
+        '<div style="background: linear-gradient(135deg, #2E1010 0%, #1A0808 100%); padding: 32px 24px; text-align: center; color: #FFFFFF;">' +
+          '<div style="font-size: 24px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 4px; text-transform: lowercase;">bytearsze</div>' +
+          '<div style="font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #F07070;">🩺 New Clinical Assessment Intake</div>' +
+        '</div>' +
+        '<div style="padding: 28px 26px; text-align: left;">' +
+          '<div style="background-color: #FFF0F0; border: 1px solid #FFDADA; border-radius: 14px; padding: 14px 18px; margin-bottom: 22px;">' +
+            '<div style="font-size: 15px; font-weight: 700; color: #D94040;">A patient has completed their clinical assessment.</div>' +
+            '<div style="font-size: 12.5px; color: #7A4545; margin-top: 3px;">Review the patient history below or open the response sheet.</div>' +
+          '</div>' +
+          '<table style="width: 100%; border-collapse: collapse; margin-bottom: 26px; background-color: #FFFAFA; border-radius: 12px; overflow: hidden; border: 1px solid #FFE0E0;">' +
+            '<tbody>' + rowsHtml + '</tbody>' +
+          '</table>' +
+          '<div style="text-align: center; margin-bottom: 12px;">' +
+            '<a href="' + sheetUrl + '" style="display: inline-block; background-color: #F07070; color: #FFFFFF; font-size: 13.5px; font-weight: 700; text-decoration: none; padding: 13px 32px; border-radius: 50px; box-shadow: 0 4px 14px rgba(240, 112, 112, 0.35);">View in Google Sheets →</a>' +
+          '</div>' +
+        '</div>' +
+        '<div style="background-color: #FFF0F0; border-top: 1px solid #FFDADA; padding: 16px 20px; text-align: center; font-size: 11.5px; color: #7A4545;">' +
+          '<strong>' + BRAND_NAME + '</strong> · Automated Clinical Alert Dispatcher' +
+        '</div>' +
+      '</div>' +
+    '</center>' +
+  '</body></html>';
+}
+
+// ─── EMAIL TEMPLATE: PATIENT CONFIRMATION ───────────────────────────────────
+function generatePatientQuizEmailHtml(firstName, goal, gender, age, conditions, sessionId) {
+  var name = firstName ? firstName : "Valued Patient";
+
+  return '<!DOCTYPE html><html><head><meta charset="UTF-8"></head>' +
+  '<body style="margin: 0; padding: 0; background-color: #FFF8F7; font-family: -apple-system, BlinkMacSystemFont, sans-serif; color: #2B2B2B;">' +
+    '<center style="width: 100%; table-layout: fixed; background-color: #FFF8F7; padding: 36px 10px;">' +
+      '<div style="max-width: 600px; margin: 0 auto; background-color: #FFFFFF; border-radius: 24px; border: 1px solid #FFE8EA; overflow: hidden; box-shadow: 0 10px 30px rgba(255, 90, 95, 0.05);">' +
+        '<div style="background: linear-gradient(135deg, #2E1010 0%, #1A0808 100%); padding: 36px 26px; text-align: center; color: #FFFFFF;">' +
+          '<div style="font-size: 26px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 4px; text-transform: lowercase;">bytearsze</div>' +
+          '<div style="font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #F07070;">Clinical Assessment Received</div>' +
+        '</div>' +
+        '<div style="padding: 32px 28px; text-align: left;">' +
+          '<h1 style="margin: 0 0 12px 0; font-size: 22px; font-weight: 700; color: #1A0A0A;">Hello ' + name + ',</h1>' +
+          '<p style="margin: 0 0 20px 0; font-size: 14.5px; line-height: 1.6; color: #6E4A4A;">Thank you for completing your clinical intake assessment with <strong>' + BRAND_NAME + '</strong>. Our licensed medical providers are reviewing your health background and primary goals to tailor your doctor-prescribed treatment protocol.</p>' +
+          '<div style="background-color: #FFF5F5; border: 1px solid #FFDADA; border-radius: 16px; padding: 18px 20px; margin-bottom: 24px;">' +
+            '<div style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: #D94040; margin-bottom: 8px;">Your Intake Summary</div>' +
+            '<div style="font-size: 13.5px; color: #333333; line-height: 1.7;">' +
+              '<strong>Primary Goal:</strong> ' + (goal || "Personalized Health Goal") + '<br>' +
+              '<strong>Clinical Protocol:</strong> Doctor-Supervised GLP-1 / Peptide Therapy<br>' +
+              '<strong>Assessment Ref:</strong> <span style="font-family: monospace; font-weight: 700; color: #D94040;">' + sessionId + '</span>' +
+            '</div>' +
+          '</div>' +
+          '<div style="background-color: #FAF6F6; border-radius: 14px; padding: 18px 20px; margin-bottom: 26px; font-size: 13px; color: #4A3333; line-height: 1.6;">' +
+            '<strong>What happens next?</strong><br>' +
+            '1. <strong>Physician Evaluation:</strong> A licensed doctor confirms proper dosing and contraindication safety.<br>' +
+            '2. <strong>Seamless Ordering:</strong> You can browse approved treatments and place your medication intake anytime at our portal.' +
+          '</div>' +
+          '<div style="text-align: center;">' +
+            '<a href="https://tearsize.com/order" style="display: inline-block; background-color: #F07070; color: #FFFFFF; font-size: 13.5px; font-weight: 700; text-decoration: none; padding: 13px 34px; border-radius: 50px; box-shadow: 0 4px 14px rgba(240, 112, 112, 0.35);">Continue to Order & Prescriptions →</a>' +
+          '</div>' +
+        '</div>' +
+        '<div style="background-color: #FFF0F0; border-top: 1px solid #FFDADA; padding: 18px 24px; text-align: center; font-size: 11.5px; color: #7A4545;">' +
+          '<strong>' + BRAND_NAME + '</strong> · Doctor-Prescribed Weight Loss & Longevity · Available Nationwide<br>' +
+          'Questions? Contact patient support at <a href="mailto:' + ADMIN_EMAIL + '" style="color: #D94040; font-weight: 600;">' + ADMIN_EMAIL + '</a>' +
+        '</div>' +
+      '</div>' +
+    '</center>' +
+  '</body></html>';
 }
 
 // ─── CONTACT INQUIRY HANDLER: RECORDS TO CONTACT MESSAGES TAB ───────────────

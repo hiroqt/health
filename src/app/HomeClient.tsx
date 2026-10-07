@@ -8,6 +8,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { IntroSplash } from "@/components/animations/IntroSplash";
 import { ClientReviewsSection } from "@/components/sections/ClientReviewsSection";
+import { ProofOfOrdersCarousel } from "@/components/sections/ProofOfOrdersCarousel";
 import {
   PiArrowRight,
   PiStarFill,
@@ -757,6 +758,8 @@ export default function HomeClient() {
         />
 
         <ClientReviewsSection />
+
+        <ProofOfOrdersCarousel />
 
         <BentoCampaign />
 

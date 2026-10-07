@@ -51,6 +51,7 @@ const NAV_LINKS = [
     ],
   },
   { label: "Before & After", href: "/before-and-after" },
+  { label: "Proof of Orders", href: "/proof-of-orders" },
   { label: "How It Works", href: "/learn-more" },
   { label: "Our Doctors",  href: "/#doctors"    },
   { label: "Contact",      href: "/contact"     },
