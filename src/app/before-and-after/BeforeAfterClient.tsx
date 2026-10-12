@@ -254,6 +254,16 @@ export default function BeforeAfterClient() {
                       <p className="text-[13.5px] text-[#2B2B2B] font-medium leading-snug mt-1 line-clamp-2">
                         {item.patientHighlight}
                       </p>
+                      <p
+                        className="mt-2 flex flex-wrap items-baseline gap-x-1 text-[12.5px]"
+                        aria-label={`Weight changed from ${item.weightChange.fromKg} kg to ${item.weightChange.toKg} kg in ${item.weightChange.weeks} weeks`}
+                      >
+                        <span className="text-[#6E6E6E]">Weight change:</span>
+                        <span className="font-semibold text-[#FF5A5F]">
+                          {item.weightChange.fromKg} kg → {item.weightChange.toKg} kg
+                        </span>
+                        <span className="text-[#6E6E6E]">in {item.weightChange.weeks} weeks</span>
+                      </p>
                     </div>
 
                     <div className="flex items-center justify-between pt-3 mt-3 border-t border-[#FFE8EA]/50 text-[12.5px] text-[#6E6E6E]">
